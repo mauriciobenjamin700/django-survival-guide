@@ -1,0 +1,26 @@
+[project]
+name = "django-survival-guide"
+version = "0.1.0"
+description = "Aprenda Django moderno com tipagem clara, orientação a objetos e zero mágica."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "django>=6.0,<7",
+    "djangorestframework>=3.17.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.1.1",
+    "pytest-django>=4.12.0",
+]
+docs = [
+    "mkdocs-material>=9.7.7",
+    "mkdocs-static-i18n>=1.3.1",
+]
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "config.settings"
+pythonpath = ["example"]
+python_files = ["test_*.py", "tests.py"]
+testpaths = ["example"]
