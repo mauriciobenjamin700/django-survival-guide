@@ -59,6 +59,22 @@ plugins:
       lang:
         - pt
         - en
+  - autorefs:
+      resolve_closest: true
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [example]
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            members_order: source
+            separate_signature: true
+            show_signature_annotations: true
+            heading_level: 3
   - i18n:
       docs_structure: suffix
       languages:
@@ -107,6 +123,7 @@ plugins:
             Arquivos estáticos e media: Static files & media
             i18n e traduções: i18n & translations
             Deploy: Deployment
+            Referência de API (código): API reference (code)
 
 nav:
   - Início: index.md
@@ -148,3 +165,4 @@ nav:
       - Arquivos estáticos e media: referencia/static-media.md
       - i18n e traduções: referencia/i18n.md
       - Deploy: referencia/deploy.md
+      - Referência de API (código): referencia/api.md
