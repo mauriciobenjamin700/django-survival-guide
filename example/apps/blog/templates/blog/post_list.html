@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Latest posts</h1>
+
+  <p>
+    {% for tag in tags %}
+      <a class="tag" href="?tag={{ tag.slug }}">#{{ tag.name }}</a>
+    {% endfor %}
+    {% if active_tag %}<a href="{% url 'blog:post-list' %}">clear</a>{% endif %}
+  </p>
+
+  {% for post in posts %}
+    <article class="card">
+      <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+      <p class="muted">by {{ post.author }} · {{ post.published_at|date:"d M Y" }}</p>
+      <p>{{ post.body|truncatewords:30 }}</p>
+    </article>
+  {% empty %}
+    <p class="muted">No posts yet.</p>
+  {% endfor %}
+
+  {% if is_paginated %}
+    <p>
+      {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}{% if active_tag %}&tag={{ active_tag }}{% endif %}">← Newer</a>
+      {% endif %}
+      <span class="muted">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+      {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}{% if active_tag %}&tag={{ active_tag }}{% endif %}">Older →</a>
+      {% endif %}
+    </p>
+  {% endif %}
+{% endblock %}

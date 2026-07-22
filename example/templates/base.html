@@ -1,0 +1,45 @@
+{% load static %}
+<!doctype html>
+<html lang="{{ LANGUAGE_CODE|default:'en' }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Django Survival Guide — Blog{% endblock %}</title>
+  <style>
+    :root { --fg: #1a1a1a; --muted: #666; --accent: #0b7285; --bg: #fff; --card: #f6f8fa; }
+    @media (prefers-color-scheme: dark) {
+      :root { --fg: #e6e6e6; --muted: #9aa0a6; --accent: #4dabf7; --bg: #121212; --card: #1e1e1e; }
+    }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, sans-serif; max-width: 760px; margin: 0 auto;
+           padding: 1.5rem; color: var(--fg); background: var(--bg); line-height: 1.6; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    header { display: flex; justify-content: space-between; align-items: baseline;
+             border-bottom: 1px solid var(--card); padding-bottom: .75rem; margin-bottom: 1.5rem; }
+    nav a { margin-left: 1rem; }
+    .muted { color: var(--muted); font-size: .9rem; }
+    .card { background: var(--card); border-radius: 8px; padding: 1rem 1.25rem; margin: 1rem 0; }
+    .tag { display: inline-block; background: var(--card); border-radius: 999px;
+           padding: .1rem .6rem; font-size: .8rem; margin-right: .3rem; }
+    input, textarea, select, button { font: inherit; padding: .5rem; width: 100%;
+           border: 1px solid var(--muted); border-radius: 6px; background: var(--bg); color: var(--fg); }
+    button { width: auto; cursor: pointer; background: var(--accent); color: #fff; border: none; }
+    form p { margin: .75rem 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <strong><a href="{% url 'blog:post-list' %}">📓 Blog</a></strong>
+    <nav>
+      {% if user.is_authenticated %}
+        <a href="{% url 'blog:post-create' %}">New post</a>
+        <a href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+      {% else %}
+        <a href="{% url 'login' %}">Login</a>
+      {% endif %}
+    </nav>
+  </header>
+  {% block content %}{% endblock %}
+</body>
+</html>
