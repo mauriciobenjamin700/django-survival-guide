@@ -104,6 +104,10 @@ plugins:
             API REST com DRF: REST API with DRF
             Testes: Testing
             Referência: Reference
+            Visão geral: Overview
+            ORM avançado (expressions): Advanced ORM (expressions)
+            Generic views e mixins: Generic views & mixins
+            Testes a fundo: Testing in depth
             Models — campos: Models — fields
             Models — Meta: Models — Meta
             QuerySet API: QuerySet API
@@ -144,10 +148,13 @@ nav:
       - API REST com DRF: advanced/drf.md
       - Testes: advanced/testing.md
   - Referência:
+      - Visão geral: referencia/index.md
       - Models — campos: referencia/models-fields.md
       - Models — Meta: referencia/models-meta.md
       - QuerySet API: referencia/querysets-api.md
+      - ORM avançado (expressions): referencia/orm-expressions.md
       - Views baseadas em classe: referencia/views-cbv.md
+      - Generic views e mixins: referencia/generic-views.md
       - URLs e conversores: referencia/urls.md
       - Templates: referencia/templates.md
       - Formulários e ModelForm: referencia/forms.md
@@ -165,4 +172,5 @@ nav:
       - Arquivos estáticos e media: referencia/static-media.md
       - i18n e traduções: referencia/i18n.md
       - Deploy: referencia/deploy.md
+      - Testes a fundo: referencia/testing.md
       - Referência de API (código): referencia/api.md
