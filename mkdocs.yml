@@ -93,6 +93,12 @@ plugins:
             Início: Home
             Comece aqui: Get started
             Instalação: Installation
+            Fundamentos web (HTML, CSS, JS): Web fundamentals (HTML, CSS, JS)
+            Como a web funciona: How the web works
+            HTML do zero: HTML from scratch
+            CSS do zero: CSS from scratch
+            JavaScript do zero: JavaScript from scratch
+            Juntando com Django: Putting it together with Django
             Tutorial - Guia do usuário: Tutorial - User Guide
             Configurando o projeto: Setting up the project
             Modelos e o ORM: Models and the ORM
@@ -151,6 +157,12 @@ nav:
   - Início: index.md
   - Comece aqui:
       - Instalação: get-started/installation.md
+  - Fundamentos web (HTML, CSS, JS):
+      - Como a web funciona: frontend/index.md
+      - HTML do zero: frontend/html.md
+      - CSS do zero: frontend/css.md
+      - JavaScript do zero: frontend/javascript.md
+      - Juntando com Django: frontend/django-integracao.md
   - Tutorial - Guia do usuário:
       - Configurando o projeto: tutorial/project-setup.md
       - Modelos e o ORM: tutorial/models.md
