@@ -64,7 +64,9 @@ Em vez de repetir `<html>`, cabeçalho e navegação em toda página, definimos 
     <a href="{% url 'blog:post-list' %}">📓 Blog</a>
     {% if user.is_authenticated %}
       <a href="{% url 'blog:post-create' %}">New post</a>
-      <a href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+      <form method="post" action="{% url 'logout' %}" style="display:inline">
+        {% csrf_token %}<button>Logout ({{ user.username }})</button>
+      </form>
     {% else %}
       <a href="{% url 'login' %}">Login</a>
     {% endif %}

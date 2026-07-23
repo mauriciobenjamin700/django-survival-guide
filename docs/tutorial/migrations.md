@@ -50,7 +50,8 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     initial = True
-    dependencies = []
+    dependencies = []  # migrações que referenciam o User ganham um
+    # migrations.swappable_dependency(settings.AUTH_USER_MODEL) aqui
 
     operations = [
         migrations.CreateModel(
@@ -58,7 +59,7 @@ class Migration(migrations.Migration):
             fields=[
                 ("id", models.BigAutoField(primary_key=True)),
                 ("name", models.CharField(max_length=40, unique=True)),
-                ("slug", models.SlugField(blank=True, max_length=50, unique=True)),
+                ("slug", models.SlugField(blank=True, unique=True)),
             ],
         ),
         # ...

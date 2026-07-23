@@ -41,11 +41,13 @@ transforms. Let's go through the catalog.
 | `{% ... %}` | Logic (tags) | `{% if user.is_staff %}` |
 | `{{ x\|filter }}` | Transform a value | `{{ name\|upper }}` |
 
-!!! info "The dot does everything: attribute, item, method"
-    `{{ post.title }}` tries, in this order: attribute `post.title`, item
-    `post["title"]`, method `post.title()`. That's why `{{ post.get_absolute_url }}`
-    calls the method **without** parentheses. Think like a child: the dot is a
-    little key that opens any of the doors.
+!!! info "The dot does everything: dictionary, attribute/method, index"
+    `{{ post.title }}` tries, **in this order**: dictionary lookup
+    (`post["title"]`) → attribute/method (`post.title` — and if it's callable, it
+    is **invoked**) → numeric index (`post[0]`). That's why
+    `{{ post.get_absolute_url }}` calls the method **without** parentheses (the
+    method is the attribute itself, invoked automatically). Think like a child:
+    the dot is a little key that tries each lock in order.
 
 ### Essential tags
 

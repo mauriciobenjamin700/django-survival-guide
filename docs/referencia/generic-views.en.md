@@ -48,8 +48,8 @@ flowchart TD
     View --> ListView
     View --> DetailView
     View --> FormView
-    FormView --> CreateView
-    FormView --> UpdateView
+    View --> CreateView
+    View --> UpdateView
     View --> DeleteView
 ```
 

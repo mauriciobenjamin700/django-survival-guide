@@ -101,6 +101,12 @@ Think like a child: the head mail carrier sees the **neighborhood** (`api/`) and
 hands the envelope to the carrier for that neighborhood, who takes care of the
 streets over there.
 
+!!! warning "Passing `namespace=`? The included module needs `app_name`"
+    `include("apps.blog.urls", namespace="blog")` only works if
+    `apps/blog/urls.py` defines `app_name = "blog"`. Without it, Django raises
+    `ImproperlyConfigured: Specifying a namespace in include() without providing
+    an app_name is not supported`.
+
 ### Namespaces: names without collision
 
 Two apps can both have a `post-list` route. The namespace disambiguates:

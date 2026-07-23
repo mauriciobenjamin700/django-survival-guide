@@ -38,6 +38,7 @@ example/
 ```bash
 uv run django-admin startproject config .
 mkdir -p apps/blog
+touch apps/__init__.py          # makes 'apps' an importable package
 uv run python manage.py startapp blog apps/blog
 ```
 

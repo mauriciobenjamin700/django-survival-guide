@@ -129,12 +129,21 @@ production (AWS S3) without paying for the cloud.
       - "9001:9001"      # web panel
     volumes:
       - miniodata:/data
-    healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 ```
+
+!!! warning "The MinIO healthcheck has a gotcha"
+    A `healthcheck` with `mc ready local` does **not** work in a fresh container:
+    the `local` alias isn't configured and the `minio/minio` (server) image may
+    not even ship the `mc` client. Options that work:
+
+    - Configure the alias first (`mc alias set local http://localhost:9000
+      minioadmin minioadmin`) in a `minio/mc` sidecar; or
+    - Check against the `/minio/health/live` endpoint (the base image has no
+      `curl`, so use `mc` from a sidecar or the documented command for the version
+      you pin).
+
+    When in doubt, omit the MinIO healthcheck (as above) and don't use
+    `condition: service_healthy` for it.
 
 ```python
 # settings.py — django-storages pointing at MinIO

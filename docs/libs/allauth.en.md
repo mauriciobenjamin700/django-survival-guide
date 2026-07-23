@@ -62,7 +62,8 @@ work.
 
 ### Configure account behavior
 
-The options were renamed in recent versions into a single dictionary:
+Several options were renamed/restructured in recent versions (they remain
+separate `ACCOUNT_*` settings, not a single dictionary):
 
 ```python
 # settings.py

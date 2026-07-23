@@ -91,12 +91,15 @@ class Enrollment(models.Model):
 | `constraints` | List of `UniqueConstraint` / `CheckConstraint` applied **in the database** |
 | `indexes` | List of `Index` to speed up queries |
 | `unique_together` | **Old** way of combined uniqueness (prefer `UniqueConstraint`) |
-| `index_together` | **Old** way of combined indexing (prefer `indexes`) |
 
-!!! danger "Prefer `constraints`/`indexes` over `unique_together`/`index_together`"
-    The `*_together` forms still work, but they're on their way to retirement.
+!!! danger "Prefer `constraints`/`indexes` — and `index_together` is gone"
     `UniqueConstraint` and `Index` are more powerful (they accept conditions,
     expressions, names) and are the recommended path today.
+
+    - `unique_together` still **works**, but it's deprecated — prefer
+      `UniqueConstraint`.
+    - `index_together` was **removed in Django 5.1** (it doesn't exist in 6.0).
+      Use `Meta.indexes` with `models.Index(...)`.
 
 !!! info "Constraint × form validation"
     A `constraint` lives **in the database** — it's the last line of defense,
@@ -172,7 +175,7 @@ class Report(models.Model):
 | `db_table`, `db_table_comment` | Table name/comment |
 | `constraints` | Database constraints |
 | `indexes` | Indexes |
-| `unique_together`, `index_together` | (legacy — avoid) |
+| `unique_together` | (legacy — prefer `UniqueConstraint`; `index_together` was removed in 5.1) |
 | `abstract` | Recipe-model with no table |
 | `proxy` | Same table, different behavior |
 | `managed` | Whether Django creates the table or not |

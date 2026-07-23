@@ -129,12 +129,21 @@ MinIO fala o protocolo **S3**, então você desenvolve com storage de objetos ig
       - "9001:9001"      # painel web
     volumes:
       - miniodata:/data
-    healthcheck:
-      test: ["CMD", "mc", "ready", "local"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
 ```
+
+!!! warning "Healthcheck do MinIO tem pegadinha"
+    Um `healthcheck` com `mc ready local` **não** funciona num contêiner novo: o
+    alias `local` não está configurado e a imagem `minio/minio` (servidor) pode
+    nem trazer o cliente `mc`. Opções que funcionam:
+
+    - Configurar o alias antes (`mc alias set local http://localhost:9000 minioadmin
+      minioadmin`) num sidecar `minio/mc`; ou
+    - Fazer a checagem contra o endpoint de saúde `/minio/health/live` (a imagem
+      base não tem `curl`, então use o `mc` de um sidecar ou o comando
+      documentado da versão que você fixar).
+
+    Na dúvida, omita o healthcheck do MinIO (como acima) e não use
+    `condition: service_healthy` para ele.
 
 ```python
 # settings.py — django-storages apontando para o MinIO

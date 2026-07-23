@@ -73,7 +73,6 @@ Valem para a maioria das generic views que mexem com modelos:
 | `form_class` | Formulário a usar (`Create`/`Update`/`FormView`) |
 | `fields` | Campos do form (atalho ao `form_class`) |
 | `success_url` | Para onde ir após salvar/apagar |
-| `context_object_name` | Nome no template |
 
 ### Métodos que você sobrescreve (os "ganchos")
 

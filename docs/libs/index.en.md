@@ -17,8 +17,11 @@ tasks, real time, API filtering. This section covers the most widely used ones.
 | [django-allauth](allauth.md) | Sign-up, login (including social), email verification |
 | [Celery](celery.md) | Background and scheduled tasks (outside the request) |
 | [Django Channels](channels.md) | WebSockets and real time (chat, notifications) |
+| [SSE — Server-Sent Events](sse.md) | One-way real time (server → client) |
+| [Web Push](webpush.md) | Notifications even when the site is closed |
 | [django-filter](django-filter.md) | Filtering listings and APIs by query params |
 | [Friends (catalog)](afins.md) | debug-toolbar, extensions, environ, CORS, JWT, OpenAPI... |
+| [Containerized services](containers.md) | Postgres, Redis, RabbitMQ, MinIO, Flower via compose |
 
 ## How to choose (and add) a library
 

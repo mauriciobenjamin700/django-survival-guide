@@ -27,7 +27,9 @@ In the template, the same object is available as `user`:
 ```django
 {% if user.is_authenticated %}
   <a href="{% url 'blog:post-create' %}">New post</a>
-  <a href="{% url 'logout' %}">Logout ({{ user.username }})</a>
+  <form method="post" action="{% url 'logout' %}" style="display:inline">
+    {% csrf_token %}<button>Logout ({{ user.username }})</button>
+  </form>
 {% else %}
   <a href="{% url 'login' %}">Login</a>
 {% endif %}

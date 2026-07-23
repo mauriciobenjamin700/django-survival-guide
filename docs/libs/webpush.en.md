@@ -84,6 +84,12 @@ await fetch("/push/subscribe/", {
 });
 ```
 
+!!! note "`applicationServerKey` on older browsers"
+    Passing the VAPID key as a base64url string works in current Chrome/Firefox.
+    On older engines, `subscribe()` requires a `Uint8Array` — convert it with the
+    well-known `urlBase64ToUint8Array(VAPID_PUBLIC_KEY)` helper. It's the #1 Web
+    Push gotcha.
+
 ### 3. The service worker (`sw.js`, a static file)
 
 ```javascript

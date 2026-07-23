@@ -107,8 +107,14 @@ def publish(post):
 ```python
 notify_subscribers.delay(post.id)                       # simples
 notify_subscribers.apply_async(args=[post.id], countdown=60)  # daqui a 60s
-notify_subscribers.apply_async(args=[post.id], retry=True)     # com retentativa
+notify_subscribers.apply_async(args=[post.id], retry=True)     # reenvia ao broker se a conexão falhar
 ```
+
+!!! info "Retry de conexão × retry da tarefa"
+    O `retry=True` do `apply_async` reenvia a **mensagem ao broker** se a conexão
+    cair — não re-executa a tarefa se ela falhar. Para repetir a **execução** ao
+    dar erro, use `@shared_task(autoretry_for=(Exception,), retry_backoff=True)`
+    ou `self.retry(...)` dentro da tarefa (com `bind=True`).
 
 ### Rodar o worker
 

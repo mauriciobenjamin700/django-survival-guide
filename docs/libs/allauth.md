@@ -62,7 +62,8 @@ funcionam.
 
 ### Configurar o comportamento da conta
 
-As opções mudaram de nome nas versões recentes para um dicionário único:
+Várias opções foram renomeadas/reestruturadas nas versões recentes (continuam
+sendo settings `ACCOUNT_*` separados, não um dicionário único):
 
 ```python
 # settings.py

@@ -77,7 +77,8 @@ go somewhere else, 4xx = you messed up, 5xx = the server messed up.
 | **200** OK | It worked | GET/PUT/PATCH succeeded |
 | **201** Created | Created | POST created a resource |
 | **204** No Content | Ok, no body | DELETE succeeded |
-| **301/302** Redirect | Go to another URL | After POST, login |
+| **302** Found (redirect) | Go to another URL (temporary) | After a successful POST, login |
+| **301** Moved Permanently | Resource moved URL (permanent) | Old URL → new (the browser caches it) |
 | **400** Bad Request | Invalid data | Validation failed |
 | **401** Unauthorized | Not authenticated | Missing login/token |
 | **403** Forbidden | No permission / CSRF | Logged in but no access; CSRF token missing |

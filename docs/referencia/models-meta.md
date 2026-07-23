@@ -92,12 +92,15 @@ class Enrollment(models.Model):
 | `constraints` | Lista de `UniqueConstraint` / `CheckConstraint` aplicadas **no banco** |
 | `indexes` | Lista de `Index` para acelerar consultas |
 | `unique_together` | Forma **antiga** de unicidade combinada (prefira `UniqueConstraint`) |
-| `index_together` | Forma **antiga** de índice combinado (prefira `indexes`) |
 
-!!! danger "Prefira `constraints`/`indexes` a `unique_together`/`index_together`"
-    As formas `*_together` ainda funcionam, mas estão em vias de aposentadoria.
+!!! danger "Prefira `constraints`/`indexes` — e `index_together` nem existe mais"
     `UniqueConstraint` e `Index` são mais poderosas (aceitam condições,
     expressões, nomes) e são o caminho recomendado hoje.
+
+    - `unique_together` ainda **funciona**, mas está em desuso — prefira
+      `UniqueConstraint`.
+    - `index_together` foi **removido no Django 5.1** (não existe no 6.0). Use
+      `Meta.indexes` com `models.Index(...)`.
 
 !!! info "Constraint × validação de formulário"
     Uma `constraint` vive **no banco** — é a última linha de defesa, garante
@@ -172,7 +175,7 @@ class Report(models.Model):
 | `db_table`, `db_table_comment` | Nome/comentário da tabela |
 | `constraints` | Restrições no banco |
 | `indexes` | Índices |
-| `unique_together`, `index_together` | (legado — evite) |
+| `unique_together` | (legado — prefira `UniqueConstraint`; `index_together` foi removido no 5.1) |
 | `abstract` | Modelo-receita sem tabela |
 | `proxy` | Mesma tabela, comportamento diferente |
 | `managed` | Django cria a tabela ou não |

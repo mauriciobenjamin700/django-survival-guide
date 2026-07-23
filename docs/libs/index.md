@@ -17,8 +17,11 @@ plano, tempo real, filtros de API. Esta seção cobre as mais usadas.
 | [django-allauth](allauth.md) | Cadastro, login (inclusive social), verificação de e-mail |
 | [Celery](celery.md) | Tarefas em segundo plano e agendadas (fora do request) |
 | [Django Channels](channels.md) | WebSockets e tempo real (chat, notificações) |
+| [SSE — Server-Sent Events](sse.md) | Tempo real de uma via (servidor → cliente) |
+| [Web Push](webpush.md) | Notificações mesmo com o site fechado |
 | [django-filter](django-filter.md) | Filtrar listagens e APIs por query params |
 | [Afins (catálogo)](afins.md) | debug-toolbar, extensions, environ, CORS, JWT, OpenAPI... |
+| [Serviços em contêiner](containers.md) | Postgres, Redis, RabbitMQ, MinIO, Flower via compose |
 
 ## Como escolher (e adicionar) uma biblioteca
 

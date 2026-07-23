@@ -29,6 +29,8 @@ Each one solves a classic case. Let's use them in the blog.
 ## `ListView`: list objects
 
 ```python
+from typing import Any
+
 from django.db.models import QuerySet
 from django.views.generic import ListView
 

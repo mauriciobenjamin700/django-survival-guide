@@ -73,7 +73,6 @@ They apply to most generic views that deal with models:
 | `form_class` | Form to use (`Create`/`Update`/`FormView`) |
 | `fields` | Form fields (shortcut instead of `form_class`) |
 | `success_url` | Where to go after saving/deleting |
-| `context_object_name` | Name in the template |
 
 ### Methods you override (the "hooks")
 

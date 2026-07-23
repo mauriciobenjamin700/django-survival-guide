@@ -99,6 +99,12 @@ urlpatterns = [
 Pensa como criança: o carteiro-chefe vê o **bairro** (`api/`) e passa o envelope
 para o carteiro daquele bairro, que cuida das ruas de lá.
 
+!!! warning "Passou `namespace=`? O módulo incluído precisa de `app_name`"
+    `include("apps.blog.urls", namespace="blog")` só funciona se
+    `apps/blog/urls.py` definir `app_name = "blog"`. Sem isso, o Django levanta
+    `ImproperlyConfigured: Specifying a namespace in include() without providing
+    an app_name is not supported`.
+
 ### Namespaces: nomes sem colisão
 
 Dois apps podem ter uma rota `post-list`. O namespace desambigua:

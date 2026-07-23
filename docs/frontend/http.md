@@ -77,7 +77,8 @@ vá para outro lugar, 4xx = você errou, 5xx = o servidor errou.
 | **200** OK | Deu certo | GET/PUT/PATCH com sucesso |
 | **201** Created | Criado | POST criou um recurso |
 | **204** No Content | Ok, sem corpo | DELETE com sucesso |
-| **301/302** Redirect | Vá para outra URL | Após POST, login |
+| **302** Found (redirect) | Vá para outra URL (temporário) | Após POST bem-sucedido, login |
+| **301** Moved Permanently | Recurso mudou de URL (permanente) | URL antiga → nova (o navegador cacheia) |
 | **400** Bad Request | Dados inválidos | Falhou a validação |
 | **401** Unauthorized | Não autenticado | Faltou login/token |
 | **403** Forbidden | Sem permissão / CSRF | Logado mas sem acesso; token CSRF ausente |

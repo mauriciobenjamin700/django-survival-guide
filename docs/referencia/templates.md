@@ -41,11 +41,13 @@ Vamos ver o catálogo.
 | `{% ... %}` | Lógica (tags) | `{% if user.is_staff %}` |
 | `{{ x\|filtro }}` | Transformar um valor | `{{ nome\|upper }}` |
 
-!!! info "Ponto faz tudo: atributo, item, método"
-    `{{ post.title }}` tenta, nessa ordem: atributo `post.title`, item
-    `post["title"]`, método `post.title()`. Por isso `{{ post.get_absolute_url }}`
-    chama o método **sem** parênteses. Pensa como criança: o ponto é uma
-    chavinha que abre qualquer uma das portas.
+!!! info "Ponto faz tudo: dicionário, atributo/método, índice"
+    `{{ post.title }}` tenta, **nessa ordem**: item de dicionário
+    (`post["title"]`) → atributo/método (`post.title` — e, se for chamável, é
+    **invocado**) → índice numérico (`post[0]`). Por isso
+    `{{ post.get_absolute_url }}` chama o método **sem** parênteses (o método é
+    o próprio atributo, invocado automaticamente). Pensa como criança: o ponto é
+    uma chavinha que testa cada fechadura na ordem.
 
 ### Tags essenciais
 

@@ -84,6 +84,12 @@ await fetch("/push/subscribe/", {
 });
 ```
 
+!!! note "`applicationServerKey` em navegadores antigos"
+    Passar a chave VAPID como string base64url funciona no Chrome/Firefox atuais.
+    Em engines mais antigas, `subscribe()` exige um `Uint8Array` — converta com o
+    conhecido helper `urlBase64ToUint8Array(VAPID_PUBLIC_KEY)`. É a pegadinha nº 1
+    de Web Push.
+
 ### 3. O service worker (`sw.js`, um estático)
 
 ```javascript
