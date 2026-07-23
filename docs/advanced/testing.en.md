@@ -148,6 +148,10 @@ uv run pytest -k list     # só os que casam com "list"
     show up, the anonymous user is blocked), not *how* it does it inside. That way you can
     refactor freely without rewriting the tests.
 
+!!! quote "📖 In the official docs"
+    - [Testing in Django](https://docs.djangoproject.com/en/stable/topics/testing/)
+    - [pytest-django](https://pytest-django.readthedocs.io/)
+
 ## Recap
 
 - We use **pytest + pytest-django**; `DJANGO_SETTINGS_MODULE` in `pyproject.toml`.

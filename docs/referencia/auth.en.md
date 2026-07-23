@@ -200,6 +200,9 @@ AUTH_USER_MODEL = "accounts.User"
     create the custom model right in the first migration. And always reference it
     via `settings.AUTH_USER_MODEL` (models) or `get_user_model()` (code).
 
+!!! quote "📖 In the official docs"
+    - [Using the authentication system](https://docs.djangoproject.com/en/stable/topics/auth/default/)
+
 ## Recap
 
 - Authentication = "who are you"; permissions = "what you can do".

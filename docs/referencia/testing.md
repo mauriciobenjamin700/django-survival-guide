@@ -192,6 +192,10 @@ uv run pytest --cov=apps            # cobertura (precisa pytest-cov)
     anônimo é barrado), não *como* por dentro. Assim você refatora livre sem
     reescrever os testes.
 
+!!! quote "📖 Na documentação oficial"
+    - [Testing in Django](https://docs.djangoproject.com/en/stable/topics/testing/)
+    - [pytest-django](https://pytest-django.readthedocs.io/)
+
 ## Recap
 
 - pytest + pytest-django; libere o banco com `@pytest.mark.django_db` (banco de

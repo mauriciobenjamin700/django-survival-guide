@@ -188,6 +188,9 @@ The paginated response has the format:
 }
 ```
 
+!!! quote "📖 In the official docs"
+    - [Django REST Framework](https://www.django-rest-framework.org/)
+
 ## Recap
 
 - DRF exposes the same models as JSON, mirroring the web concepts.

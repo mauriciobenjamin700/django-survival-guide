@@ -91,6 +91,9 @@ class PostCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     esse redirect e aparece na página final. É exatamente para isso que ela
     existe.
 
+!!! quote "📖 Na documentação oficial"
+    - [The messages framework](https://docs.djangoproject.com/en/stable/ref/contrib/messages/)
+
 ## Recapitulando
 
 - Messages são bilhetes flash: aparecem uma vez após um redirect e somem.

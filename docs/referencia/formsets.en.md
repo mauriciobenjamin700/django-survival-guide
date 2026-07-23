@@ -167,6 +167,9 @@ CommentFormSet = modelformset_factory(
 | `formset.empty_form` | A template sheet (to clone via JS) |
 | `formset.non_form_errors` | Errors from the formset's `clean()` (not from a single sheet) |
 
+!!! quote "📖 In the official docs"
+    - [Formsets](https://docs.djangoproject.com/en/stable/topics/forms/formsets/)
+
 ## Recap
 
 - Formset = several sheets of the same form, validated and saved together.

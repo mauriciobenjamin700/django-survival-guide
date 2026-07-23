@@ -193,6 +193,9 @@ class PostUpdateView(UserPassesTestMixin, UpdateView):
     view to intercept the request in time. Flipped it? The gate doesn't work.
     Think like a child: the guard stands at the **door** (first), not inside.
 
+!!! quote "📖 In the official docs"
+    - [Class-based views](https://docs.djangoproject.com/en/stable/topics/class-based-views/)
+
 ## Recap
 
 - Generic views are waiters that already know how to serve the common dishes;

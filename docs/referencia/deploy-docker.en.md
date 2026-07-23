@@ -230,6 +230,10 @@ example/media/
     - **`migrate` as a separate step** when scaling replicas.
     - Run `python manage.py check --deploy` and resolve the warnings.
 
+!!! quote "📖 In the official docs"
+    - [Deployment checklist](https://docs.djangoproject.com/en/stable/howto/deployment/checklist/)
+    - [Docker Compose docs](https://docs.docker.com/compose/)
+
 ## Recap
 
 - Docker packages the app into a box; Compose orchestrates app + database with one

@@ -141,6 +141,10 @@ class Invoice(models.Model):
     O storage já sanitiza e, se houver colisão, acrescenta um sufixo aleatório.
     Não use o nome cru do upload em caminhos sem passar pelo `upload_to`.
 
+!!! quote "📖 Na documentação oficial"
+    - [File storage API](https://docs.djangoproject.com/en/stable/ref/files/storage/)
+    - [django-storages](https://django-storages.readthedocs.io/)
+
 ## Recap
 
 - Um storage é o "armário" dos arquivos; o código fala com uma interface

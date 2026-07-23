@@ -201,6 +201,10 @@ you just step in at `form_valid(form)`.
     Forgot it? The submission returns **403 Forbidden**. It's the protection
     against request forgery. Always put it inside the `<form method="post">`.
 
+!!! quote "📖 In the official docs"
+    - [Working with forms](https://docs.djangoproject.com/en/stable/topics/forms/)
+    - [Form and field reference](https://docs.djangoproject.com/en/stable/ref/forms/)
+
 ## Recap
 
 - The form is the bouncer: it validates and converts the input before it gets

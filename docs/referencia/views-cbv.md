@@ -192,6 +192,9 @@ class PostUpdateView(UserPassesTestMixin, UpdateView):
     funciona. Pensa como criança: o segurança fica na **porta** (primeiro), não
     lá dentro.
 
+!!! quote "📖 Na documentação oficial"
+    - [Class-based views](https://docs.djangoproject.com/en/stable/topics/class-based-views/)
+
 ## Recap
 
 - Generic views são garçons que já sabem servir os pratos comuns; você ajusta

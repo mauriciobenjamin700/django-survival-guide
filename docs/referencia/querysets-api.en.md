@@ -180,6 +180,10 @@ Post.objects.prefetch_related("tags", "comments")
     **M2M/reverse → `prefetch_related`**. Without it, 100 objects turn into 101
     queries.
 
+!!! quote "📖 In the official docs"
+    - [QuerySet API reference](https://docs.djangoproject.com/en/stable/ref/models/querysets/)
+    - [Making queries](https://docs.djangoproject.com/en/stable/topics/db/queries/)
+
 ## Recap
 
 - QuerySets are **lazy**: they only hit the database when you use the data.

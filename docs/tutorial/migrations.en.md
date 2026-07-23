@@ -97,6 +97,9 @@ flowchart LR
     forgot `makemigrations`. That's what *detects* the change and creates the file;
     `migrate` only applies what already exists.
 
+!!! quote "📖 In the official docs"
+    - [Migrations](https://docs.djangoproject.com/en/stable/topics/migrations/)
+
 ## Recap
 
 - Migrations translate model changes into database changes, in a

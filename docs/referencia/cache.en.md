@@ -135,6 +135,9 @@ Accessing `post.comment_count` several times runs the query **once** only.
     Start with a timeout. Only complicate things when "stale data for N minutes"
     isn't acceptable.
 
+!!! quote "📖 In the official docs"
+    - [Django's cache framework](https://docs.djangoproject.com/en/stable/topics/cache/)
+
 ## Recap
 
 - Cache stashes expensive results in a quick little drawer (the *cache-aside*

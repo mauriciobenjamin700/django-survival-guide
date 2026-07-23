@@ -136,6 +136,9 @@ def notify(sender, post, **kwargs) -> None:
 
     Rule: use a signal when you **can't** put the logic in the obvious place.
 
+!!! quote "📖 In the official docs"
+    - [Signals](https://docs.djangoproject.com/en/stable/topics/signals/)
+
 ## Recap
 
 - A signal is a doorbell: something happens, the arranged receivers react —

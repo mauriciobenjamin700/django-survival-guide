@@ -120,6 +120,9 @@ class CommentForm(forms.ModelForm):
 - Raising `ValidationError` makes `is_valid()` return `False` and the message
   appear next to the field.
 
+!!! quote "📖 In the official docs"
+    - [Working with forms](https://docs.djangoproject.com/en/stable/topics/forms/)
+
 ## Recap
 
 - Forms validate and convert the input — the application's safe boundary.

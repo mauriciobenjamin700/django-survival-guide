@@ -21,8 +21,11 @@
 | --- | --- |
 | [Models — fields](models-fields.md) | Every field type and its options |
 | [Models — Meta](models-meta.md) | Table configuration (ordering, constraints, abstract...) |
+| [Custom fields](custom-fields.md) | Build your own field type |
+| [Content types & generic relations](contenttypes.md) | Point at any model |
 | [QuerySet API](querysets-api.md) | Fetching data: filters, lookups, `F`/`Q`, N+1 |
 | [Advanced ORM (expressions)](orm-expressions.md) | `Case`/`When`, `Subquery`, functions, window |
+| [Aggregation & group by](aggregation-groupby.md) | `aggregate`/`annotate`, per-group counts |
 | [Transactions](transactions.md) | `atomic`, savepoints, `select_for_update`, `on_commit` |
 
 ### 🌐 Web layer (HTTP)
@@ -34,6 +37,7 @@
 | [URLs & converters](urls.md) | `path`, converters, namespaces, `reverse` |
 | [Templates](templates.md) | Tags, filters, inheritance, custom tags |
 | [Forms & ModelForm](forms.md) | Validation, widgets, `clean` |
+| [Validators & validation](validators.md) | Validators, `clean`, `full_clean` |
 | [Formsets](formsets.md) | Several forms at once |
 
 ### 🔐 Users, session and state
@@ -53,8 +57,10 @@
 | [Signals](signals.md) | Reacting to model events |
 | [Management commands](management-commands.md) | Your own `manage.py <cmd>` |
 | [Static files & media](static-media.md) | CSS/JS × uploads |
+| [Storages](storages.md) | Where files live (disk, S3) |
 | [i18n & translations](i18n.md) | A site in several languages |
 | [Deployment](deploy.md) | Going live safely |
+| [Deploy with Docker Compose](deploy-docker.md) | Containers: app + Postgres |
 
 ### 🧪 Quality and API
 

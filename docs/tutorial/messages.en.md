@@ -91,6 +91,9 @@ class PostCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     flash message survives that redirect and appears on the final page. That's
     exactly what it exists for.
 
+!!! quote "📖 In the official docs"
+    - [The messages framework](https://docs.djangoproject.com/en/stable/ref/contrib/messages/)
+
 ## Recap
 
 - Messages are flash notes: they appear once after a redirect and then vanish.

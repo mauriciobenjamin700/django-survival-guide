@@ -165,6 +165,9 @@ CommentFormSet = modelformset_factory(
 | `formset.empty_form` | Uma folha modelo (para clonar via JS) |
 | `formset.non_form_errors` | Erros do `clean()` do formset (não de uma folha) |
 
+!!! quote "📖 Na documentação oficial"
+    - [Formsets](https://docs.djangoproject.com/en/stable/topics/forms/formsets/)
+
 ## Recap
 
 - Formset = várias folhas do mesmo formulário, validadas e salvas juntas.

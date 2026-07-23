@@ -158,6 +158,10 @@ flowchart LR
     o app novo subir antes da migração, ele quebra ao acessar colunas que ainda
     não existem.
 
+!!! quote "📖 Na documentação oficial"
+    - [Deployment](https://docs.djangoproject.com/en/stable/howto/deployment/)
+    - [Deployment checklist](https://docs.djangoproject.com/en/stable/howto/deployment/checklist/)
+
 ## Recap
 
 - `runserver` **jamais** em produção — use Gunicorn (WSGI) ou Uvicorn (ASGI).

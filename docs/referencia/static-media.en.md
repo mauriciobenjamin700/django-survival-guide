@@ -154,6 +154,10 @@ class Profile(models.Model):
     `ImageField` validates that the file is an image — for that, install `Pillow`
     (`uv add pillow`). `FileField` accepts any file, without Pillow.
 
+!!! quote "📖 In the official docs"
+    - [How to manage static files](https://docs.djangoproject.com/en/stable/howto/static-files/)
+    - [Managing files](https://docs.djangoproject.com/en/stable/topics/files/)
+
 ## Recap
 
 - **Static** (ships with the project) vs. **media** (user upload) — separate

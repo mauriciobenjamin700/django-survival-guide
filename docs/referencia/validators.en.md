@@ -144,6 +144,9 @@ class Event(models.Model):
   that **cross** fields.
 - To guarantee it in the database too, add a `CheckConstraint` to `Meta`.
 
+!!! quote "📖 In the official docs"
+    - [Validators](https://docs.djangoproject.com/en/stable/ref/validators/)
+
 ## Recap
 
 - Validators check values; attach them via `validators=[...]` on the field.

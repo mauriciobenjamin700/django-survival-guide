@@ -228,6 +228,10 @@ example/media/
     - **`migrate` como passo separado** ao escalar réplicas.
     - Rode `python manage.py check --deploy` e resolva os avisos.
 
+!!! quote "📖 Na documentação oficial"
+    - [Deployment checklist](https://docs.djangoproject.com/en/stable/howto/deployment/checklist/)
+    - [Docker Compose docs](https://docs.docker.com/compose/)
+
 ## Recap
 
 - Docker empacota o app numa caixa; Compose orquestra app + banco com um comando.

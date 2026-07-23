@@ -146,6 +146,9 @@ DATABASES = {
 With this, if the view raises an exception, everything it wrote is undone.
 Simple, but it holds an open transaction for the entire request — weigh the cost.
 
+!!! quote "📖 In the official docs"
+    - [Database transactions](https://docs.djangoproject.com/en/stable/topics/db/transactions/)
+
 ## Recap
 
 - Transaction = "all or nothing"; an error midway triggers a **rollback**.

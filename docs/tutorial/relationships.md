@@ -141,6 +141,9 @@ for post in Post.objects.prefetch_related("tags"):
     **M2M/reverso → `prefetch_related`**. Sem isso, uma lista de 100 itens vira
     101 consultas.
 
+!!! quote "📖 Na documentação oficial"
+    - [Related objects reference](https://docs.djangoproject.com/en/stable/ref/models/relations/)
+
 ## Recapitulando
 
 - Toda relação tem lado direto e reverso; `related_name` batiza o reverso

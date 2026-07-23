@@ -182,6 +182,9 @@ class PostDeleteView(AuthorRequiredMixin, DeleteView):
 
 One mixin, two uses — the "author only" rule lives in a single place.
 
+!!! quote "📖 In the official docs"
+    - [Built-in class-based views API](https://docs.djangoproject.com/en/stable/ref/class-based-views/)
+
 ## Recap
 
 - Everything descends from `View`; inherit from it when no generic view fits.

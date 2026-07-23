@@ -188,6 +188,9 @@ A resposta paginada tem o formato:
 }
 ```
 
+!!! quote "📖 Na documentação oficial"
+    - [Django REST Framework](https://www.django-rest-framework.org/)
+
 ## Recapitulando
 
 - O DRF expõe os mesmos modelos como JSON, espelhando os conceitos da web.

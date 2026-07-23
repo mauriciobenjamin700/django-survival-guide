@@ -118,6 +118,9 @@ Django itself uses `contenttypes` internally: the **permissions** system
 actions on any model). Libraries like `django-taggit` and generic comment systems
 do too.
 
+!!! quote "📖 In the official docs"
+    - [The contenttypes framework](https://docs.djangoproject.com/en/stable/ref/contrib/contenttypes/)
+
 ## Recap
 
 - `ContentType` is the table of "all the models"; `get_for_model(X)` gives you the

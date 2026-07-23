@@ -172,6 +172,9 @@ Highlights:
     live in the **model**. This way the logic stays close to the data and is reusable
     across views, templates, and tests.
 
+!!! quote "📖 In the official docs"
+    - [Models](https://docs.djangoproject.com/en/stable/topics/db/models/)
+
 ## Recap
 
 - A **model** is a class that becomes a table; attributes become columns.

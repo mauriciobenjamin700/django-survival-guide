@@ -137,6 +137,9 @@ flowchart TD
     `self.get_response(request)`, a fila para ali e a view nem roda. É assim que
     um gate de manutenção ("site em obras") funciona.
 
+!!! quote "📖 Na documentação oficial"
+    - [Middleware](https://docs.djangoproject.com/en/stable/topics/http/middleware/)
+
 ## Recap
 
 - Middleware é uma camada-cebola em volta de **todas** as requisições:

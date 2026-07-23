@@ -148,6 +148,10 @@ uv run pytest -k list     # só os que casam com "list"
     aparece, o anônimo é barrado), não *como* faz por dentro. Assim você pode
     refatorar livremente sem reescrever os testes.
 
+!!! quote "📖 Na documentação oficial"
+    - [Testing in Django](https://docs.djangoproject.com/en/stable/topics/testing/)
+    - [pytest-django](https://pytest-django.readthedocs.io/)
+
 ## Recapitulando
 
 - Usamos **pytest + pytest-django**; `DJANGO_SETTINGS_MODULE` no `pyproject.toml`.

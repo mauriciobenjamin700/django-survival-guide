@@ -140,6 +140,9 @@ class FixedCharField(models.CharField):
     Crie um campo customizado quando o comportamento é **reutilizável** em vários
     modelos e realmente pertence ao "tipo da gaveta".
 
+!!! quote "📖 Na documentação oficial"
+    - [Writing custom model fields](https://docs.djangoproject.com/en/stable/howto/custom-model-fields/)
+
 ## Recap
 
 - Campo customizado ensina o Django a mover um valor entre Python e banco.

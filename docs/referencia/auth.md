@@ -200,6 +200,9 @@ AUTH_USER_MODEL = "accounts.User"
     referencie via `settings.AUTH_USER_MODEL` (models) ou `get_user_model()`
     (código).
 
+!!! quote "📖 Na documentação oficial"
+    - [Using the authentication system](https://docs.djangoproject.com/en/stable/topics/auth/default/)
+
 ## Recap
 
 - Autenticação = "quem é você"; permissões = "o que você pode".

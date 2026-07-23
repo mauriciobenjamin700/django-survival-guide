@@ -172,6 +172,9 @@ Destaques:
     moram no **modelo**. Assim a lógica fica perto dos dados e é reaproveitável
     em views, templates e testes.
 
+!!! quote "📖 Na documentação oficial"
+    - [Models](https://docs.djangoproject.com/en/stable/topics/db/models/)
+
 ## Recapitulando
 
 - Um **modelo** é uma classe que vira tabela; atributos viram colunas.

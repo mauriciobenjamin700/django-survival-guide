@@ -192,6 +192,10 @@ uv run pytest --cov=apps            # coverage (needs pytest-cov)
     anonymous user is blocked), not *how* on the inside. That way you refactor
     freely without rewriting the tests.
 
+!!! quote "📖 In the official docs"
+    - [Testing in Django](https://docs.djangoproject.com/en/stable/topics/testing/)
+    - [pytest-django](https://pytest-django.readthedocs.io/)
+
 ## Recap
 
 - pytest + pytest-django; unlock the database with `@pytest.mark.django_db` (the

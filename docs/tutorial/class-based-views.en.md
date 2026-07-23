@@ -200,6 +200,9 @@ class CommentCreateView(CreateView):
 
 `http_method_names = ["post"]` makes it explicit: this view only accepts POST.
 
+!!! quote "📖 In the official docs"
+    - [Class-based views](https://docs.djangoproject.com/en/stable/topics/class-based-views/)
+
 ## Recap
 
 - CBVs turn the request into **overridable methods**; the **generic views**

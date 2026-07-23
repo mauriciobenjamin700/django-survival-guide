@@ -172,6 +172,10 @@ Post.objects.annotate(
     and summing/counting them in a `for`, you can almost always push that down into
     an expression.
 
+!!! quote "📖 In the official docs"
+    - [Query expressions](https://docs.djangoproject.com/en/stable/ref/models/expressions/)
+    - [Database functions](https://docs.djangoproject.com/en/stable/ref/models/database-functions/)
+
 ## Recap
 
 - Expressions ask the **database** to do the math: one query, result ready.

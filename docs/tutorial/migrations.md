@@ -97,6 +97,9 @@ flowchart LR
     esqueceu do `makemigrations`. Ele é quem *detecta* a mudança e cria o arquivo;
     `migrate` só aplica o que já existe.
 
+!!! quote "📖 Na documentação oficial"
+    - [Migrations](https://docs.djangoproject.com/en/stable/topics/migrations/)
+
 ## Recapitulando
 
 - Migrações traduzem mudanças de modelo em mudanças de banco, de forma

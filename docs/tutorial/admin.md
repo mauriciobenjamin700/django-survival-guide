@@ -102,6 +102,9 @@ class CommentAdmin(admin.ModelAdmin):
     todas as linhas selecionadas — não carrega objeto por objeto. Voltaremos a
     isso em [QuerySets](querysets.md).
 
+!!! quote "📖 Na documentação oficial"
+    - [The Django admin site](https://docs.djangoproject.com/en/stable/ref/contrib/admin/)
+
 ## Recapitulando
 
 - O admin é um CRUD automático a partir dos modelos — enorme economia de tempo.

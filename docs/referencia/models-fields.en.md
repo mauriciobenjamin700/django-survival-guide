@@ -230,6 +230,9 @@ Values for `on_delete`:
     Without it, Django won't even let you create the model. Always ask yourself:
     "if the parent disappears, what happens to the child?"
 
+!!! quote "📖 In the official docs"
+    - [Model field reference](https://docs.djangoproject.com/en/stable/ref/models/fields/)
+
 ## Recap
 
 - A **field** is a drawer with rules. `CharField`, `IntegerField`,

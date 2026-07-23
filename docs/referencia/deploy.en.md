@@ -159,6 +159,10 @@ flowchart LR
     If the new app comes up before the migration, it breaks when it accesses
     columns that don't exist yet.
 
+!!! quote "📖 In the official docs"
+    - [Deployment](https://docs.djangoproject.com/en/stable/howto/deployment/)
+    - [Deployment checklist](https://docs.djangoproject.com/en/stable/howto/deployment/checklist/)
+
 ## Recap
 
 - `runserver` **never** in production — use Gunicorn (WSGI) or Uvicorn (ASGI).

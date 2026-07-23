@@ -133,6 +133,9 @@ def notify(sender, post, **kwargs) -> None:
 
     Regra: use signal quando **não dá** para colocar a lógica no lugar óbvio.
 
+!!! quote "📖 Na documentação oficial"
+    - [Signals](https://docs.djangoproject.com/en/stable/topics/signals/)
+
 ## Recap
 
 - Signal é uma campainha: algo acontece, receivers combinados reagem —

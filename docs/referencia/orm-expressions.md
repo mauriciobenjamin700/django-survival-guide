@@ -169,6 +169,10 @@ Post.objects.annotate(
     N+1, sem laço em Python. Se você se pegar trazendo objetos e somando/contando
     num `for`, quase sempre dá para empurrar isso para uma expression.
 
+!!! quote "📖 Na documentação oficial"
+    - [Query expressions](https://docs.djangoproject.com/en/stable/ref/models/expressions/)
+    - [Database functions](https://docs.djangoproject.com/en/stable/ref/models/database-functions/)
+
 ## Recap
 
 - Expressions pedem contas ao **banco**: uma query, resultado pronto.

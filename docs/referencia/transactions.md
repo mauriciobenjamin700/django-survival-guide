@@ -142,6 +142,9 @@ DATABASES = {
 Com isso, se a view levantar exceção, tudo que ela gravou é desfeito. Simples,
 mas segura uma transação aberta durante a requisição inteira — avalie o custo.
 
+!!! quote "📖 Na documentação oficial"
+    - [Database transactions](https://docs.djangoproject.com/en/stable/topics/db/transactions/)
+
 ## Recap
 
 - Transação = "tudo ou nada"; erro no meio faz **rollback**.

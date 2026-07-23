@@ -125,6 +125,9 @@ uv run python manage.py <comando>
 Some we'll use right away: `migrate`, `makemigrations`, `runserver`,
 `createsuperuser`, `shell`, `test`.
 
+!!! quote "📖 In the official docs"
+    - [Applications](https://docs.djangoproject.com/en/stable/ref/applications/)
+
 ## Recap
 
 - A **project** (`config/`) gathers configuration; an **app** (`apps/blog/`)

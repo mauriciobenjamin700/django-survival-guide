@@ -263,6 +263,9 @@ Isso gera automaticamente:
 | `IsAdminUser` | Só staff |
 | `DjangoModelPermissions` | Segue as permissões do modelo no Django |
 
+!!! quote "📖 Na documentação oficial"
+    - [Django REST Framework](https://www.django-rest-framework.org/)
+
 ## Recap
 
 - O serializer é o tradutor Python ↔ JSON; o viewset é o garçom da API.

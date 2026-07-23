@@ -230,6 +230,9 @@ Valores de `on_delete`:
     Sem ele, o Django nem deixa criar o modelo. Pergunte-se sempre: "se o pai
     sumir, o que acontece com o filho?"
 
+!!! quote "📖 Na documentação oficial"
+    - [Model field reference](https://docs.djangoproject.com/en/stable/ref/models/fields/)
+
 ## Recap
 
 - Um **field** é uma gaveta com regras. `CharField`, `IntegerField`,

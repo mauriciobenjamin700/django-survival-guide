@@ -120,6 +120,9 @@ class CommentForm(forms.ModelForm):
 - Levantar `ValidationError` faz `is_valid()` retornar `False` e a mensagem
   aparecer ao lado do campo.
 
+!!! quote "📖 Na documentação oficial"
+    - [Working with forms](https://docs.djangoproject.com/en/stable/topics/forms/)
+
 ## Recapitulando
 
 - Formulários validam e convertem a entrada — a fronteira segura da aplicação.

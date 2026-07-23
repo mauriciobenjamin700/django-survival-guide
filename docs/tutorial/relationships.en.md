@@ -144,6 +144,9 @@ for post in Post.objects.prefetch_related("tags"):
     `select_related`**; **M2M/reverse → `prefetch_related`**. Without it, a list of
     100 items becomes 101 queries.
 
+!!! quote "📖 In the official docs"
+    - [Related objects reference](https://docs.djangoproject.com/en/stable/ref/models/relations/)
+
 ## Recap
 
 - Every relationship has a forward and a reverse side; `related_name` names the

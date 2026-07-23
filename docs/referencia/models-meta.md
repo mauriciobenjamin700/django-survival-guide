@@ -180,6 +180,9 @@ class Report(models.Model):
 | `get_latest_by` | Campo usado por `.latest()`/`.earliest()` |
 | `app_label` | A qual app o modelo pertence (quando ambíguo) |
 
+!!! quote "📖 Na documentação oficial"
+    - [Model Meta options](https://docs.djangoproject.com/en/stable/ref/models/options/)
+
 ## Recap
 
 - A `Meta` configura a **tabela inteira**, não um campo. É um quadro de recados.

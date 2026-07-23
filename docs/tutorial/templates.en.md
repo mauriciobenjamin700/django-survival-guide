@@ -133,6 +133,9 @@ free.
     The `|safe` filter turns off escaping. Only use it on content **you trust**
     (never on text coming from the user). When in doubt, don't use it.
 
+!!! quote "📖 In the official docs"
+    - [Templates](https://docs.djangoproject.com/en/stable/topics/templates/)
+
 ## Recap
 
 - Templates are HTML + `{{ values }}`, `{% tags %}`, and `|filters`.

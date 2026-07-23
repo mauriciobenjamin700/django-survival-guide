@@ -140,6 +140,9 @@ class FixedCharField(models.CharField):
     Create a custom field when the behavior is **reusable** across several models
     and truly belongs to the "type of the drawer".
 
+!!! quote "📖 In the official docs"
+    - [Writing custom model fields](https://docs.djangoproject.com/en/stable/howto/custom-model-fields/)
+
 ## Recap
 
 - A custom field teaches Django how to move a value between Python and the

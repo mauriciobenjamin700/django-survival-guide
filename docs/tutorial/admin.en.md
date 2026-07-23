@@ -102,6 +102,9 @@ class CommentAdmin(admin.ModelAdmin):
     all selected rows — it doesn't load object by object. We'll come back to
     this in [QuerySets](querysets.md).
 
+!!! quote "📖 In the official docs"
+    - [The Django admin site](https://docs.djangoproject.com/en/stable/ref/contrib/admin/)
+
 ## Recap
 
 - The admin is automatic CRUD from your models — a huge time-saver.

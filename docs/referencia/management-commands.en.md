@@ -145,6 +145,9 @@ def test_seed_creates_posts(db) -> None:
 | `check` | Validates the project |
 | `showmigrations` | Lists migrations |
 
+!!! quote "📖 In the official docs"
+    - [Writing custom django-admin commands](https://docs.djangoproject.com/en/stable/howto/custom-management-commands/)
+
 ## Recap
 
 - A management command = a `manage.py <cmd>` that you create; it runs with the

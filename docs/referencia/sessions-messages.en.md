@@ -113,6 +113,10 @@ class PostCreateView(SuccessMessageMixin, CreateView):
 
 1. `%(title)s` is filled in with the `title` field of the saved object.
 
+!!! quote "📖 In the official docs"
+    - [How to use sessions](https://docs.djangoproject.com/en/stable/topics/http/sessions/)
+    - [The messages framework](https://docs.djangoproject.com/en/stable/ref/contrib/messages/)
+
 ## Recap
 
 - The **session** is the backpack on the server; the cookie carries only the tag

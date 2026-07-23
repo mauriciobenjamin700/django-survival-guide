@@ -144,6 +144,9 @@ Post.objects.filter(status="draft").update(status="published")
 post.delete()
 ```
 
+!!! quote "📖 Na documentação oficial"
+    - [Making queries](https://docs.djangoproject.com/en/stable/topics/db/queries/)
+
 ## Recapitulando
 
 - QuerySets são **preguiçosos**: só batem no banco quando os dados são usados.

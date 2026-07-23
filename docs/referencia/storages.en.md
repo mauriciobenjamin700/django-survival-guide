@@ -142,6 +142,10 @@ class Invoice(models.Model):
     suffix. Don't use the raw upload name in paths without going through
     `upload_to`.
 
+!!! quote "📖 In the official docs"
+    - [File storage API](https://docs.djangoproject.com/en/stable/ref/files/storage/)
+    - [django-storages](https://django-storages.readthedocs.io/)
+
 ## Recap
 
 - A storage is the "cabinet" of files; the code talks to an **abstract**

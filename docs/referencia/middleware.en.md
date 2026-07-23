@@ -138,6 +138,9 @@ flowchart TD
     `self.get_response(request)`, the line stops right there and the view never
     runs. That's how a maintenance gate ("site under construction") works.
 
+!!! quote "📖 In the official docs"
+    - [Middleware](https://docs.djangoproject.com/en/stable/topics/http/middleware/)
+
 ## Recap
 
 - Middleware is an onion layer around **every** request:

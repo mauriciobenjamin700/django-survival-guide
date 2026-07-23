@@ -105,6 +105,9 @@ page.has_next()                         # True/False
     (paginar por um cursor, ex.: `created_at < X`). Para um blog, o `Paginator`
     padrão é perfeito.
 
+!!! quote "📖 Na documentação oficial"
+    - [Pagination](https://docs.djangoproject.com/en/stable/topics/pagination/)
+
 ## Recapitulando
 
 - `paginate_by = N` na `ListView` liga a paginação de graça.

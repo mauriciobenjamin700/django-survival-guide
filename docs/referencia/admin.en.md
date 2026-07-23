@@ -193,6 +193,9 @@ admin.site.site_title = "Blog Admin"
 admin.site.index_title = "Dashboard"
 ```
 
+!!! quote "📖 In the official docs"
+    - [The Django admin site](https://docs.djangoproject.com/en/stable/ref/contrib/admin/)
+
 ## Recap
 
 - The admin is a ready-made CRUD; the `ModelAdmin` picks the buttons.

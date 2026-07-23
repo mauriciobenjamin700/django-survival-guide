@@ -143,6 +143,9 @@ class Event(models.Model):
   **cruzam** campos.
 - Para garantir no banco também, adicione um `CheckConstraint` na `Meta`.
 
+!!! quote "📖 Na documentação oficial"
+    - [Validators](https://docs.djangoproject.com/en/stable/ref/validators/)
+
 ## Recap
 
 - Validators conferem valores; anexe-os via `validators=[...]` no field.

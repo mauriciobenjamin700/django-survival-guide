@@ -143,6 +143,9 @@ Post.objects.filter(status="draft").update(status="published")
 post.delete()
 ```
 
+!!! quote "📖 In the official docs"
+    - [Making queries](https://docs.djangoproject.com/en/stable/topics/db/queries/)
+
 ## Recap
 
 - QuerySets are **lazy**: they only hit the database when the data is used.

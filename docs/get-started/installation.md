@@ -104,6 +104,10 @@ uv run mkdocs serve
 E abra <http://127.0.0.1:8000/>. Mas o normal é ler a versão publicada no
 GitHub Pages — o link está no topo do repositório.
 
+!!! quote "📖 Na documentação oficial"
+    - [Quick install guide](https://docs.djangoproject.com/en/stable/intro/install/)
+    - [uv documentation](https://docs.astral.sh/uv/)
+
 ## Recapitulando
 
 - Usamos **uv** para gerenciar Python e dependências sem passos manuais.

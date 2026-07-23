@@ -143,6 +143,9 @@ class PostDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "blog.delete_post"
 ```
 
+!!! quote "📖 In the official docs"
+    - [Using the authentication system](https://docs.djangoproject.com/en/stable/topics/auth/default/)
+
 ## Recap
 
 - Authentication comes ready: `User`, login/logout, sessions, password hashing.

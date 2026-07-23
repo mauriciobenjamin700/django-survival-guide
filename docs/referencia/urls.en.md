@@ -159,6 +159,9 @@ path("posts/<slug:slug>/", views.PostDetailView.as_view(),
      kwargs={"template": "amp"}, name="post-detail-amp")
 ```
 
+!!! quote "📖 In the official docs"
+    - [URL dispatcher](https://docs.djangoproject.com/en/stable/topics/http/urls/)
+
 ## Recap
 
 - `path()` (simple, almost always) × `re_path()` (regex).

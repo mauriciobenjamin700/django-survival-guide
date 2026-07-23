@@ -128,6 +128,9 @@ Post.objects.values("status").annotate(n=Count("id")).values_list("status", "n")
 # -> [("published", 30), ("draft", 12)]
 ```
 
+!!! quote "📖 Na documentação oficial"
+    - [Aggregation](https://docs.djangoproject.com/en/stable/topics/db/aggregation/)
+
 ## Recap
 
 - `aggregate` = um resumo do conjunto (dict); `annotate` = uma coluna por

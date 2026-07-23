@@ -117,6 +117,9 @@ Assim referenciamos URLs pelo **nome**, não pela string literal:
     sozinha. Escrever URLs literais espalhadas pelo código é dívida técnica
     garantida.
 
+!!! quote "📖 Na documentação oficial"
+    - [URL dispatcher](https://docs.djangoproject.com/en/stable/topics/http/urls/)
+
 ## Recapitulando
 
 - URLs vivem em `urls.py`, resolvidas de cima para baixo (primeira que casa).

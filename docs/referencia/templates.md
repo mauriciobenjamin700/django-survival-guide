@@ -176,6 +176,10 @@ def reading_time(text: str) -> int:
     A pasta `templatetags/` precisa de um `__init__.py`, e o app precisa estar em
     `INSTALLED_APPS`. No template, `{% load blog_extras %}` antes de usar.
 
+!!! quote "📖 Na documentação oficial"
+    - [Templates](https://docs.djangoproject.com/en/stable/topics/templates/)
+    - [Built-in template tags and filters](https://docs.djangoproject.com/en/stable/ref/templates/builtins/)
+
 ## Recap
 
 - Três sintaxes: `{{ exibir }}`, `{% decidir %}`, `|transformar`.

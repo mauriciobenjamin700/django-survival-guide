@@ -200,6 +200,10 @@ você só entra no `form_valid(form)`.
     Esqueceu? O envio retorna **403 Forbidden**. É a proteção contra
     falsificação de requisição. Ponha sempre dentro do `<form method="post">`.
 
+!!! quote "📖 Na documentação oficial"
+    - [Working with forms](https://docs.djangoproject.com/en/stable/topics/forms/)
+    - [Form and field reference](https://docs.djangoproject.com/en/stable/ref/forms/)
+
 ## Recap
 
 - O form é o segurança: valida e converte a entrada antes de ela entrar.

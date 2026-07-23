@@ -144,6 +144,9 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 Em produção, o servidor (Gunicorn/Uvicorn) a define apontando para o módulo de
 produção.
 
+!!! quote "📖 Na documentação oficial"
+    - [Settings reference](https://docs.djangoproject.com/en/stable/ref/settings/)
+
 ## Recap
 
 - `settings.py` é Python puro — variáveis que o Django lê ao iniciar.
