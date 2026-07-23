@@ -162,6 +162,41 @@ plugins:
             Contribuindo: Contributing
             Como foi feito: How it was built
             Lint e boas práticas: Linting & best practices
+            "Deixando bonito: Bootstrap, Tailwind e crispy-forms": "Making it pretty: Bootstrap, Tailwind and crispy-forms"
+            Dinamismo com HTMX, Alpine e partials: Dynamic UI with HTMX, Alpine and partials
+            "DRF a fundo: auth, throttling, versioning e nested": "DRF in depth: auth, throttling, versioning and nested"
+            Testes avançados: Advanced testing
+            Testes E2E com Playwright: End-to-end tests with Playwright
+            Projeto real fim-a-fim: End-to-end real project
+            Tasks framework (background nativo): Tasks framework (built-in background)
+            Content Security Policy (CSP): Content Security Policy (CSP)
+            Template partials: Template partials
+            Chaves primárias compostas: Composite primary keys
+            Custom user model: Custom user model
+            E-mail e recuperação de senha: Email and password reset
+            Segurança a fundo: Security in depth
+            Permissões a fundo (e object-level): Permissions in depth (and object-level)
+            Configuração, ambientes e segredos (12-factor): Configuration, environments and secrets (12-factor)
+            Logging e report de erros: Logging and error reporting
+            Performance e otimização: Performance and optimization
+            Herança de modelos e managers: Model inheritance and managers
+            Busca full-text (PostgreSQL): Full-text search (PostgreSQL)
+            "ORM avançado II: multi-DB, raw SQL, bulk e data migrations": "Advanced ORM II: multi-DB, raw SQL, bulk and data migrations"
+            django.contrib.postgres: django.contrib.postgres
+            "Apps contrib: sitemaps, RSS, humanize, sites, redirects, flatpages": "Contrib apps: sitemaps, RSS, humanize, sites, redirects, flatpages"
+            "Observabilidade: erros, logs estruturados e métricas": "Observability: errors, structured logs and metrics"
+            Consumindo APIs externas (requests/httpx): Consuming external APIs (requests/httpx)
+            "Gerando arquivos: PDF e CSV": "Generating files: PDF and CSV"
+            Upload de arquivos e respostas condicionais (ETag): File uploads and conditional responses (ETag)
+            Deploy em PaaS (Fly, Railway, Render): Deploying to PaaS (Fly, Railway, Render)
+            Padrões do mundo real: Real-world patterns
+            "Libs de dados: histórico, auditoria, import-export, tags e árvores": "Data libraries: history, audit, import-export, tags and trees"
+            django-ninja (API moderna): django-ninja (modern API)
+            GraphQL com Strawberry Django: GraphQL with Strawberry Django
+            "Libs de UI: unfold, tables2, WYSIWYG e vite": "UI libraries: unfold, tables2, WYSIWYG and vite"
+            Pagamentos com Stripe: Payments with Stripe
+            Scraping com Selenium: Scraping with Selenium
+            CI/CD e pre-commit: CI/CD and pre-commit
 
 nav:
   - Início: index.md
@@ -174,6 +209,8 @@ nav:
       - CSS do zero: frontend/css.md
       - JavaScript do zero: frontend/javascript.md
       - Juntando com Django: frontend/django-integracao.md
+      - "Deixando bonito: Bootstrap, Tailwind e crispy-forms": frontend/styling.md
+      - Dinamismo com HTMX, Alpine e partials: frontend/htmx.md
   - Tutorial - Guia do usuário:
       - Configurando o projeto: tutorial/project-setup.md
       - Modelos e o ORM: tutorial/models.md
@@ -190,56 +227,89 @@ nav:
       - Autenticação: tutorial/authentication.md
   - Guia avançado:
       - API REST com DRF: advanced/drf.md
+      - "DRF a fundo: auth, throttling, versioning e nested": advanced/drf-advanced.md
       - Testes: advanced/testing.md
+      - Testes avançados: advanced/testing-advanced.md
+      - Testes E2E com Playwright: advanced/e2e-playwright.md
       - Django sync × async: advanced/sync-vs-async.md
       - Exemplo assíncrono: advanced/async-example.md
+      - Projeto real fim-a-fim: advanced/capstone.md
   - Referência:
       - Visão geral: referencia/index.md
       - Admin: referencia/admin.md
       - Agregação e group by: referencia/aggregation-groupby.md
+      - "Apps contrib: sitemaps, RSS, humanize, sites, redirects, flatpages": referencia/contrib-apps.md
       - Arquivos estáticos e media: referencia/static-media.md
       - Autenticação e permissões: referencia/auth.md
+      - Busca full-text (PostgreSQL): referencia/search-postgres.md
       - Cache: referencia/cache.md
       - Campos customizados: referencia/custom-fields.md
+      - Chaves primárias compostas: referencia/composite-keys.md
+      - Configuração, ambientes e segredos (12-factor): referencia/config-ambientes.md
+      - Consumindo APIs externas (requests/httpx): referencia/external-apis.md
+      - Content Security Policy (CSP): referencia/csp.md
       - Content types e relações genéricas: referencia/contenttypes.md
+      - Custom user model: referencia/custom-user.md
       - Deploy: referencia/deploy.md
       - Deploy com Docker Compose: referencia/deploy-docker.md
+      - Deploy em PaaS (Fly, Railway, Render): referencia/deploy-paas.md
+      - django.contrib.postgres: referencia/contrib-postgres.md
       - DRF — serializers e viewsets: referencia/drf.md
+      - E-mail e recuperação de senha: referencia/email-senhas.md
       - Formsets: referencia/formsets.md
       - Formulários e ModelForm: referencia/forms.md
       - Generic views e mixins: referencia/generic-views.md
+      - "Gerando arquivos: PDF e CSV": referencia/file-generation.md
+      - Herança de modelos e managers: referencia/model-inheritance.md
       - i18n e traduções: referencia/i18n.md
+      - Logging e report de erros: referencia/logging.md
       - Management commands: referencia/management-commands.md
       - Middleware: referencia/middleware.md
       - Models — campos: referencia/models-fields.md
       - Models — Meta: referencia/models-meta.md
       - Motores de template (DTL × Jinja2): referencia/template-engines.md
+      - "Observabilidade: erros, logs estruturados e métricas": referencia/observability.md
       - Organizando HTML, CSS e JS: referencia/organizando-assets.md
       - ORM avançado (expressions): referencia/orm-expressions.md
+      - "ORM avançado II: multi-DB, raw SQL, bulk e data migrations": referencia/advanced-db.md
+      - Padrões do mundo real: referencia/real-world-patterns.md
+      - Performance e otimização: referencia/performance.md
+      - Permissões a fundo (e object-level): referencia/permissions.md
       - QuerySet API: referencia/querysets-api.md
       - Referência de API (código): referencia/api.md
-      - Settings: referencia/settings.md
+      - Segurança a fundo: referencia/security.md
       - Sessions e messages: referencia/sessions-messages.md
+      - Settings: referencia/settings.md
       - Signals: referencia/signals.md
       - Storages (armazenamento): referencia/storages.md
+      - Tasks framework (background nativo): referencia/tasks.md
+      - Template partials: referencia/template-partials.md
       - Templates: referencia/templates.md
       - Testes a fundo: referencia/testing.md
       - Transações: referencia/transactions.md
+      - Upload de arquivos e respostas condicionais (ETag): referencia/file-uploads.md
       - URLs e conversores: referencia/urls.md
       - Validators e validação: referencia/validators.md
       - Views baseadas em classe: referencia/views-cbv.md
       - Views baseadas em função: referencia/views-fbv.md
   - Bibliotecas do ecossistema:
       - Visão geral: libs/index.md
-      - django-allauth: libs/allauth.md
+      - Afins (catálogo): libs/afins.md
       - Celery: libs/celery.md
       - Django Channels: libs/channels.md
+      - django-allauth: libs/allauth.md
+      - django-filter: libs/django-filter.md
+      - django-ninja (API moderna): libs/django-ninja.md
+      - GraphQL com Strawberry Django: libs/graphql.md
+      - "Libs de dados: histórico, auditoria, import-export, tags e árvores": libs/data-libs.md
+      - "Libs de UI: unfold, tables2, WYSIWYG e vite": libs/ui-libs.md
+      - Pagamentos com Stripe: libs/payments-stripe.md
+      - Scraping com Selenium: libs/scraping-selenium.md
+      - Serviços em contêiner: libs/containers.md
       - SSE — Server-Sent Events: libs/sse.md
       - Web Push: libs/webpush.md
-      - django-filter: libs/django-filter.md
-      - Afins (catálogo): libs/afins.md
-      - Serviços em contêiner: libs/containers.md
   - Sobre:
+      - CI/CD e pre-commit: sobre/ci-cd.md
       - Como foi feito: sobre/making-of.md
       - Contribuindo: sobre/contribuindo.md
       - Lint e boas práticas: sobre/lint.md
