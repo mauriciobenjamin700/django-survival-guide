@@ -49,6 +49,7 @@ REST_FRAMEWORK: dict[str, object] = {
 
 MIDDLEWARE: list[str] = [
     "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -77,12 +78,24 @@ TEMPLATES: list[dict[str, object]] = [
 WSGI_APPLICATION: str = "config.wsgi.application"
 ASGI_APPLICATION: str = "config.asgi.application"
 
-DATABASES: dict[str, dict[str, object]] = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+if os.environ.get("DJANGO_DB_NAME"):
+    DATABASES: dict[str, dict[str, object]] = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.environ["DJANGO_DB_NAME"],
+            "USER": os.environ.get("DJANGO_DB_USER", "postgres"),
+            "PASSWORD": os.environ.get("DJANGO_DB_PASSWORD", ""),
+            "HOST": os.environ.get("DJANGO_DB_HOST", "localhost"),
+            "PORT": os.environ.get("DJANGO_DB_PORT", "5432"),
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS: list[dict[str, str]] = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
@@ -97,6 +110,20 @@ USE_I18N: bool = True
 USE_TZ: bool = True
 
 STATIC_URL: str = "static/"
+STATIC_ROOT: Path = BASE_DIR / "staticfiles"
+
+STORAGES: dict[str, dict[str, str]] = {
+    "default": {
+        "BACKEND": "django.core.files.storage.FileSystemStorage",
+    },
+    "staticfiles": {
+        "BACKEND": (
+            "django.contrib.staticfiles.storage.StaticFilesStorage"
+            if DEBUG
+            else "whitenoise.storage.CompressedManifestStaticFilesStorage"
+        ),
+    },
+}
 
 LOGIN_URL: str = "login"
 LOGIN_REDIRECT_URL: str = "blog:post-list"
