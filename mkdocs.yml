@@ -117,6 +117,8 @@ plugins:
             Guia avançado: Advanced Guide
             API REST com DRF: REST API with DRF
             Testes: Testing
+            Django sync × async: Django sync vs async
+            Exemplo assíncrono: Async example
             Referência: Reference
             Visão geral: Overview
             ORM avançado (expressions): Advanced ORM (expressions)
@@ -189,6 +191,8 @@ nav:
   - Guia avançado:
       - API REST com DRF: advanced/drf.md
       - Testes: advanced/testing.md
+      - Django sync × async: advanced/sync-vs-async.md
+      - Exemplo assíncrono: advanced/async-example.md
   - Referência:
       - Visão geral: referencia/index.md
       - Admin: referencia/admin.md

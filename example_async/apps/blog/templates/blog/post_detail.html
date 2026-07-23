@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}{{ post.title }} — Async Blog{% endblock %}
+
+{% block content %}
+  <article>
+    <h1>{{ post.title }}</h1>
+    <p class="muted">by {{ post.author }} · {{ post.published_at|date:"d M Y" }}</p>
+    <div>{{ post.body|linebreaks }}</div>
+  </article>
+
+  <section>
+    <h2>Comments ({{ comments|length }})</h2>
+    {% for comment in comments %}
+      <div class="card">
+        <strong>{{ comment.author_name }}</strong>
+        <span class="muted">· {{ comment.created_at|date:"d M Y H:i" }}</span>
+        <p>{{ comment.body|linebreaks }}</p>
+      </div>
+    {% empty %}
+      <p class="muted">Be the first to comment.</p>
+    {% endfor %}
+
+    <h3>Add a comment</h3>
+    <form method="post" action="{% url 'blog:comment-create' post.slug %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Submit</button>
+    </form>
+    <p class="muted">Comments appear after moderation.</p>
+  </section>
+{% endblock %}

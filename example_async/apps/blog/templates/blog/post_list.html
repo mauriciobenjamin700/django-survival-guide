@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Latest posts</h1>
+  {% for post in posts %}
+    <article class="card">
+      <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+      <p class="muted">by {{ post.author }} · {{ post.published_at|date:"d M Y" }}</p>
+      <p>{{ post.body|truncatewords:30 }}</p>
+    </article>
+  {% empty %}
+    <p class="muted">No posts yet.</p>
+  {% endfor %}
+{% endblock %}
