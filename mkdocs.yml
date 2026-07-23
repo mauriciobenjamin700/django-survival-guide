@@ -136,6 +136,8 @@ plugins:
             Campos customizados: Custom fields
             Content types e relações genéricas: Content types & generic relations
             Storages (armazenamento): Storages
+            Motores de template (DTL × Jinja2): Template engines (DTL vs Jinja2)
+            Organizando HTML, CSS e JS: Organizing HTML, CSS & JS
             Referência de API (código): API reference (code)
             Sobre: About
             Contribuindo: Contributing
@@ -164,37 +166,39 @@ nav:
       - Testes: advanced/testing.md
   - Referência:
       - Visão geral: referencia/index.md
-      - Models — campos: referencia/models-fields.md
-      - Models — Meta: referencia/models-meta.md
+      - Admin: referencia/admin.md
+      - Agregação e group by: referencia/aggregation-groupby.md
+      - Arquivos estáticos e media: referencia/static-media.md
+      - Autenticação e permissões: referencia/auth.md
+      - Cache: referencia/cache.md
       - Campos customizados: referencia/custom-fields.md
       - Content types e relações genéricas: referencia/contenttypes.md
-      - QuerySet API: referencia/querysets-api.md
-      - ORM avançado (expressions): referencia/orm-expressions.md
-      - Agregação e group by: referencia/aggregation-groupby.md
-      - Views baseadas em classe: referencia/views-cbv.md
-      - Generic views e mixins: referencia/generic-views.md
-      - URLs e conversores: referencia/urls.md
-      - Templates: referencia/templates.md
-      - Formulários e ModelForm: referencia/forms.md
-      - Validators e validação: referencia/validators.md
-      - Admin: referencia/admin.md
-      - Autenticação e permissões: referencia/auth.md
-      - Settings: referencia/settings.md
-      - DRF — serializers e viewsets: referencia/drf.md
-      - Middleware: referencia/middleware.md
-      - Signals: referencia/signals.md
-      - Sessions e messages: referencia/sessions-messages.md
-      - Cache: referencia/cache.md
-      - Management commands: referencia/management-commands.md
-      - Transações: referencia/transactions.md
-      - Formsets: referencia/formsets.md
-      - Arquivos estáticos e media: referencia/static-media.md
-      - Storages (armazenamento): referencia/storages.md
-      - i18n e traduções: referencia/i18n.md
       - Deploy: referencia/deploy.md
       - Deploy com Docker Compose: referencia/deploy-docker.md
-      - Testes a fundo: referencia/testing.md
+      - DRF — serializers e viewsets: referencia/drf.md
+      - Formsets: referencia/formsets.md
+      - Formulários e ModelForm: referencia/forms.md
+      - Generic views e mixins: referencia/generic-views.md
+      - i18n e traduções: referencia/i18n.md
+      - Management commands: referencia/management-commands.md
+      - Middleware: referencia/middleware.md
+      - Models — campos: referencia/models-fields.md
+      - Models — Meta: referencia/models-meta.md
+      - Motores de template (DTL × Jinja2): referencia/template-engines.md
+      - Organizando HTML, CSS e JS: referencia/organizando-assets.md
+      - ORM avançado (expressions): referencia/orm-expressions.md
+      - QuerySet API: referencia/querysets-api.md
       - Referência de API (código): referencia/api.md
+      - Settings: referencia/settings.md
+      - Sessions e messages: referencia/sessions-messages.md
+      - Signals: referencia/signals.md
+      - Storages (armazenamento): referencia/storages.md
+      - Templates: referencia/templates.md
+      - Testes a fundo: referencia/testing.md
+      - Transações: referencia/transactions.md
+      - URLs e conversores: referencia/urls.md
+      - Validators e validação: referencia/validators.md
+      - Views baseadas em classe: referencia/views-cbv.md
   - Sobre:
-      - Contribuindo: sobre/contribuindo.md
       - Como foi feito: sobre/making-of.md
+      - Contribuindo: sobre/contribuindo.md
