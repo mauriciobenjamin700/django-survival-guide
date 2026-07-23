@@ -7,6 +7,7 @@ requires-python = ">=3.13"
 dependencies = [
     "django>=6.0,<7",
     "djangorestframework>=3.17.1",
+    "whitenoise>=6.12.0",
 ]
 
 [dependency-groups]
@@ -26,7 +27,6 @@ docs = [
 prod = [
     "gunicorn>=26.0.0",
     "psycopg[binary]>=3.3.4",
-    "whitenoise>=6.12.0",
 ]
 
 [tool.uv]
