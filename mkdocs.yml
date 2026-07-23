@@ -159,6 +159,7 @@ plugins:
             Sobre: About
             Contribuindo: Contributing
             Como foi feito: How it was built
+            Lint e boas práticas: Linting & best practices
 
 nav:
   - Início: index.md
@@ -237,3 +238,4 @@ nav:
   - Sobre:
       - Como foi feito: sobre/making-of.md
       - Contribuindo: sobre/contribuindo.md
+      - Lint e boas práticas: sobre/lint.md

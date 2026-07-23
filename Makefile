@@ -1,4 +1,4 @@
-.PHONY: help install docs-serve docs-build run migrate seed test
+.PHONY: help install docs-serve docs-build run migrate seed test lint format fix type check
 
 PORT ?= 8000
 
@@ -26,3 +26,18 @@ seed:  ## Popula o blog com dados de exemplo
 
 test:  ## Roda a suíte de testes
 	uv run pytest -q
+
+lint:  ## Verifica lint (ruff), sem alterar
+	uv run ruff check .
+
+format:  ## Formata o código (ruff format)
+	uv run ruff format .
+
+fix:  ## Aplica todo autofix do ruff + formata
+	uv run ruff check --fix .
+	uv run ruff format .
+
+type:  ## Checagem de tipos (mypy + django-stubs)
+	uv run mypy example
+
+check: lint type test  ## Roda todos os portões (lint + tipos + testes)

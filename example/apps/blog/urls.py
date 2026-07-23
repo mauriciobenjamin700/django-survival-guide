@@ -16,6 +16,12 @@ urlpatterns: list[URLPattern] = [
     path("posts/new/", views.PostCreateView.as_view(), name="post-create"),
     path("posts/<slug:slug>/", views.PostDetailView.as_view(), name="post-detail"),
     path("posts/<slug:slug>/edit/", views.PostUpdateView.as_view(), name="post-update"),
-    path("posts/<slug:slug>/delete/", views.PostDeleteView.as_view(), name="post-delete"),
-    path("posts/<slug:slug>/comment/", views.CommentCreateView.as_view(), name="comment-create"),
+    path(
+        "posts/<slug:slug>/delete/", views.PostDeleteView.as_view(), name="post-delete"
+    ),
+    path(
+        "posts/<slug:slug>/comment/",
+        views.CommentCreateView.as_view(),
+        name="comment-create",
+    ),
 ]

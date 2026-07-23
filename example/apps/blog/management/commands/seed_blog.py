@@ -80,8 +80,7 @@ class Command(BaseCommand):
             )
             if created_post:
                 tags = [
-                    Tag.objects.get_or_create(name=name)[0]
-                    for name in entry["tags"]
+                    Tag.objects.get_or_create(name=name)[0] for name in entry["tags"]
                 ]
                 post.tags.set(tags)
                 Comment.objects.create(
