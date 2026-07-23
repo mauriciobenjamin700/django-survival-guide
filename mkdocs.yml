@@ -95,6 +95,7 @@ plugins:
             Instalação: Installation
             Fundamentos web (HTML, CSS, JS): Web fundamentals (HTML, CSS, JS)
             Como a web funciona: How the web works
+            "HTTP: GET, POST, PUT, DELETE e afins": "HTTP: GET, POST, PUT, DELETE & friends"
             HTML do zero: HTML from scratch
             CSS do zero: CSS from scratch
             JavaScript do zero: JavaScript from scratch
@@ -149,6 +150,11 @@ plugins:
             Motores de template (DTL × Jinja2): Template engines (DTL vs Jinja2)
             Organizando HTML, CSS e JS: Organizing HTML, CSS & JS
             Referência de API (código): API reference (code)
+            Bibliotecas do ecossistema: Ecosystem libraries
+            SSE — Server-Sent Events: SSE — Server-Sent Events
+            Web Push: Web Push
+            Afins (catálogo): More libraries (catalog)
+            Serviços em contêiner: Containerized services
             Sobre: About
             Contribuindo: Contributing
             Como foi feito: How it was built
@@ -159,6 +165,7 @@ nav:
       - Instalação: get-started/installation.md
   - Fundamentos web (HTML, CSS, JS):
       - Como a web funciona: frontend/index.md
+      - "HTTP: GET, POST, PUT, DELETE e afins": frontend/http.md
       - HTML do zero: frontend/html.md
       - CSS do zero: frontend/css.md
       - JavaScript do zero: frontend/javascript.md
@@ -215,6 +222,16 @@ nav:
       - URLs e conversores: referencia/urls.md
       - Validators e validação: referencia/validators.md
       - Views baseadas em classe: referencia/views-cbv.md
+  - Bibliotecas do ecossistema:
+      - Visão geral: libs/index.md
+      - django-allauth: libs/allauth.md
+      - Celery: libs/celery.md
+      - Django Channels: libs/channels.md
+      - SSE — Server-Sent Events: libs/sse.md
+      - Web Push: libs/webpush.md
+      - django-filter: libs/django-filter.md
+      - Afins (catálogo): libs/afins.md
+      - Serviços em contêiner: libs/containers.md
   - Sobre:
       - Como foi feito: sobre/making-of.md
       - Contribuindo: sobre/contribuindo.md
