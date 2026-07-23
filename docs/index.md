@@ -8,10 +8,45 @@ peça faz e por quê**. Cada página constrói um conceito em cima do anterior, 
 exemplos completos e prontos para rodar — no estilo da
 [documentação do FastAPI](https://fastapi.tiangolo.com).
 
-!!! info "Para quem é este guia"
-    - Quem sabe **Python** (funções, classes, type hints) e quer aprender Django.
-    - Quem já usou Django "no chute" e quer entender o que acontece por baixo.
-    - Quem prefere **views baseadas em classe** e código explícito e tipado.
+## Por onde começar
+
+<div class="grid cards" markdown>
+
+-   🚀 __Comece aqui__
+
+    ---
+
+    Instale o ambiente com `uv` e deixe o blog de exemplo rodando em minutos.
+
+    [:octicons-arrow-right-24: Instalação](get-started/installation.md)
+
+-   📚 __Tutorial__
+
+    ---
+
+    Aprenda na ordem, um conceito por página, construindo um blog do zero até
+    uma API REST.
+
+    [:octicons-arrow-right-24: Começar o tutorial](tutorial/project-setup.md)
+
+-   🔎 __Referência__
+
+    ---
+
+    O dicionário: cada classe, opção e `Meta`, com analogias simples e todas as
+    possibilidades.
+
+    [:octicons-arrow-right-24: Ver o mapa](referencia/index.md)
+
+-   🧩 __Referência de API__
+
+    ---
+
+    A documentação do código de exemplo, gerada automaticamente das docstrings.
+
+    [:octicons-arrow-right-24: API do exemplo](referencia/api.md)
+
+</div>
 
 ## O que você vai construir
 
@@ -41,6 +76,11 @@ do repositório e **roda de verdade** — nada de trechos soltos.
     3. **Zero mágica.** Nada de "confie e funciona". Cada convenção do Django é
        explicada — o que ela faz, quando usar, e o que aconteceria sem ela.
 
+!!! tip "Explicações para todo mundo"
+    As páginas de **Referência** abrem cada conceito com uma analogia bem
+    simples ("pensa como criança 🧒") e só então mergulham no detalhe técnico.
+    A ideia é ninguém ficar para trás.
+
 ## Versões usadas
 
 | Ferramenta | Versão | Observação |
@@ -50,8 +90,4 @@ do repositório e **roda de verdade** — nada de trechos soltos.
 | Django REST Framework | 3.17 | Camada de API (guia avançado) |
 | uv | 0.7+ | Gerenciador de dependências e Python |
 
-!!! tip "Como aproveitar melhor"
-    Leia na ordem do menu à esquerda. Cada página termina com um **Recapitulando**
-    curto. Rode o código conforme avança — aprender Django é aprender fazendo. 🚀
-
-Pronto? Comece pela **[Instalação](get-started/installation.md)**.
+Pronto? Comece pela **[Instalação](get-started/installation.md)**. 🚀
