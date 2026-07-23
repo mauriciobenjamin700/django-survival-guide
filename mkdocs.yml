@@ -121,6 +121,7 @@ plugins:
             Visão geral: Overview
             ORM avançado (expressions): Advanced ORM (expressions)
             Generic views e mixins: Generic views & mixins
+            Views baseadas em função: Function-based views
             Testes a fundo: Testing in depth
             Models — campos: Models — fields
             Models — Meta: Models — Meta
@@ -222,6 +223,7 @@ nav:
       - URLs e conversores: referencia/urls.md
       - Validators e validação: referencia/validators.md
       - Views baseadas em classe: referencia/views-cbv.md
+      - Views baseadas em função: referencia/views-fbv.md
   - Bibliotecas do ecossistema:
       - Visão geral: libs/index.md
       - django-allauth: libs/allauth.md
