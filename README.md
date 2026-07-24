@@ -33,6 +33,23 @@ Post >──< Tag         (posts e tags: muitos-para-muitos)
 
 Pré-requisitos: **Python 3.13+** e **[uv](https://docs.astral.sh/uv/)**.
 
+### Criando seu projeto do zero (recomendado para aprender)
+
+O guia ensina a construir tudo com as próprias mãos — sem clonar nada:
+
+```bash
+uv init meu-blog --python 3.13 && cd meu-blog && rm main.py
+uv add "django>=6.0,<7"
+uv run django-admin startproject config .
+uv run python manage.py migrate
+uv run python manage.py runserver
+```
+
+Passo a passo explicado em
+**[Instalação](https://mauriciobenjamin700.github.io/django-survival-guide/get-started/installation/)**.
+
+### Rodando o blog de exemplo (o resultado final)
+
 ```bash
 # 1. Clonar e instalar
 git clone https://github.com/mauriciobenjamin700/django-survival-guide.git

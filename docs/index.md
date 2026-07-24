@@ -16,7 +16,8 @@ exemplos completos e prontos para rodar — no estilo da
 
     ---
 
-    Instale o ambiente com `uv` e deixe o blog de exemplo rodando em minutos.
+    Instale o `uv` e crie **seu próprio projeto Django do zero**, comando por
+    comando, até o servidor rodando.
 
     [:octicons-arrow-right-24: Instalação](get-started/installation.md)
 

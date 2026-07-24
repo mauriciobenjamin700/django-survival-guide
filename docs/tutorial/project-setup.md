@@ -1,5 +1,10 @@
 # Configurando o projeto
 
+!!! info "Ponto de partida"
+    Esta página continua de onde a **[Instalação](../get-started/installation.md)**
+    parou: você já tem uma pasta com `manage.py`, `config/` e o servidor
+    subindo. Se ainda não tem, faça aquela página antes — leva poucos minutos.
+
 Antes de escrever qualquer funcionalidade, precisamos entender **como um projeto
 Django é organizado**. Django separa dois conceitos:
 
@@ -8,10 +13,10 @@ Django é organizado**. Django separa dois conceitos:
 
 Um projeto contém vários apps. Cada app deve fazer *uma* coisa bem feita.
 
-## A estrutura que usamos
+## A estrutura que vamos montar
 
 ```text
-example/
+meu-blog/                     # (no repositório do guia: example/)
 ├── manage.py                 # ponto de entrada dos comandos
 ├── config/                   # o "projeto": configuração geral
 │   ├── settings.py           # todas as configurações
@@ -33,20 +38,67 @@ example/
     mantém a raiz limpa e deixa claro o que é *seu código* versus configuração.
     É uma convenção comum em projetos maiores.
 
-## Como criamos
+## Criando o app `blog`
+
+O `config/` você já criou na Instalação (`django-admin startproject config .`).
+Agora crie o app, na sua pasta de projeto:
 
 ```bash
-uv run django-admin startproject config .
 mkdir -p apps/blog
-touch apps/__init__.py          # torna 'apps' um pacote importável
+touch apps/__init__.py
 uv run python manage.py startapp blog apps/blog
 ```
+
+Linha por linha:
+
+1. `mkdir -p apps/blog` — o `startapp` **não cria** a pasta de destino, ela
+   precisa existir antes.
+2. `touch apps/__init__.py` — transforma `apps/` em um **pacote Python**
+   explícito.
+3. `startapp blog apps/blog` — gera o esqueleto do app *dentro* de `apps/blog`.
+
+??? info "O `__init__.py` é mesmo obrigatório?"
+    Tecnicamente não: desde o Python 3.3 existem *namespace packages*, e o
+    `import apps.blog` funciona mesmo sem o arquivo. Criamos assim mesmo porque
+    o pacote explícito deixa a intenção clara e evita comportamentos estranhos
+    em ferramentas de build, empacotamento e descoberta de testes.
+
+!!! warning "Windows"
+    `mkdir -p` e `touch` são comandos Unix. No PowerShell:
+    ```powershell
+    mkdir apps\blog
+    New-Item apps\__init__.py
+    uv run python manage.py startapp blog apps\blog
+    ```
+
+O resultado:
+
+```text
+apps/
+├── __init__.py
+└── blog/
+    ├── __init__.py
+    ├── admin.py
+    ├── apps.py
+    ├── migrations/
+    ├── models.py
+    ├── tests.py
+    └── views.py
+```
+
+!!! note "Faltam `urls.py`, `forms.py` e `templates/`?"
+    Faltam mesmo — o `startapp` não gera esses. Você cria cada um quando a
+    página do tutorial correspondente precisar dele. Nada de arquivo vazio
+    sobrando.
 
 ## O `settings.py` — sem mágica
 
 O `settings.py` é só um **módulo Python com variáveis de nível de módulo** que o
-Django lê ao iniciar. Nada de formato especial. Veja como tornamos os valores
-sensíveis a ambiente, com padrões amigáveis para desenvolvimento:
+Django lê ao iniciar. Nada de formato especial.
+
+Abra `config/settings.py`. O `startproject` deixou a `SECRET_KEY` fixa no código
+e o `DEBUG = True` cravado. Troque essas linhas para lerem do ambiente, com
+padrões amigáveis para desenvolvimento:
 
 ```python
 import os
@@ -67,6 +119,12 @@ ALLOWED_HOSTS: list[str] = os.environ.get(
 ).split(",")
 ```
 
+!!! note "Aspas simples no arquivo gerado"
+    O `startproject` escreve tudo com aspas simples (`'django.contrib.admin'`).
+    Neste guia padronizamos **aspas duplas** — é só estilo, o Python trata os
+    dois iguais. Se quiser normalizar o arquivo inteiro de uma vez, o
+    [ruff](../sobre/lint.md) faz isso com `ruff format`.
+
 !!! tip "Tipagem em settings"
     Anotar `BASE_DIR: Path`, `DEBUG: bool` etc. não muda o comportamento, mas
     documenta o tipo esperado e ajuda o editor. É o nosso princípio de *tipagem
@@ -79,7 +137,8 @@ ALLOWED_HOSTS: list[str] = os.environ.get(
 
 ### Registrando o app
 
-Para o Django "enxergar" o blog, ele entra em `INSTALLED_APPS`:
+Para o Django "enxergar" o blog, ele entra em `INSTALLED_APPS` — ainda no
+`config/settings.py`, adicione a última linha:
 
 ```python
 INSTALLED_APPS: list[str] = [
@@ -96,8 +155,10 @@ INSTALLED_APPS: list[str] = [
 1. Note o caminho `apps.blog`: é o caminho de importação Python real, porque o
    app vive em `apps/blog/`.
 
-Como o app está em `apps/blog/`, o `apps.py` declara o caminho e um `label`
-curto para as tabelas não ficarem com nome gigante:
+Só isso ainda não basta. O `startapp` gerou `apps/blog/apps.py` com
+`name = "blog"` — que é o caminho **errado**, porque o app não está na raiz.
+Edite o arquivo para declarar o caminho real e um `label` curto, para as tabelas
+não ficarem com nome gigante:
 
 ```python
 from django.apps import AppConfig
@@ -126,6 +187,23 @@ uv run python manage.py <comando>
 Alguns que já vamos usar: `migrate`, `makemigrations`, `runserver`,
 `createsuperuser`, `shell`, `test`.
 
+## Conferindo se ficou de pé
+
+```bash
+uv run python manage.py check
+```
+
+Deve responder `System check identified no issues (0 silenced).`
+
+!!! failure "`ImproperlyConfigured: Cannot import 'blog'`"
+    Mensagem completa:
+    ```text
+    django.core.exceptions.ImproperlyConfigured: Cannot import 'blog'.
+    Check that 'apps.blog.apps.BlogConfig.name' is correct.
+    ```
+    O `name` em `apps/blog/apps.py` ainda está como `"blog"` (o que o `startapp`
+    gerou) em vez de `"apps.blog"`. É exatamente o ajuste da seção anterior.
+
 !!! quote "📖 Na documentação oficial"
     - [Applications](https://docs.djangoproject.com/en/stable/ref/applications/)
 
@@ -137,6 +215,7 @@ Alguns que já vamos usar: `migrate`, `makemigrations`, `runserver`,
   sensíveis a ambiente.
 - Um app só existe para o Django se estiver em `INSTALLED_APPS`.
 - `name` é o caminho de importação; `label` é o apelido curto das tabelas.
+- `manage.py check` é a forma rápida de validar a configuração antes de seguir.
 
 Agora que o esqueleto está de pé, vamos modelar os dados em
 **[Modelos e o ORM](models.md)**.

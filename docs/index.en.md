@@ -16,7 +16,8 @@ with complete, ready-to-run examples — in the style of the
 
     ---
 
-    Set up the environment with `uv` and get the example blog running in minutes.
+    Install `uv` and create **your own Django project from scratch**, command by
+    command, up to the running server.
 
     [:octicons-arrow-right-24: Installation](get-started/installation.md)
 
