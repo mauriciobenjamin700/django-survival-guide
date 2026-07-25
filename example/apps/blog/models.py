@@ -50,6 +50,7 @@ class Author(models.Model):
     website = models.URLField(blank=True)
 
     class Meta:
+        db_table = "blog_author"
         ordering = ["display_name"]
         verbose_name = "Author"
         verbose_name_plural = "Authors"
@@ -74,6 +75,7 @@ class Tag(models.Model):
     slug = models.SlugField(max_length=50, unique=True, blank=True)
 
     class Meta:
+        db_table = "blog_tag"
         ordering = ["name"]
         verbose_name = "Tag"
         verbose_name_plural = "Tags"
@@ -167,6 +169,7 @@ class Post(models.Model):
     objects = PostQuerySet.as_manager()
 
     class Meta:
+        db_table = "blog_post"
         ordering = ["-published_at", "-created_at"]
         indexes = [models.Index(fields=["-published_at"])]
         verbose_name = "Post"
@@ -240,6 +243,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        db_table = "blog_comment"
         ordering = ["-created_at"]
         verbose_name = "Comment"
         verbose_name_plural = "Comments"

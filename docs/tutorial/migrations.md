@@ -10,6 +10,18 @@ do banco, geradas a partir dos seus modelos.
 
     Você edita modelos → o Django gera a migração → você aplica a migração.
 
+!!! danger "Migração é consequência de decisão, não substituto dela"
+    O ciclo acima é fácil demais, e é aí que mora o perigo: dá para ir mudando
+    modelo e gerando migração até o esquema "dar certo", deixando um histórico de
+    `0004_add_field`, `0005_remove_field`, `0006_alter_field` que ninguém entende
+    — e que em produção significa `ALTER TABLE` atrás de `ALTER TABLE` sobre dado
+    de gente real.
+
+    O esquema se decide **antes**, no diagrama: entidades, tipos, unicidade,
+    cardinalidade, nome de cada tabela. Veja
+    **[Antes de tudo: desenhe o banco](models.md#antes-de-tudo-desenhe-o-banco)**.
+    Cada migração deveria ser uma mudança que você **pretendia** fazer.
+
 ## Os dois comandos
 
 ```bash

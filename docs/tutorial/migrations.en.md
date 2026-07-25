@@ -10,6 +10,18 @@ generated from your models.
 
     You edit models → Django generates the migration → you apply the migration.
 
+!!! danger "A migration is the consequence of a decision, not a substitute for one"
+    The cycle above is too easy, and that's where the danger is: you can keep
+    changing models and generating migrations until the schema "works", leaving
+    behind a history of `0004_add_field`, `0005_remove_field`, `0006_alter_field`
+    that nobody understands — and that in production means `ALTER TABLE` after
+    `ALTER TABLE` over real people's data.
+
+    The schema is decided **beforehand**, on the diagram: entities, types,
+    uniqueness, cardinality, every table's name. See
+    **[Before anything: design the database](models.md#before-anything-design-the-database)**.
+    Every migration should be a change you **meant** to make.
+
 ## The two commands
 
 ```bash

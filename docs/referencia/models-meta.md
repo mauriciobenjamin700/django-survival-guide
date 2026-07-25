@@ -24,6 +24,7 @@ class Post(models.Model):
     published_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
+        db_table = "blog_post"
         ordering = ["-published_at"]                 # mais novos primeiro
         verbose_name = "post"                          # nome bonito, singular
         verbose_name_plural = "posts"                  # nome bonito, plural
@@ -51,6 +52,15 @@ class Post(models.Model):
 | `verbose_name_plural` | Nome plural exibido | `"artigos"` |
 | `db_table` | Nome da tabela no banco | `"blog_posts"` |
 | `db_table_comment` | Comentário da tabela no banco | `"Posts do blog"` |
+
+!!! danger "Declare `db_table` em todo modelo"
+    Sem `db_table`, o nome da tabela é **efeito colateral**: `<label do app>_<classe
+    em minúsculas>`. Renomeou a classe, mudou a tabela; mudou o `label` do app,
+    mudaram todas. Declarando, o nome é **decisão** — escrita ao lado do modelo e
+    igual à do diagrama que você fez antes de codar. Uma linha por modelo.
+
+    Explicitar o nome que já era o padrão gera um `AlterModelTable` cujo SQL é
+    `(no-op)`: você ganha o nome explícito sem tocar em dado nenhum.
 
 !!! tip "O `-` no `ordering` significa decrescente"
     `"-published_at"` = do mais novo para o mais velho. Sem o `-`, é crescente.

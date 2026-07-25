@@ -9,6 +9,88 @@ Python objects into SQL — you work with objects, Django writes the SQL.
     tables, validates the data, and gives you an API to query it — without you writing
     SQL by hand.
 
+## Before anything: design the database
+
+Resist the urge to start typing classes. The database schema is the **most
+expensive part of the project to change**: a view you rewrite in an afternoon, a
+template you swap on your own, but a column with production data inside it needs
+a planned migration, a deploy window and a rollback plan.
+
+!!! quote "Think like a child 🧒"
+    Nobody builds a house by laying bricks and then deciding where the bathroom
+    goes. You draw the floor plan first. A model is a floor plan: **draw it, then
+    build.**
+
+Five minutes on a diagram save an afternoon of migrations. For our blog, the plan
+is this:
+
+```mermaid
+erDiagram
+    USER ||--|| BLOG_AUTHOR : "profile (1:1)"
+    BLOG_AUTHOR ||--o{ BLOG_POST : "writes (1:N)"
+    BLOG_POST ||--o{ BLOG_COMMENT : "receives (1:N)"
+    BLOG_POST }o--o{ BLOG_TAG : "labelled with (N:N)"
+
+    BLOG_AUTHOR {
+        bigint id PK
+        bigint user_id FK "unique"
+        varchar display_name
+        text bio
+        varchar website
+    }
+    BLOG_TAG {
+        bigint id PK
+        varchar name "unique"
+        varchar slug "unique"
+    }
+    BLOG_POST {
+        bigint id PK
+        varchar title
+        varchar slug "unique"
+        bigint author_id FK
+        text body
+        varchar status "draft|published"
+        datetime created_at
+        datetime updated_at
+        datetime published_at "null"
+    }
+    BLOG_COMMENT {
+        bigint id PK
+        bigint post_id FK
+        varchar author_name
+        varchar email
+        text body
+        bool is_approved
+        datetime created_at
+    }
+```
+
+Before the first line of code, the diagram already answers:
+
+| Question | In our blog |
+| --- | --- |
+| Which **entities** exist? | author, tag, post, comment |
+| What will each **table** be called? | `blog_author`, `blog_tag`, `blog_post`, `blog_comment` |
+| Which fields, of which **type**? | see the boxes above |
+| What is **required** and what is **unique**? | `slug` unique; `bio` may stay empty |
+| What is the **cardinality** of each relation? | 1:1, 1:N, N:N — the arrows |
+| What gets deleted in **cascade**? | delete the post, its comments go |
+| What will be **queried often**? | listing by `published_at` → index |
+
+Without that drawing, what happens in practice is migration after migration —
+`0004_add_field`, `0005_remove_field`, `0006_alter_field` — each one fixing a
+decision that was never made, only discovered. An unreadable history and, in
+production, real risk.
+
+!!! danger "A migration is not a draft"
+    In development you drop the database and start over. In production you
+    **don't**: every migration runs over real people's data. `ALTER TABLE` on a
+    large table blocks writes; dropping a column throws data away; changing a type
+    can fail halfway. Treat a migration as what it is: **a structural change with
+    data inside**.
+
+Diagram done? Now, to the code.
+
 ## Before writing: a single file
 
 Everything on this page goes into **one file**, the one `startapp` already
@@ -72,6 +154,7 @@ class Tag(models.Model):
     slug = models.SlugField(max_length=50, unique=True, blank=True)
 
     class Meta:
+        db_table = "blog_tag"
         ordering = ["name"]
         verbose_name = "Tag"
         verbose_name_plural = "Tags"
@@ -118,39 +201,65 @@ table**.
     **label on the lid**: it holds no toy at all, it just says what the box is
     called, in what order things come out, and which rules it obeys.
 
-The three we use here, plus the one that names the table:
+The four we declare on every model in this guide:
 
 | Option | What it does | If you don't declare it |
 | --- | --- | --- |
+| `db_table` | **The real table name in the database** | Django invents one: `<app label>_<model>` |
 | `ordering` | Default order of **every** query on the model | rows come back in whatever order the database likes |
 | `verbose_name` | Singular name shown in the admin | Django derives it from the class name |
 | `verbose_name_plural` | Plural name shown in the admin | Django just appends `s` |
-| `db_table` | **The real table name in the database** | `<app label>_<model>` — here, `blog_tag` |
 
-Notice where that `blog_tag` comes from: the `label = "blog"` you set in
-`apps.py` back in **[Registering the app](project-setup.md#registering-the-app)**.
-Without it the app would be called `apps.blog` and the table would come out as
-`apps_blog_tag`.
+!!! danger "Always declare `db_table` — on every model"
+    Without it, your table's name is a **side effect**: it comes from gluing the
+    app's `label` to the lowercased class name. Renamed the class? The table
+    changes. Changed `label` in `apps.py`? Every table changes. The name of the
+    thing holding the company's data ends up depending on a code detail.
 
-Want to name it yourself? Just declare it:
+    With `db_table = "blog_tag"` the name is a **decision**, written next to the
+    model, matching what you drew on the diagram. Rename the class all you want —
+    the table stays put.
+
+    It costs one line per model. It's the difference between "I know what my
+    database is called" and "I let the framework pick".
+
+That's how the blog's four models ended up — the same names that were on the
+diagram:
 
 ```python
     class Meta:
-        db_table = "tags"          # (1)!
+        db_table = "blog_tag"      # (1)!
         ordering = ["name"]
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
 ```
 
-1. The table is now called `tags`, with no app prefix. **We don't do this in our
-   blog** — the default `blog_tag` already says which app the table belongs to,
-   which helps once the database holds dozens of tables from different apps.
+1. We kept the `blog_` prefix on purpose: with dozens of tables from different
+   apps in one database, the prefix says whose table it is. The point isn't
+   *which* name you pick — it's **picking one**.
 
-!!! warning "`ordering` has a cost, and `db_table` has a consequence"
-    - `ordering` joins **every** query on the model as an `ORDER BY`. Order by an
-      indexed field (that's why `Post` has `indexes` on `published_at`), or you
-      pay for sorting on every listing.
-    - Changing `db_table` **after** the table exists produces a migration that
-      **renames** it. Easy in development, delicate in production with data.
-      Decide early.
+!!! info "Spelling out the name that was already the default is a no-op migration"
+    When you declare `db_table` with the same name Django was already using,
+    `makemigrations` produces an `AlterModelTable`, but the SQL comes out empty:
+
+    ```bash
+    uv run python manage.py sqlmigrate blog 0003
+    ```
+
+    ```text
+    -- Rename table for tag to blog_tag
+    --
+    -- (no-op)
+    ```
+
+    So you get the explicit name without touching a single row. Changing
+    `db_table` to a **different** name with the table in production, on the other
+    hand, is a real rename — and that deserves the usual care.
+
+!!! warning "`ordering` joins every query"
+    `ordering` becomes an `ORDER BY` on **every** query for the model. Order by an
+    indexed field (that's why `Post` has `indexes` on `published_at`), or you pay
+    for sorting on every listing.
 
 !!! info "Every `Meta` change asks for a migration"
     `ordering` and `verbose_name` touch no column, but Django keeps that metadata
@@ -216,6 +325,7 @@ class Author(models.Model):
     website = models.URLField(blank=True)
 
     class Meta:
+        db_table = "blog_author"
         ordering = ["display_name"]
         verbose_name = "Author"
         verbose_name_plural = "Authors"
@@ -294,6 +404,7 @@ class Post(models.Model):
     published_at = models.DateTimeField(null=True, blank=True)
 
     class Meta:
+        db_table = "blog_post"
         ordering = ["-published_at", "-created_at"]
         indexes = [models.Index(fields=["-published_at"])]
         verbose_name = "Post"
@@ -425,6 +536,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        db_table = "blog_comment"
         ordering = ["-created_at"]
         verbose_name = "Comment"
         verbose_name_plural = "Comments"
@@ -486,10 +598,12 @@ forgotten `on_delete` or a misconfigured field shows up right here.
 - A **model** is a class that becomes a table; attributes become columns.
 - Document every model with an `Attributes:` docstring in the
   `name (type): purpose` format, reverse accessors included.
-- `class Meta` configures the **table**, not a field: `ordering`,
-  `verbose_name`/`verbose_name_plural` and `db_table` (which defaults to
-  `<app label>_<model>`, i.e. `blog_tag`). Every change to it generates a
-  migration.
+- **Design the database before coding.** The diagram settles entities, types,
+  uniqueness, cardinality and every table's name — and spares you the
+  `0004_add`, `0005_remove`, `0006_alter` sequence fixing decisions never made.
+- `class Meta` configures the **table**, not a field. **Declare `db_table` on
+  every model**: without it the table name is a side effect of the app `label`
+  plus the class name. Every `Meta` change generates a migration.
 - Relationships: `OneToOneField`, `ForeignKey`, `ManyToManyField` — always with
   `on_delete` on the FKs.
 - `related_name` creates the reverse accessor (`author.posts`).
