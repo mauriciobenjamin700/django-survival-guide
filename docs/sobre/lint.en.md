@@ -110,12 +110,15 @@ exactly `Makefile` — capital `M`, **no extension** (not `Makefile.txt`):
 my-project/
 ├── Makefile          # ← create this file
 ├── pyproject.toml
-└── example/
-    └── manage.py
+├── manage.py
+├── config/           # settings.py, urls.py, wsgi.py
+└── apps/
+    └── blog/
 ```
 
 `make` looks for the `Makefile` in the folder you're standing in — that's why
-`make ...` commands only work from the **project root**.
+`make ...` commands only work from the **project root** (the folder with
+`manage.py`).
 
 ### 2. Paste this content
 
@@ -137,7 +140,7 @@ fix:  ## Apply every ruff autofix + format
 	uv run ruff format .
 
 type:  ## Type checking (mypy + django-stubs)
-	uv run mypy example
+	uv run mypy apps config
 
 test:  ## Run the test suite
 	uv run pytest -q
@@ -149,6 +152,30 @@ Reading that out loud: each `name:` is a **recipe** (called a *target*), and the
 indented lines under it are the commands it runs. `check: lint type test` has no
 commands of its own — it just says "run those three recipes, in that order". The
 `## text` after the colon is the description `make help` prints.
+
+!!! warning "Adjust the paths for **your** project"
+    Ruff (`lint`, `format`, `fix`) gets `.` — the current folder — so it works in
+    any project unchanged. **mypy is different**: you tell it which folders to
+    check. Above it's `apps config`, the layout this guide teaches:
+
+    | What you have | What to pass to mypy |
+    | --- | --- |
+    | `apps/` + `config/` at the root (this guide) | `uv run mypy apps config` |
+    | everything at the root, no `apps/` | `uv run mypy .` |
+    | a single app, e.g. `blog/` + `config/` | `uv run mypy blog config` |
+    | project inside a subfolder, e.g. `src/` | `uv run mypy src` |
+
+    Passing `.` works too and also covers `manage.py` — mypy skips `.venv` on its
+    own. Migrations are left out by `exclude` (next section). If the command
+    complains about a module it can't find, the problem is `mypy_path`, not the
+    folder list.
+
+!!! note "This repository uses different paths"
+    The guide keeps its example project inside `example/`, so the
+    [repo's `Makefile`](https://github.com/mauriciobenjamin700/django-survival-guide/blob/main/Makefile)
+    uses `uv run mypy example` and the Django commands run with `cd example`. In
+    **your** project `manage.py` sits at the root — don't copy the `example/`
+    wrapper.
 
 !!! danger "`Makefile` indentation is TAB, not spaces"
     This is the classic trap: command lines **must** start with a real **TAB**
@@ -199,7 +226,7 @@ And the gates that **check without changing** (for CI and pre-commit):
 | `make lint` | `ruff check .` — reports problems |
 | `make format` | `ruff format .` — formats |
 | `make fix` | autofix + format (the "repair") |
-| `make type` | `mypy example` — checks types |
+| `make type` | `mypy apps config` — checks types |
 | `make check` | lint + type + test (all gates) |
 
 ### I don't have `make` (or I'm on Windows)
@@ -236,7 +263,7 @@ only shortens them. The direct equivalents:
 | `make lint` | `uv run ruff check .` |
 | `make format` | `uv run ruff format .` |
 | `make fix` | `uv run ruff check --fix . && uv run ruff format .` |
-| `make type` | `uv run mypy example` |
+| `make type` | `uv run mypy apps config` |
 | `make test` | `uv run pytest -q` |
 | `make check` | the three above, in sequence |
 
@@ -257,17 +284,40 @@ And, again, at the end of `pyproject.toml`:
 [tool.mypy]
 python_version = "3.13"
 plugins = ["mypy_django_plugin.main", "mypy_drf_plugin.main"]
-mypy_path = "example"
+mypy_path = "."                                   # (1)!
 check_untyped_defs = true
+exclude = ['migrations/']
 
 [tool.django-stubs]
-django_settings_module = "config.settings"
+django_settings_module = "config.settings"        # (2)!
 ```
+
+1. **Where mypy looks for your modules.** Use the folder that contains
+   `manage.py` — in this guide's layout, the root itself (`"."`). If your project
+   lives in a subfolder (`src/`, `backend/`, or this repo's `example/`), point at
+   it: `mypy_path = "src"`. Getting this wrong gives you `Cannot find
+   implementation or library stub for module named "apps.blog"`.
+2. **Your settings' import path** — exactly what's in
+   `manage.py`/`DJANGO_SETTINGS_MODULE`. With `config/settings.py` it's
+   `"config.settings"`; if you split by environment (`config/settings/dev.py`),
+   it's `"config.settings.dev"`. The plugin **imports** that module to read your
+   models — wrong settings means mypy won't run at all.
 
 !!! warning "mypy with Django needs the plugin + stubs"
     Without `django-stubs` and the plugin, mypy complains about things that **are**
     correct in Django (e.g. `objects`, field types). The plugin teaches mypy to
-    "read" Django. Migrations and tests are left out (`ignore_errors`).
+    "read" Django. Migrations are left out via `exclude` — they're generated, no
+    point checking them.
+
+!!! tip "Check before moving on"
+    ```bash
+    make type        # or: uv run mypy apps config
+    ```
+
+    Type errors in your own code are expected — that's the point. What should
+    **not** show up is `Cannot find implementation`, `django_settings_module is not
+    set` or `ImproperlyConfigured` — those three mean the two settings above are
+    wrong, not your code.
 
 ## The conventions the linter enforces
 
@@ -296,7 +346,10 @@ Beyond the automatic rules, we follow conventions that let the code breathe:
   shortcuts, indented with **TAB**. Without `make`, run the `uv run ...` commands
   directly.
 - The ritual is `make fix` (repairs) and `make check` (lint + types + tests).
-- **mypy + django-stubs** verify the types Ruff requires.
+- **mypy + django-stubs** verify the types Ruff requires — and here the paths are
+  **yours**: which folders to check (`mypy apps config`), `mypy_path` pointing at
+  the folder holding `manage.py`, and `django_settings_module` set to your
+  settings' import path.
 - Conventions: double quotes, type everything, docstrings, absolute imports, no
   inline comments.
 

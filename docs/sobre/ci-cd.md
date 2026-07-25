@@ -137,7 +137,6 @@ jobs:
         run: uv sync --group dev
 
       - name: Run migrations check
-        working-directory: example
         run: uv run python manage.py makemigrations --check --dry-run
 
       - name: Run tests
@@ -150,7 +149,9 @@ jobs:
       dependências (a `astral-sh/setup-uv@v5` guarda o cache do uv entre runs).
     - `uv sync --group dev` instala o grupo de desenvolvimento.
     - `makemigrations --check --dry-run` **falha** se existe mudança de model sem
-      migração criada — pega o esquecimento clássico.
+      migração criada — pega o esquecimento clássico. Roda na raiz, onde está o
+      `manage.py`; se o seu projeto Django fica numa subpasta, acrescente
+      `working-directory: <pasta>` nesse step.
     - `pytest -q` roda a suíte.
 
 #### Adicionando lint, tipos e a matriz
@@ -181,7 +182,7 @@ jobs:
           uv run ruff check .
           uv run ruff format --check .
       - name: mypy
-        run: uv run mypy example
+        run: uv run mypy apps config        # (1)!
 
   test:
     runs-on: ubuntu-latest
@@ -200,11 +201,18 @@ jobs:
           uv sync --group dev
           uv pip install "django~=${{ matrix.django-version }}.0"
       - name: Migrations check
-        working-directory: example
-        run: uv run python manage.py makemigrations --check --dry-run
+        run: uv run python manage.py makemigrations --check --dry-run   # (2)!
       - name: Tests
         run: uv run pytest -q
 ```
+
+1. **Troque pelas pastas do seu projeto.** O mypy recebe *quais* pastas checar —
+   `apps config` é o layout deste guia (`apps/` + `config/` na raiz). Sem `apps/`,
+   use `.`; com o projeto numa subpasta, use o nome dela.
+2. Isso pressupõe o `manage.py` na **raiz** do repositório. Se o seu projeto Django
+   fica numa subpasta, adicione `working-directory: <pasta>` no step — é o que o
+   [`ci.yml` deste repo](https://github.com/mauriciobenjamin700/django-survival-guide/blob/main/.github/workflows/ci.yml)
+   faz com `example`.
 
 !!! tip "`fail-fast: false` mostra o quadro todo"
     Por padrão, se uma célula da matriz falha, o GitHub cancela as outras.

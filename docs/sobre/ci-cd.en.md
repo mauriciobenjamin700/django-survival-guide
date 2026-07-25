@@ -140,7 +140,6 @@ jobs:
         run: uv sync --group dev
 
       - name: Run migrations check
-        working-directory: example
         run: uv run python manage.py makemigrations --check --dry-run
 
       - name: Run tests
@@ -153,7 +152,9 @@ jobs:
       the dependencies (`astral-sh/setup-uv@v5` keeps the uv cache between runs).
     - `uv sync --group dev` installs the development group.
     - `makemigrations --check --dry-run` **fails** if there's a model change
-      without a migration — it catches the classic slip.
+      without a migration — it catches the classic slip. It runs at the root, where
+      `manage.py` lives; if your Django project sits in a subfolder, add
+      `working-directory: <folder>` to that step.
     - `pytest -q` runs the suite.
 
 #### Adding lint, types and the matrix
@@ -184,7 +185,7 @@ jobs:
           uv run ruff check .
           uv run ruff format --check .
       - name: mypy
-        run: uv run mypy example
+        run: uv run mypy apps config        # (1)!
 
   test:
     runs-on: ubuntu-latest
@@ -203,11 +204,18 @@ jobs:
           uv sync --group dev
           uv pip install "django~=${{ matrix.django-version }}.0"
       - name: Migrations check
-        working-directory: example
-        run: uv run python manage.py makemigrations --check --dry-run
+        run: uv run python manage.py makemigrations --check --dry-run   # (2)!
       - name: Tests
         run: uv run pytest -q
 ```
+
+1. **Swap in your project's folders.** mypy takes *which* folders to check —
+   `apps config` is this guide's layout (`apps/` + `config/` at the root). Without
+   `apps/`, use `.`; with the project in a subfolder, use that folder's name.
+2. This assumes `manage.py` at the **repository root**. If your Django project
+   lives in a subfolder, add `working-directory: <folder>` to the step — that's
+   what [this repo's `ci.yml`](https://github.com/mauriciobenjamin700/django-survival-guide/blob/main/.github/workflows/ci.yml)
+   does with `example`.
 
 !!! tip "`fail-fast: false` shows the whole picture"
     By default, if one matrix cell fails, GitHub cancels the others.
