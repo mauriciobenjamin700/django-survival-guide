@@ -20,8 +20,17 @@ tools (flake8 + isort + black + pyupgrade): **linting**, **import sorting** and
 uv add --group dev ruff
 ```
 
+That command installs Ruff and records it in the `dev` group of your
+`pyproject.toml`. Installed, it still doesn't know **which** rules you want —
+that comes from the configuration.
+
+### Where the configuration goes
+
+Open the `pyproject.toml` at the **project root** (same folder as the `Makefile`,
+one level above `example/`) and **paste the blocks below at the end of the file**:
+
 ```toml
-# pyproject.toml
+# pyproject.toml  ← paste this at the end of the file
 [tool.ruff]
 line-length = 88
 target-version = "py313"
@@ -38,6 +47,13 @@ indent-style = "space"
 
 1. **Migrations are generated** by Django — no point linting them. Always exclude.
 2. Double quotes everywhere, no debate.
+
+!!! info "`pyproject.toml` is the project's control panel"
+    Each `[some.thing]` block is a **section** of that panel: `[tool.ruff]`
+    configures Ruff, `[tool.mypy]` configures mypy, `[project]` describes your
+    package. Section order doesn't matter — but **don't repeat** a section that
+    already exists: if the file already has a `[tool.ruff]`, edit that one instead
+    of pasting a second.
 
 ### What each rule group catches
 
@@ -62,12 +78,110 @@ indent-style = "space"
 
 ### Per-file ignores (with judgment)
 
+Still in `pyproject.toml`, right below the `[tool.ruff.lint]` block you pasted:
+
 ```toml
+# pyproject.toml
 [tool.ruff.lint.per-file-ignores]
 "**/tests/*" = ["S101", "ANN"]        # asserts and free typing in tests
 "**/__init__.py" = ["F401"]           # re-exports aren't "unused imports"
 "**/settings.py" = ["E501"]           # some config lines are long
 ```
+
+## Before the ritual: the `Makefile`
+
+From here on you'll see commands like `make fix` and `make check`. They **don't
+come** from Python, `uv` or Ruff — they come from a file called `Makefile` that
+**you write yourself** at the project root. It's just a list of named shortcuts:
+`make fix` means "run whatever is written in the `fix` recipe".
+
+!!! quote "Think like a child 🧒"
+    The `Makefile` is the **note stuck on the fridge door**. Instead of recalling
+    the whole recipe every time ("mix, beat, bake 40 min"), you write it once and
+    give it a name: *cake*. Then you just shout the name. `make fix` is shouting
+    the recipe's name — the computer remembers the steps.
+
+### 1. Create the file
+
+At the **project root** (same folder as `pyproject.toml`), create a file named
+exactly `Makefile` — capital `M`, **no extension** (not `Makefile.txt`):
+
+```text
+my-project/
+├── Makefile          # ← create this file
+├── pyproject.toml
+└── example/
+    └── manage.py
+```
+
+`make` looks for the `Makefile` in the folder you're standing in — that's why
+`make ...` commands only work from the **project root**.
+
+### 2. Paste this content
+
+```make
+.PHONY: help lint format fix type test check
+
+help:  ## List the available commands
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
+		awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
+
+lint:  ## Check lint (ruff), without changing anything
+	uv run ruff check .
+
+format:  ## Format the code (ruff format)
+	uv run ruff format .
+
+fix:  ## Apply every ruff autofix + format
+	uv run ruff check --fix .
+	uv run ruff format .
+
+type:  ## Type checking (mypy + django-stubs)
+	uv run mypy example
+
+test:  ## Run the test suite
+	uv run pytest -q
+
+check: lint type test  ## Run all gates (lint + types + tests)
+```
+
+Reading that out loud: each `name:` is a **recipe** (called a *target*), and the
+indented lines under it are the commands it runs. `check: lint type test` has no
+commands of its own — it just says "run those three recipes, in that order". The
+`## text` after the colon is the description `make help` prints.
+
+!!! danger "`Makefile` indentation is TAB, not spaces"
+    This is the classic trap: command lines **must** start with a real **TAB**
+    character. If your editor converts TAB into spaces, `make` fails with:
+
+    ```text
+    Makefile:5: *** missing separator.  Stop.
+    ```
+
+    In VS Code, open the `Makefile` and click **Spaces: 4** in the bottom bar →
+    **Indent Using Tabs**. Copying the block above from here already brings the
+    TAB along — but double-check if you hit the error.
+
+### 3. Try it
+
+```bash
+make help
+```
+
+It should list the commands with their descriptions. From then on the shortcuts
+work:
+
+```bash
+make fix        # = ruff check --fix .  &&  ruff format .
+```
+
+!!! tip "The `Makefile` grows with the project"
+    This is the minimum for lint and types. This guide's own `Makefile` also has
+    `make install`, `make run`, `make migrate`, `make seed`, `make docs-serve` —
+    look at the [`Makefile` at the repository
+    root](https://github.com/mauriciobenjamin700/django-survival-guide/blob/main/Makefile)
+    to copy the full set. The rule: **any command you type twice deserves a
+    recipe**.
 
 ## The ritual: `make fix`
 
@@ -75,7 +189,7 @@ One command fixes everything fixable (imports, quotes, whitespace, dead code) an
 formats:
 
 ```bash
-make fix        # = ruff check --fix .  &&  ruff format .
+make fix
 ```
 
 And the gates that **check without changing** (for CI and pre-commit):
@@ -88,6 +202,44 @@ And the gates that **check without changing** (for CI and pre-commit):
 | `make type` | `mypy example` — checks types |
 | `make check` | lint + type + test (all gates) |
 
+### I don't have `make` (or I'm on Windows)
+
+`make` ships with macOS (via the *Command Line Tools*) and most Linux distros. If
+`make help` answers `command not found`:
+
+=== "Linux (Debian/Ubuntu)"
+
+    ```bash
+    sudo apt install make
+    ```
+
+=== "macOS"
+
+    ```bash
+    xcode-select --install
+    ```
+
+=== "Windows"
+
+    Use **WSL** (recommended — it's this guide's environment) or install via
+    [Chocolatey](https://chocolatey.org/):
+
+    ```powershell
+    choco install make
+    ```
+
+And if you'd rather install nothing, **no command here depends on `make`** — it
+only shortens them. The direct equivalents:
+
+| Shortcut | Real command |
+| --- | --- |
+| `make lint` | `uv run ruff check .` |
+| `make format` | `uv run ruff format .` |
+| `make fix` | `uv run ruff check --fix . && uv run ruff format .` |
+| `make type` | `uv run mypy example` |
+| `make test` | `uv run pytest -q` |
+| `make check` | the three above, in sequence |
+
 ## Types: mypy + django-stubs
 
 Ruff **requires** annotations; [mypy](https://mypy.readthedocs.io/) **verifies**
@@ -97,6 +249,8 @@ they hold up. For mypy to understand Django (managers, fields, `settings`), we u
 ```bash
 uv add --group dev mypy django-stubs djangorestframework-stubs
 ```
+
+And, again, at the end of `pyproject.toml`:
 
 ```toml
 # pyproject.toml
@@ -134,9 +288,13 @@ Beyond the automatic rules, we follow conventions that let the code breathe:
 ## Recap
 
 - A linter keeps code consistent and readable without manual bikeshedding.
-- **Ruff** does lint + imports + formatting in one (fast); config with a broad
+- **Ruff** does lint + imports + formatting in one (fast); the config goes into
+  `[tool.ruff...]` blocks pasted at the end of **`pyproject.toml`**, with a broad
   `select` (including `ANN` for typing) and judicious `ignore`/`per-file-ignores`;
   **exclude migrations**.
+- The `make ...` commands come from a **`Makefile`** you create at the root — named
+  shortcuts, indented with **TAB**. Without `make`, run the `uv run ...` commands
+  directly.
 - The ritual is `make fix` (repairs) and `make check` (lint + types + tests).
 - **mypy + django-stubs** verify the types Ruff requires.
 - Conventions: double quotes, type everything, docstrings, absolute imports, no
