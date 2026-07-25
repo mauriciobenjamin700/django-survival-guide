@@ -296,7 +296,6 @@ linhas em uma só** — uma lista ou um texto juntado.
 from django.contrib.postgres.aggregates import ArrayAgg, StringAgg
 from django.db.models import F
 
-
 authors = Author.objects.annotate(
     post_titles=ArrayAgg("posts__title", default=[]),
     tag_line=StringAgg(

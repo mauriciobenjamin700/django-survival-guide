@@ -62,6 +62,7 @@ Você descreve cada tipo de conteúdo numa classe `Sitemap` e liga na URLconf.
 
 ```python
 from django.contrib.sitemaps import Sitemap
+
 from apps.blog.models import Post
 
 

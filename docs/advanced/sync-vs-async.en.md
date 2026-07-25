@@ -85,7 +85,7 @@ Think like a child: `sync_to_async` is the **translator** that lets the async wa
 talk to the synchronous kitchen, and `async_to_sync` does the reverse.
 
 ```python
-from asgiref.sync import sync_to_async, async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
 
 # call SYNCHRONOUS code from inside an async view
 resultado = await sync_to_async(funcao_sync_que_usa_orm)()

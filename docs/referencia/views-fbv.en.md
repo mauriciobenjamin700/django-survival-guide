@@ -17,8 +17,8 @@ everything:
 
 ```python
 # apps/blog/views.py
-from django.shortcuts import get_object_or_404, render
 from django.http import HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, render
 
 from apps.blog.models import Post
 

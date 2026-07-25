@@ -311,8 +311,8 @@ def notify_author(post_id: int) -> None:
 Do lado da leitura, **cache** o que é caro e muda pouco (a home, contagens).
 
 ```python
-from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
 @method_decorator(cache_page(60 * 5), name="dispatch")

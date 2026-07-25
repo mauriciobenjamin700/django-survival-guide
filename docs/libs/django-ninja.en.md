@@ -252,7 +252,6 @@ asynchronously. Use the ORM's `a...` variants (`aget`, `acreate`, `async for`):
 ```python
 # apps/blog/api.py
 from asgiref.sync import sync_to_async
-
 from ninja import NinjaAPI, Schema
 
 from apps.blog.models import Post

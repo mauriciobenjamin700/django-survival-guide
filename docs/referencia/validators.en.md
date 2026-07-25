@@ -45,6 +45,7 @@ class Review(models.Model):
 ```python
 from django.core.validators import FileExtensionValidator
 
+
 class Document(models.Model):
     file = models.FileField(
         validators=[FileExtensionValidator(["pdf", "docx"])],

@@ -37,7 +37,7 @@ Pensa como criança: uma fila de perguntas "se... então...", com um "senão" no
 final.
 
 ```python
-from django.db.models import Case, When, Value, IntegerField
+from django.db.models import Case, IntegerField, Value, When
 
 Post.objects.annotate(
     priority=Case(
@@ -106,7 +106,7 @@ Post.objects.annotate(comentado=Exists(tem_comentario)).filter(comentado=True)
 
 ```python
 from django.db.models import Value
-from django.db.models.functions import Coalesce, Concat, Lower, Length, TruncMonth
+from django.db.models.functions import Coalesce, Concat, Length, Lower, TruncMonth
 
 # junta nome + sobrenome no banco
 Author.objects.annotate(full=Concat("first_name", Value(" "), "last_name"))
@@ -147,7 +147,7 @@ montinho — cada bolinha continua ali, só ganha um número.
 
 ```python
 from django.db.models import F, Window
-from django.db.models.functions import RowNumber, Rank
+from django.db.models.functions import Rank, RowNumber
 
 Post.objects.annotate(
     posicao=Window(

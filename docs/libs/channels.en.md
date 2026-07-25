@@ -55,14 +55,15 @@ CHANNEL_LAYERS = {            # (2)!
 ```python
 # config/asgi.py
 import os
-from channels.routing import ProtocolTypeRouter, URLRouter
+
 from channels.auth import AuthMiddlewareStack
+from channels.routing import ProtocolTypeRouter, URLRouter
 from django.core.asgi import get_asgi_application
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 django_asgi = get_asgi_application()
 
-from apps.chat.routing import websocket_urlpatterns   # noqa: E402
+from apps.chat.routing import websocket_urlpatterns  # noqa: E402
 
 application = ProtocolTypeRouter({
     "http": django_asgi,                                  # (1)!
@@ -83,6 +84,7 @@ it receives what you say and decides what to reply or pass along.
 ```python
 # apps/chat/consumers.py
 import json
+
 from channels.generic.websocket import AsyncWebsocketConsumer
 
 
@@ -119,6 +121,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
 ```python
 # apps/chat/routing.py
 from django.urls import path
+
 from apps.chat.consumers import ChatConsumer
 
 websocket_urlpatterns = [

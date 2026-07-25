@@ -311,8 +311,8 @@ On the read side, **cache** what's expensive and rarely changes (the home page,
 counts).
 
 ```python
-from django.views.decorators.cache import cache_page
 from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
 @method_decorator(cache_page(60 * 5), name="dispatch")

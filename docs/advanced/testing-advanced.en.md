@@ -28,7 +28,6 @@ step.
 
 ```python
 import pytest
-
 from model_bakery import baker
 
 from apps.blog.models import Post
@@ -66,7 +65,6 @@ Think like a child: `model_bakery` is the Lego that comes pre-assembled;
 
 ```python
 import pytest
-
 from model_bakery import baker
 
 from apps.blog.models import Post
@@ -167,9 +165,9 @@ Any test that compares against "now" is a time bomb. `freezegun` stops the clock
 at the instant you choose.
 
 ```python
-import pytest
 from datetime import datetime, timezone
 
+import pytest
 from freezegun import freeze_time
 
 from apps.blog.models import Post
@@ -213,8 +211,8 @@ the HTTP client.
 
 ```python
 import pytest
-import responses
 import requests
+import responses
 
 
 @responses.activate
@@ -273,7 +271,6 @@ tests/
 
 ```python
 import pytest
-
 from model_bakery import baker
 
 from apps.blog.models import Author, Post
@@ -323,7 +320,6 @@ Instead of copying the same test with different values, list the cases:
 
 ```python
 import pytest
-
 from django.utils.text import slugify
 
 
@@ -384,9 +380,8 @@ understands token authentication, the JSON format and the REST methods.
 
 ```python
 import pytest
-
-from rest_framework.test import APIClient
 from rest_framework import status
+from rest_framework.test import APIClient
 
 from apps.blog.models import Post
 
@@ -417,7 +412,6 @@ def test_create_requires_auth(api: APIClient) -> None:
 
 ```python
 import pytest
-
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
@@ -483,7 +477,6 @@ entirely in memory.
 
 ```python
 import pytest
-
 from channels.testing import WebsocketCommunicator
 
 from config.asgi import application

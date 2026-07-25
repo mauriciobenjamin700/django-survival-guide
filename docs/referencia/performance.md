@@ -85,6 +85,7 @@ Quando você quer **filtrar** ou **ordenar** o que é pré-carregado, use o obje
 
 ```python
 from django.db.models import Prefetch
+
 from blog.models import Author, Comment, Post
 
 # carregue cada autor com APENAS os posts publicados dele
@@ -228,7 +229,7 @@ Pensa como criança: guardar 100 brinquedos um por um dá 100 idas até a caixa.
 Guardar todos de uma vez é uma ida só.
 
 ```python
-from blog.models import Tag, Post
+from blog.models import Post, Tag
 
 # ✅ um INSERT para muitos objetos
 Tag.objects.bulk_create([
@@ -319,7 +320,7 @@ vezes vem com um índice de brinde.
 
 ```python
 from django.db import models
-from django.db.models import Q, F
+from django.db.models import F, Q
 
 
 class Post(models.Model):
@@ -351,6 +352,7 @@ punhado por vez.
 
 ```python
 from django.core.paginator import Paginator
+
 from blog.models import Post
 
 posts = Post.objects.filter(status="published").order_by("-created_at")
@@ -380,8 +382,8 @@ tem três granularidades. (Página dedicada: **[cache](cache.md)**.)
 | Baixo nível | Qualquer valor no seu código | `cache.get` / `cache.set` |
 
 ```python
-from django.views.decorators.cache import cache_page
 from django.http import HttpRequest, HttpResponse
+from django.views.decorators.cache import cache_page
 
 
 @cache_page(60 * 5)
@@ -399,6 +401,7 @@ def lista_posts(request: HttpRequest) -> HttpResponse:
 
 ```python
 from django.core.cache import cache
+
 from blog.models import Post
 
 
@@ -441,6 +444,7 @@ Pensa como criança: não adianta arrumar o brinquedo que **você acha** que que
 
 ```python
 from django.test import TestCase
+
 from blog.models import Post
 
 

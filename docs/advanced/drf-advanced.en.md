@@ -246,8 +246,8 @@ The rate format is `number/period`, where `period` is `second`, `minute`,
 `hour` or `day`. For a dedicated limit on a specific endpoint, use the scope:
 
 ```python
-from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import viewsets
+from rest_framework.throttling import ScopedRateThrottle
 
 
 class SearchViewSet(viewsets.ReadOnlyModelViewSet):

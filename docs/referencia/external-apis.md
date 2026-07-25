@@ -45,8 +45,8 @@ def get_temperature(city: str) -> float | None:
 E a view apenas chama o serviço:
 
 ```python
-from django.shortcuts import render
 from django.http import HttpRequest, HttpResponse
+from django.shortcuts import render
 
 from .services import get_temperature
 

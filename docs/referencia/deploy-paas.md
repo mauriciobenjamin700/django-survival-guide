@@ -289,7 +289,7 @@ A plataforma faz um GET periódico numa rota para saber se o app está vivo. Uma
 view mínima:
 
 ```python
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.urls import path
 
 

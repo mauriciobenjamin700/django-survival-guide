@@ -27,7 +27,6 @@ sai da sua máquina (APIs externas, filas, WebSockets). Vamos por partes.
 
 ```python
 import pytest
-
 from model_bakery import baker
 
 from apps.blog.models import Post
@@ -65,7 +64,6 @@ kit em que você escolhe cada peça.
 
 ```python
 import pytest
-
 from model_bakery import baker
 
 from apps.blog.models import Post
@@ -166,9 +164,9 @@ Qualquer teste que compara com "agora" é uma bomba-relógio. `freezegun` para o
 relógio no instante que você escolher.
 
 ```python
-import pytest
 from datetime import datetime, timezone
 
+import pytest
 from freezegun import freeze_time
 
 from apps.blog.models import Post
@@ -212,8 +210,8 @@ cliente HTTP.
 
 ```python
 import pytest
-import responses
 import requests
+import responses
 
 
 @responses.activate
@@ -272,7 +270,6 @@ tests/
 
 ```python
 import pytest
-
 from model_bakery import baker
 
 from apps.blog.models import Author, Post
@@ -322,7 +319,6 @@ Em vez de copiar o mesmo teste com valores diferentes, liste os casos:
 
 ```python
 import pytest
-
 from django.utils.text import slugify
 
 
@@ -383,9 +379,8 @@ entende autenticação por token, formato JSON e os métodos REST.
 
 ```python
 import pytest
-
-from rest_framework.test import APIClient
 from rest_framework import status
+from rest_framework.test import APIClient
 
 from apps.blog.models import Post
 
@@ -416,7 +411,6 @@ def test_create_requires_auth(api: APIClient) -> None:
 
 ```python
 import pytest
-
 from django.contrib.auth import get_user_model
 from rest_framework.test import APIClient
 
@@ -482,7 +476,6 @@ inteiramente em memória.
 
 ```python
 import pytest
-
 from channels.testing import WebsocketCommunicator
 
 from config.asgi import application

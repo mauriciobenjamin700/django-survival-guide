@@ -280,9 +280,9 @@ INSTALLED_APPS = ["import_export", ...]
 ```
 
 ```python
+from django.contrib import admin
 from import_export import resources
 from import_export.admin import ImportExportModelAdmin
-from django.contrib import admin
 
 from blog.models import Post
 

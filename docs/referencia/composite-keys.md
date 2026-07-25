@@ -121,7 +121,6 @@ normalmente:
 
 ```python
 from django import forms
-
 from myapp.models import Enrollment
 
 
@@ -145,7 +144,6 @@ e os links de edição precisam de algo estável para montar a URL de cada linha
 
 ```python
 from django.contrib import admin
-
 from myapp.models import Enrollment
 
 

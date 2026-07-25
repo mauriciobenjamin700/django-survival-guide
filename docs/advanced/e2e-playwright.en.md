@@ -123,11 +123,11 @@ Playwright recommends locating elements the way a **user** sees them (text,
 label, accessible role), not by internal CSS that changes easily.
 
 ```python
+from django.contrib.auth import get_user_model
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from playwright.sync_api import expect, sync_playwright
 
 from apps.blog.models import Author, Post
-from django.contrib.auth import get_user_model
 
 
 class CommentE2ETest(StaticLiveServerTestCase):
@@ -305,10 +305,10 @@ Together they are quite lean:
 
 ```python
 import pytest
+from django.contrib.auth import get_user_model
 from playwright.sync_api import Page, expect
 
 from apps.blog.models import Author, Post
-from django.contrib.auth import get_user_model
 
 
 @pytest.fixture

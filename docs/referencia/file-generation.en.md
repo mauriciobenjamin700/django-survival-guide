@@ -269,8 +269,8 @@ sequenceDiagram
 from celery import shared_task
 from django.core.files.base import ContentFile
 from django.core.files.storage import storages
-from weasyprint import HTML
 from django.template.loader import render_to_string
+from weasyprint import HTML
 
 from blog.models import Post
 

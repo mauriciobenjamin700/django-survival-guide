@@ -37,9 +37,9 @@ automaticamente.
 
 ```python
 import pytest
+from django.contrib.auth import get_user_model
 
 from apps.blog.models import Author, Post
-from django.contrib.auth import get_user_model
 
 
 @pytest.fixture

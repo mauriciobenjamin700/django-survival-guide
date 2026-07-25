@@ -52,6 +52,7 @@ uv add django-environ
 ```
 ```python
 import environ
+
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env(BASE_DIR / ".env")
 
@@ -72,6 +73,7 @@ uv add djangorestframework-simplejwt
 ```python
 # urls.py
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+
 path("api/token/", TokenObtainPairView.as_view()),
 path("api/token/refresh/", TokenRefreshView.as_view()),
 ```

@@ -86,7 +86,7 @@ class BlogConfig(AppConfig):
 
     def ready(self) -> None:
         """Import signal receivers so they get connected at startup."""
-        from apps.blog import signals   # noqa: F401
+        from apps.blog import signals  # noqa: F401
 ```
 
 !!! danger "Forgot `ready()`? The signal never rings"

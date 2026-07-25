@@ -71,6 +71,7 @@ doc oficial — aqui, um de cada vez.
 ```python
 from django.utils import timezone
 
+
 class Post(models.Model):
     created_at = models.DateTimeField(default=timezone.now)  # (1)!
     views = models.IntegerField(default=0)
@@ -117,6 +118,7 @@ class Post(models.Model):
 
 ```python
 import uuid
+
 
 class Article(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)

@@ -291,7 +291,7 @@ The platform makes a periodic GET to a route to know if the app is alive. A
 minimal view:
 
 ```python
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpRequest, HttpResponse
 from django.urls import path
 
 

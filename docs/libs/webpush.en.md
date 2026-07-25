@@ -107,8 +107,9 @@ self.addEventListener("push", (event) => {
 ```python
 # apps/push/services.py
 import json
-from pywebpush import webpush, WebPushException
+
 from django.conf import settings
+from pywebpush import WebPushException, webpush
 
 from apps.push.models import PushSubscription
 

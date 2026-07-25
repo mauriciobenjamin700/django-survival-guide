@@ -405,10 +405,9 @@ ecosystem is **django-waffle**.
 # settings.py -> INSTALLED_APPS += ["waffle"]
 # MIDDLEWARE += ["waffle.middleware.WaffleMiddleware"]
 
+import waffle
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
-
-import waffle
 
 
 def feed(request: HttpRequest) -> HttpResponse:

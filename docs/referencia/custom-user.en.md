@@ -229,10 +229,9 @@ If you used `AbstractUser`, you can register it in the admin by reusing Django's
 `UserAdmin`:
 
 ```python
+from accounts.models import User
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-
-from accounts.models import User
 
 admin.site.register(User, UserAdmin)
 ```
@@ -241,11 +240,10 @@ With Approach 2 (email login), the default `UserAdmin` references `username` and
 will break. You need your own admin, with forms that use `email`:
 
 ```python
+from accounts.models import User
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth.forms import UserChangeForm, UserCreationForm
-
-from accounts.models import User
 
 
 class UserCreationForm(UserCreationForm):
@@ -316,7 +314,6 @@ In **views, forms and the rest of your code**, use `get_user_model()`:
 
 ```python
 from django.contrib.auth import get_user_model
-
 
 User = get_user_model()
 

@@ -27,6 +27,7 @@ def add_to_cart(request: HttpRequest, product_id: int) -> HttpResponse:
 ```python
 from django.contrib import messages
 
+
 def form_valid(self, form):
     response = super().form_valid(form)
     messages.success(self.request, "Post published successfully!")

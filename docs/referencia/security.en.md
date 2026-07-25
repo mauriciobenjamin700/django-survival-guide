@@ -228,7 +228,6 @@ When the data should **expire** (an email confirmation link, a reset token), use
 from django.core import signing
 from django.core.signing import TimestampSigner
 
-
 signer = TimestampSigner()
 token = signer.sign_object({"user_id": 42})
 

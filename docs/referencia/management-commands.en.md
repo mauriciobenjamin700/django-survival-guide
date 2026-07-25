@@ -126,6 +126,7 @@ python manage.py cleanup_drafts 30
 
 ```python
 from io import StringIO
+
 from django.core.management import call_command
 
 

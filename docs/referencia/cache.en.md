@@ -15,6 +15,7 @@ point recomputing it on every visit. You stash the result for 5 minutes:
 ```python
 from django.core.cache import cache
 
+
 def get_popular_posts() -> list[Post]:
     """Return popular posts, cached for 5 minutes."""
     posts = cache.get("popular_posts")            # (1)!
@@ -85,6 +86,7 @@ posts = cache.get_or_set(
 ```python
 from django.views.decorators.cache import cache_page
 
+
 @cache_page(60 * 15)      # 15 minutes
 def home(request): ...
 ```
@@ -93,6 +95,7 @@ In a CBV, decorate `dispatch` with `method_decorator`:
 
 ```python
 from django.utils.decorators import method_decorator
+
 
 @method_decorator(cache_page(60 * 15), name="dispatch")
 class HomeView(TemplateView): ...
@@ -115,6 +118,7 @@ Think like a child: compute once per object and keep it on the object itself.
 
 ```python
 from django.utils.functional import cached_property
+
 
 class Post(models.Model):
     @cached_property

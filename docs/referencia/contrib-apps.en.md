@@ -63,6 +63,7 @@ You describe each kind of content in a `Sitemap` class and wire it into the URLc
 
 ```python
 from django.contrib.sitemaps import Sitemap
+
 from apps.blog.models import Post
 
 

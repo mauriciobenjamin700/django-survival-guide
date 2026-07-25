@@ -120,7 +120,6 @@ it up as usual:
 
 ```python
 from django import forms
-
 from myapp.models import Enrollment
 
 
@@ -144,7 +143,6 @@ and the edit links need something stable to build each row's URL.
 
 ```python
 from django.contrib import admin
-
 from myapp.models import Enrollment
 
 

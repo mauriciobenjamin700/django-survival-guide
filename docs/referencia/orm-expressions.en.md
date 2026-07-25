@@ -39,7 +39,7 @@ Think like a child: a line of "if... then..." questions, with an "otherwise" at
 the end.
 
 ```python
-from django.db.models import Case, When, Value, IntegerField
+from django.db.models import Case, IntegerField, Value, When
 
 Post.objects.annotate(
     priority=Case(
@@ -108,7 +108,7 @@ Post.objects.annotate(comentado=Exists(tem_comentario)).filter(comentado=True)
 
 ```python
 from django.db.models import Value
-from django.db.models.functions import Coalesce, Concat, Lower, Length, TruncMonth
+from django.db.models.functions import Coalesce, Concat, Length, Lower, TruncMonth
 
 # join first + last name in the database
 Author.objects.annotate(full=Concat("first_name", Value(" "), "last_name"))
@@ -149,7 +149,7 @@ into a heap — each marble stays right where it is, it just gets a number.
 
 ```python
 from django.db.models import F, Window
-from django.db.models.functions import RowNumber, Rank
+from django.db.models.functions import Rank, RowNumber
 
 Post.objects.annotate(
     posicao=Window(

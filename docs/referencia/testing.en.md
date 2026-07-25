@@ -12,6 +12,7 @@ and that the API blocks anyone who isn't logged in. Three tests, with `pytest`:
 
 ```python
 import pytest
+
 from apps.blog.models import Post
 
 
@@ -65,6 +66,7 @@ can ask for just by naming it in the parameter.
 # conftest.py — visible to all the tests around it
 import pytest
 from django.contrib.auth import get_user_model
+
 from apps.blog.models import Author
 
 

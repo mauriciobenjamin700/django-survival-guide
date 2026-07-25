@@ -161,7 +161,7 @@ user.groups.add(editores)        # herda todas as permissões do grupo
 ### Hash de senha
 
 ```python
-from django.contrib.auth import get_user_model, authenticate
+from django.contrib.auth import authenticate, get_user_model
 
 User = get_user_model()
 user = User.objects.create_user("ana", password="segredo123")  # já hasheia
@@ -182,6 +182,7 @@ u = authenticate(username="ana", password="segredo123")   # user ou None
 ```python
 # apps/accounts/models.py
 from django.contrib.auth.models import AbstractUser
+
 
 class User(AbstractUser):
     """Project user with extra fields."""

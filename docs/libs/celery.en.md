@@ -38,6 +38,7 @@ uv add celery redis
 ```python
 # config/celery.py
 import os
+
 from celery import Celery
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
@@ -86,6 +87,7 @@ def notify_subscribers(post_id: int) -> int:
 ```python
 # in the view/serializer — fires and returns immediately
 from apps.blog.tasks import notify_subscribers
+
 
 def publish(post):
     post.status = "published"

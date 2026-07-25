@@ -1,10 +1,27 @@
 """Shared pytest fixtures for the blog test suite."""
 
+from typing import Any
+
 import pytest
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import AbstractUser
 
 from apps.blog.models import Author, Post
+
+
+@pytest.fixture(autouse=True)
+def _drop_whitenoise(settings: Any) -> None:
+    """Remove WhiteNoise from the middleware stack for the whole suite.
+
+    WhiteNoise scans ``STATIC_ROOT`` when it starts and warns when the folder is
+    missing — and ``staticfiles/`` only exists after ``collectstatic``, which the
+    tests neither need nor run. Serving static files is not under test, so the
+    middleware is dropped instead of silencing the warning.
+
+    Args:
+        settings: The pytest-django fixture that restores settings afterwards.
+    """
+    settings.MIDDLEWARE = [m for m in settings.MIDDLEWARE if "whitenoise" not in m]
 
 
 @pytest.fixture

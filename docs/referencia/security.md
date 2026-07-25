@@ -227,7 +227,6 @@ use o `TimestampSigner` ou passe `max_age` no `loads`:
 from django.core import signing
 from django.core.signing import TimestampSigner
 
-
 signer = TimestampSigner()
 token = signer.sign_object({"user_id": 42})
 

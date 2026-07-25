@@ -12,6 +12,7 @@ abre, e que a API bloqueia quem não está logado. Três testes, com `pytest`:
 
 ```python
 import pytest
+
 from apps.blog.models import Post
 
 
@@ -65,6 +66,7 @@ pode pedir só citando o nome no parâmetro.
 # conftest.py — visível para todos os testes ao redor
 import pytest
 from django.contrib.auth import get_user_model
+
 from apps.blog.models import Author
 
 

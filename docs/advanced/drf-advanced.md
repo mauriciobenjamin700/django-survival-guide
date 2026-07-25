@@ -244,8 +244,8 @@ O formato da taxa é `numero/periodo`, onde `periodo` é `second`, `minute`,
 `hour` ou `day`. Para um limite dedicado num endpoint específico, use o escopo:
 
 ```python
-from rest_framework.throttling import ScopedRateThrottle
 from rest_framework import viewsets
+from rest_framework.throttling import ScopedRateThrottle
 
 
 class SearchViewSet(viewsets.ReadOnlyModelViewSet):

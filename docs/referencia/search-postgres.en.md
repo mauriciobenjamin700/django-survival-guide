@@ -17,6 +17,7 @@ PostgreSQL full-text search it's one line:
 
 ```python
 from django.contrib.postgres.search import SearchVector
+
 from blog.models import Post
 
 results = Post.objects.annotate(
@@ -62,6 +63,7 @@ The search is the crossing of a `SearchVector` with a `SearchQuery`:
 
 ```python
 from django.contrib.postgres.search import SearchQuery, SearchVector
+
 from blog.models import Post
 
 vector = SearchVector("title", "body")
@@ -82,6 +84,7 @@ matches, so you can order from most to least relevant:
 
 ```python
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+
 from blog.models import Post
 
 vector = SearchVector("title", "body")
@@ -111,6 +114,7 @@ than a hit in the **body**. PostgreSQL has four weights, `"A"` (highest) to `"D"
 
 ```python
 from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
+
 from blog.models import Post
 
 vector = (
@@ -214,6 +218,7 @@ without recomputing:
 
 ```python
 from django.contrib.postgres.search import SearchQuery
+
 from blog.models import Post
 
 results = Post.objects.filter(
@@ -234,6 +239,7 @@ Updating via the ORM, in bulk:
 
 ```python
 from django.contrib.postgres.search import SearchVector
+
 from blog.models import Post
 
 Post.objects.update(
@@ -282,6 +288,7 @@ With the extension active, search by similarity and order by the score (0 to 1):
 
 ```python
 from django.contrib.postgres.search import TrigramSimilarity
+
 from blog.models import Author
 
 results = (

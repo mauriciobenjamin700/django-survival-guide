@@ -86,6 +86,7 @@ object:
 
 ```python
 from django.db.models import Prefetch
+
 from blog.models import Author, Comment, Post
 
 # load each author with ONLY their published posts
@@ -230,7 +231,7 @@ Think like a child: putting away 100 toys one by one means 100 trips to the box.
 Putting them all away at once is a single trip.
 
 ```python
-from blog.models import Tag, Post
+from blog.models import Post, Tag
 
 # ✅ one INSERT for many objects
 Tag.objects.bulk_create([
@@ -321,7 +322,7 @@ often comes with an index for free.
 
 ```python
 from django.db import models
-from django.db.models import Q, F
+from django.db.models import F, Q
 
 
 class Post(models.Model):
@@ -353,6 +354,7 @@ handful at a time.
 
 ```python
 from django.core.paginator import Paginator
+
 from blog.models import Post
 
 posts = Post.objects.filter(status="published").order_by("-created_at")
@@ -382,8 +384,8 @@ Django has three granularities. (Dedicated page: **[cache](cache.md)**.)
 | Low level | Any value in your code | `cache.get` / `cache.set` |
 
 ```python
-from django.views.decorators.cache import cache_page
 from django.http import HttpRequest, HttpResponse
+from django.views.decorators.cache import cache_page
 
 
 @cache_page(60 * 5)
@@ -401,6 +403,7 @@ def post_list(request: HttpRequest) -> HttpResponse:
 
 ```python
 from django.core.cache import cache
+
 from blog.models import Post
 
 
@@ -443,6 +446,7 @@ which one is actually broken. Measure the queries.
 
 ```python
 from django.test import TestCase
+
 from blog.models import Post
 
 
