@@ -68,13 +68,20 @@ You only override `form_valid()` for what's specific:
 class PostCreateView(AuthorPostMixin, CreateView):
     def form_valid(self, form: PostForm) -> HttpResponse:
         """Set the post's author to the logged-in user before saving."""
-        form.instance.author = self.request.user.author_profile
+        user = self.request.user
+        if not user.is_authenticated:
+            raise PermissionDenied
+        form.instance.author = user.author_profile
         return super().form_valid(form)
 ```
 
 - `form.instance` is the not-yet-saved `Post` object. We fill in the `author` from
   the **logged-in user** — the trusted source.
-- `super().form_valid(form)` saves and redirects to `get_success_url()`.
+- The `is_authenticated` check is there for the **type**: `request.user` is
+  `User | AnonymousUser`, and `AnonymousUser` has no `author_profile`. At runtime
+  `LoginRequiredMixin` already turned the anonymous visitor away.
+- `super().form_valid(form)` saves and redirects (by default, to the saved
+  object's `get_absolute_url()`).
 
 ## Rendering in the template
 

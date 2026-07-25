@@ -92,7 +92,9 @@ class CommentAdmin(admin.ModelAdmin):
     actions = ["approve_comments"]
 
     @admin.action(description="Approve selected comments")
-    def approve_comments(self, request: object, queryset: object) -> None:
+    def approve_comments(
+        self, request: HttpRequest, queryset: QuerySet[Comment]
+    ) -> None:
         """Bulk-approve the comments selected in the changelist."""
         queryset.update(is_approved=True)
 ```

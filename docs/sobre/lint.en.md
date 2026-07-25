@@ -173,9 +173,18 @@ commands of its own — it just says "run those three recipes, in that order". T
 !!! note "This repository uses different paths"
     The guide keeps its example project inside `example/`, so the
     [repo's `Makefile`](https://github.com/mauriciobenjamin700/django-survival-guide/blob/main/Makefile)
-    uses `uv run mypy example` and the Django commands run with `cd example`. In
-    **your** project `manage.py` sits at the root — don't copy the `example/`
-    wrapper.
+    checks both projects in **separate calls**, and the Django commands run with
+    `cd example`:
+
+    ```make
+    type:
+    	uv run mypy example
+    	uv run mypy example_async
+    ```
+
+    Separate because both have an `apps` package, and `mypy example example_async`
+    in one go dies with `Duplicate module named "apps"`. In **your** project
+    `manage.py` sits at the root — don't copy the `example/` wrapper.
 
 !!! danger "`Makefile` indentation is TAB, not spaces"
     This is the classic trap: command lines **must** start with a real **TAB**

@@ -249,7 +249,7 @@ from apps.blog.models import Comment
 class CommentForm(forms.ModelForm):
     """Comment form styled with crispy-forms."""
 
-    def __init__(self, *args: object, **kwargs: object) -> None:
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Attach a FormHelper that renders the form and submit button.
 
         Args:

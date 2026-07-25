@@ -39,5 +39,6 @@ fix:  ## Aplica todo autofix do ruff + formata
 
 type:  ## Checagem de tipos (mypy + django-stubs)
 	uv run mypy example
+	uv run mypy example_async
 
 check: lint type test  ## Roda todos os portões (lint + tipos + testes)

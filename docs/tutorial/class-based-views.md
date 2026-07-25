@@ -78,6 +78,9 @@ O que ganhamos de graça:
 ## `DetailView`: um objeto
 
 ```python
+from typing import Any
+
+from django.db.models import QuerySet
 from django.views.generic import DetailView
 
 from apps.blog.forms import CommentForm
@@ -111,6 +114,8 @@ quase tudo, então extraímos o comum num mixin:
 
 ```python
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.forms import BaseForm
 from django.views.generic import CreateView, UpdateView
 
 from apps.blog.forms import PostForm
@@ -120,12 +125,8 @@ class AuthorPostMixin(LoginRequiredMixin):
     """Shared configuration for views that create or edit posts."""
 
     model = Post
-    form_class = PostForm
-    template_name = "blog/post_form.html"
-
-    def get_success_url(self) -> str:
-        """Return the URL to redirect to after a successful save."""
-        return self.object.get_absolute_url()
+    form_class: type[BaseForm] | None = PostForm      # (1)!
+    template_name: str | None = "blog/post_form.html"
 
 
 class PostCreateView(AuthorPostMixin, CreateView):
@@ -133,7 +134,10 @@ class PostCreateView(AuthorPostMixin, CreateView):
 
     def form_valid(self, form: PostForm) -> HttpResponse:
         """Set the post's author to the logged-in user before saving."""
-        form.instance.author = self.request.user.author_profile
+        user = self.request.user
+        if not user.is_authenticated:
+            raise PermissionDenied
+        form.instance.author = user.author_profile
         return super().form_valid(form)
 
 
@@ -143,14 +147,27 @@ class PostUpdateView(AuthorPostMixin, UpdateView):
     slug_url_kwarg = "slug"
 ```
 
+1. Anotação **larga de propósito**: `FormMixin` declara
+   `form_class: type[BaseForm] | None`, e um mixin não pode declarar o mesmo
+   atributo com tipo mais estreito que a classe com que ele se combina — o mypy
+   acusa. Mesmo motivo para o `template_name: str | None`.
+
 - **`LoginRequiredMixin`** — colocado primeiro na herança, gate a view: quem não
   está logado é mandado para o login. Comportamento adicionado por **composição**,
   sem tocar na lógica principal.
 - **`form_valid()`** — chamado quando o formulário é válido. Injetamos o autor a
   partir do usuário logado (nunca confiando em quem o cliente diz ser) e chamamos
   `super().form_valid(form)`, que salva e redireciona.
-- **`get_success_url()`** — para onde ir após salvar. Usamos `get_absolute_url()`
-  do próprio post.
+- **Para onde vai o redirect?** Não precisamos escrever `get_success_url()`: o
+  `ModelFormMixin` já cai no `get_absolute_url()` do objeto salvo quando não há
+  `success_url` — e o `Post` define um. Menos código, mesmo comportamento.
+
+!!! tip "`is_authenticated` é o que estreita o tipo"
+    `self.request.user` é `User | AnonymousUser` — e `AnonymousUser` não tem
+    `author_profile`. O `if not user.is_authenticated: raise PermissionDenied`
+    prova para o type checker que dali para baixo só existe usuário de verdade.
+    O `LoginRequiredMixin` já garante isso em runtime; a checagem transforma
+    garantia em **tipo**.
 
 !!! warning "Ordem dos mixins importa"
     Na herança múltipla do Python, a ordem é da **esquerda para a direita**.

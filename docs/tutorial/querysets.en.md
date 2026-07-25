@@ -78,8 +78,21 @@ class PostQuerySet(models.QuerySet["Post"]):
 
 class Post(models.Model):
     # ... campos ...
-    objects: PostQuerySet = PostQuerySet.as_manager()
+    objects = PostQuerySet.as_manager()
 ```
+
+!!! warning "Don't annotate `objects` here"
+    Tempting to write `objects: PostQuerySet = PostQuerySet.as_manager()` — but
+    `as_manager()` returns a **generated manager** (`ManagerFromPostQuerySet`), not
+    the queryset. Annotating it as `PostQuerySet` makes mypy complain:
+
+    ```text
+    Incompatible types in assignment (expression has type
+    "ManagerFromPostQuerySet[Any]", variable has type "PostQuerySet[Post, Post]")
+    ```
+
+    Leave it unannotated: `django-stubs` infers the generated type and you still
+    get typed `published()`/`by_tag()`.
 
 Now the reading code becomes expressive and typo-proof:
 

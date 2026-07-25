@@ -66,6 +66,7 @@ In an FBV you branch on the method **explicitly** — what the CBV does with
 separate methods:
 
 ```python
+from django.http import HttpRequest
 from django.shortcuts import redirect
 
 from apps.blog.forms import PostForm
@@ -100,6 +101,7 @@ What mixins do for CBVs, **decorators** do for FBVs:
 
 ```python
 from django.contrib.auth.decorators import login_required, permission_required
+from django.http import HttpRequest
 from django.views.decorators.http import require_http_methods
 
 

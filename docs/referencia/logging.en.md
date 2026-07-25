@@ -301,13 +301,16 @@ You can change how the error report is built — for example, to strip extra
 headers — by subclassing `SafeExceptionReporterFilter` or `ExceptionReporter`.
 
 ```python
+from typing import Any
+
+from django.http import HttpRequest
 from django.views.debug import SafeExceptionReporterFilter
 
 
 class CustomReporterFilter(SafeExceptionReporterFilter):
     """Also scrub the ``Authorization`` header from error reports."""
 
-    def get_safe_request_meta(self, request: object) -> dict[str, object]:
+    def get_safe_request_meta(self, request: HttpRequest) -> dict[str, Any]:
         """Return request META with the auth header removed."""
         meta = super().get_safe_request_meta(request)
         meta.pop("HTTP_AUTHORIZATION", None)

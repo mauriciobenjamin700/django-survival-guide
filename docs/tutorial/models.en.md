@@ -14,6 +14,8 @@ Python objects into SQL — you work with objects, Django writes the SQL.
 Let's go from simplest to most complex. A `Tag` is just a label:
 
 ```python
+from typing import Any
+
 from django.db import models
 from django.utils.text import slugify
 
@@ -31,7 +33,7 @@ class Tag(models.Model):
         """Return the tag name."""
         return self.name
 
-    def save(self, *args: object, **kwargs: object) -> None:
+    def save(self, *args: Any, **kwargs: Any) -> None:
         """Populate ``slug`` from ``name`` on first save when left blank."""
         if not self.slug:
             self.slug = slugify(self.name)

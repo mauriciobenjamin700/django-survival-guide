@@ -6,6 +6,8 @@ so the admin class and the model it manages stay next to each other.
 """
 
 from django.contrib import admin
+from django.db.models import QuerySet
+from django.http import HttpRequest
 
 from apps.blog.models import Author, Comment, Post, Tag
 
@@ -59,7 +61,9 @@ class CommentAdmin(admin.ModelAdmin):
     actions = ["approve_comments"]
 
     @admin.action(description="Approve selected comments")
-    def approve_comments(self, request: object, queryset: object) -> None:
+    def approve_comments(
+        self, request: HttpRequest, queryset: QuerySet[Comment]
+    ) -> None:
         """Bulk-approve the comments selected in the changelist.
 
         Args:

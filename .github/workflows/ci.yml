@@ -20,6 +20,16 @@ jobs:
       - name: Install dependencies
         run: uv sync --group dev
 
+      - name: Ruff (lint + format)
+        run: |
+          uv run ruff check .
+          uv run ruff format --check .
+
+      - name: mypy (django-stubs)
+        run: |
+          uv run mypy example
+          uv run mypy example_async
+
       - name: Run migrations check
         working-directory: example
         run: uv run python manage.py makemigrations --check --dry-run

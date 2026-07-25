@@ -248,6 +248,7 @@ A mesma base de dados, exposta como JSON. Escolha uma camada:
 ```python
 from rest_framework import serializers, viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.serializers import BaseSerializer
 
 from blog.models import Post
 
@@ -268,7 +269,7 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
-    def perform_create(self, serializer: PostSerializer) -> None:
+    def perform_create(self, serializer: BaseSerializer[Post]) -> None:
         """Set the request user as the author on create."""
         serializer.save(author=self.request.user)
 ```

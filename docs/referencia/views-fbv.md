@@ -65,6 +65,7 @@ Numa FBV, você ramifica pelo método **explicitamente** — o que a CBV faz por
 métodos separados:
 
 ```python
+from django.http import HttpRequest
 from django.shortcuts import redirect
 
 from apps.blog.forms import PostForm
@@ -99,6 +100,7 @@ O que os mixins fazem para CBV, os **decoradores** fazem para FBV:
 
 ```python
 from django.contrib.auth.decorators import login_required, permission_required
+from django.http import HttpRequest
 from django.views.decorators.http import require_http_methods
 
 

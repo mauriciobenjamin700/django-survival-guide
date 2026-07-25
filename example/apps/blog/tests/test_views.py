@@ -4,7 +4,7 @@ import pytest
 from django.contrib.auth.models import AbstractUser
 from django.test import Client
 
-from apps.blog.models import Comment, Post
+from apps.blog.models import Author, Comment, Post
 
 
 @pytest.mark.django_db
@@ -46,6 +46,32 @@ def test_authenticated_user_can_open_create_view(
     client.force_login(user)
     response = client.get("/posts/new/")
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_create_view_saves_post_and_redirects_to_it(
+    client: Client, user: AbstractUser, author: Author
+) -> None:
+    """Submitting the create form saves the post and redirects to its page.
+
+    Covers two behaviours the view relies on implicitly: the author comes from
+    the logged-in user (not from the form), and the redirect target comes from
+    ``ModelFormMixin`` falling back to ``Post.get_absolute_url()``.
+    """
+    client.force_login(user)
+    response = client.post(
+        "/posts/new/",
+        {
+            "title": "Written by Ana",
+            "body": "Body written through the form.",
+            "status": Post.Status.PUBLISHED,
+            "tags": [],
+        },
+    )
+    post = Post.objects.get(title="Written by Ana")
+    assert response.status_code == 302
+    assert response["Location"] == post.get_absolute_url()
+    assert post.author == author
 
 
 @pytest.mark.django_db

@@ -178,8 +178,18 @@ imprime.
 !!! note "Neste repositório os caminhos são outros"
     O guia mantém o projeto de exemplo dentro de `example/`, então o
     [`Makefile` do repo](https://github.com/mauriciobenjamin700/django-survival-guide/blob/main/Makefile)
-    usa `uv run mypy example` e os comandos do Django rodam com `cd example`. No
-    **seu** projeto o `manage.py` está na raiz — não copie o `example/`.
+    checa os dois projetos em **chamadas separadas** e os comandos do Django rodam
+    com `cd example`:
+
+    ```make
+    type:
+    	uv run mypy example
+    	uv run mypy example_async
+    ```
+
+    Separadas porque os dois têm um pacote `apps`, e `mypy example example_async`
+    de uma vez morre com `Duplicate module named "apps"`. No **seu** projeto o
+    `manage.py` está na raiz — não copie o `example/`.
 
 !!! danger "Indentação do `Makefile` é TAB, não espaço"
     Essa é a pegadinha clássica: as linhas de comando **precisam** começar com um

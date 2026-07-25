@@ -5,6 +5,8 @@ that does not change between sync and async. What changes is *how you access*
 them (``aget``, ``async for``, ``acreate``), which lives in the views.
 """
 
+from typing import Any
+
 from django.conf import settings
 from django.db import models
 from django.db.models import QuerySet
@@ -45,7 +47,7 @@ class Tag(models.Model):
         """Return the tag name."""
         return self.name
 
-    def save(self, *args: object, **kwargs: object) -> None:
+    def save(self, *args: Any, **kwargs: Any) -> None:
         """Populate the slug from the name on first save when left blank."""
         if not self.slug:
             self.slug = slugify(self.name)
@@ -86,7 +88,7 @@ class Post(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     published_at = models.DateTimeField(null=True, blank=True)
 
-    objects: PostQuerySet = PostQuerySet.as_manager()
+    objects = PostQuerySet.as_manager()
 
     class Meta:
         ordering = ["-published_at", "-created_at"]
@@ -99,7 +101,7 @@ class Post(models.Model):
         """Return the canonical URL of the post detail page."""
         return reverse("blog:post-detail", kwargs={"slug": self.slug})
 
-    def save(self, *args: object, **kwargs: object) -> None:
+    def save(self, *args: Any, **kwargs: Any) -> None:
         """Derive the slug and stamp ``published_at`` when appropriate."""
         if not self.slug:
             self.slug = slugify(self.title)

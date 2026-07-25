@@ -100,8 +100,10 @@ Um `ViewSet` é a versão API das generic views: uma classe entrega list,
 retrieve, create, update e destroy de uma vez.
 
 ```python
+from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
 from rest_framework import viewsets
+from rest_framework.serializers import BaseSerializer
 
 from apps.blog.models import Post
 
@@ -119,9 +121,12 @@ class PostViewSet(viewsets.ModelViewSet):
             return base
         return base.filter(status=Post.Status.PUBLISHED)
 
-    def perform_create(self, serializer: PostSerializer) -> None:
+    def perform_create(self, serializer: BaseSerializer[Post]) -> None:
         """Attach the logged-in user's author profile to the new post."""
-        serializer.save(author=self.request.user.author_profile)
+        user = self.request.user
+        if not user.is_authenticated:
+            raise PermissionDenied
+        serializer.save(author=user.author_profile)
 ```
 
 Repare como os conceitos do tutorial se repetem:

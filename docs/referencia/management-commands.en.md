@@ -14,6 +14,9 @@ Creating a command means writing a `Command` class with a `handle` method:
 
 ```python
 # apps/blog/management/commands/seed_blog.py
+
+from typing import Any
+
 from django.core.management.base import BaseCommand
 from django.db import transaction
 
@@ -26,7 +29,7 @@ class Command(BaseCommand):
     help = "Seed the blog with demo data."
 
     @transaction.atomic
-    def handle(self, *args: object, **options: object) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         """Run the command."""
         Post.objects.get_or_create(title="Hello World", defaults={"body": "..."})
         self.stdout.write(self.style.SUCCESS("Data created!"))
@@ -81,7 +84,7 @@ class Command(BaseCommand):
             help="Only show, don't delete",
         )
 
-    def handle(self, *args: object, **options: object) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         """Delete (or preview) old draft posts."""
         days: int = options["days"]
         dry_run: bool = options["dry_run"]

@@ -15,6 +15,8 @@ Almost every model needs `created_at` and `updated_at`. Writing that in `Post`,
 reuse it:
 
 ```python
+from typing import Any
+
 from django.db import models
 
 
@@ -261,6 +263,7 @@ manager from it:
 
 ```python
 from django.db import models
+from django.db.models import QuerySet
 
 
 class PostQuerySet(models.QuerySet["Post"]):
@@ -317,6 +320,7 @@ pre-filtered. Handy for a "published only" manager:
 
 ```python
 from django.db import models
+from django.db.models import QuerySet
 
 
 class PublishedManager(models.Manager):

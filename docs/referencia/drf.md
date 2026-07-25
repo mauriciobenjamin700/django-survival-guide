@@ -187,8 +187,10 @@ class CommentSerializer(serializers.ModelSerializer):
 | `perform_update(serializer)` | Agir ao atualizar |
 
 ```python
+from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
 from rest_framework import viewsets
+from rest_framework.serializers import BaseSerializer
 
 
 class PostViewSet(viewsets.ModelViewSet):
@@ -202,9 +204,12 @@ class PostViewSet(viewsets.ModelViewSet):
             return base
         return base.filter(status=Post.Status.PUBLISHED)
 
-    def perform_create(self, serializer: PostSerializer) -> None:
+    def perform_create(self, serializer: BaseSerializer[Post]) -> None:
         """Set the author from the logged-in user, never from the payload."""
-        serializer.save(author=self.request.user.author_profile)
+        user = self.request.user
+        if not user.is_authenticated:
+            raise PermissionDenied
+        serializer.save(author=user.author_profile)
 ```
 
 ### Ações extras: `@action`

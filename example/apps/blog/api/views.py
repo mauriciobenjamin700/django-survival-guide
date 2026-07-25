@@ -6,8 +6,10 @@ into the full set of REST URLs. This keeps the API layer as object-oriented as
 the server-rendered views.
 """
 
+from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
 from rest_framework import viewsets
+from rest_framework.serializers import BaseSerializer
 
 from apps.blog.api.serializers import CommentSerializer, PostSerializer, TagSerializer
 from apps.blog.models import Comment, Post, Tag
@@ -42,13 +44,24 @@ class PostViewSet(viewsets.ModelViewSet):
             return base
         return base.filter(status=Post.Status.PUBLISHED)
 
-    def perform_create(self, serializer: PostSerializer) -> None:
+    def perform_create(self, serializer: BaseSerializer[Post]) -> None:
         """Attach the logged-in user's author profile to the new post.
+
+        The parameter is typed as ``BaseSerializer`` because that is what DRF's
+        ``CreateModelMixin`` declares — narrowing it to ``PostSerializer`` would
+        break the override contract. ``request.user`` is narrowed through
+        ``is_authenticated`` before ``author_profile`` is reached.
 
         Args:
             serializer: The validated post serializer ready to be saved.
+
+        Raises:
+            PermissionDenied: If the request is not authenticated.
         """
-        serializer.save(author=self.request.user.author_profile)
+        user = self.request.user
+        if not user.is_authenticated:
+            raise PermissionDenied
+        serializer.save(author=user.author_profile)
 
 
 class CommentViewSet(viewsets.ModelViewSet):

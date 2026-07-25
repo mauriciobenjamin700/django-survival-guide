@@ -4,6 +4,8 @@ Management commands run synchronously, so this uses the regular sync ORM — the
 async story is about serving requests, not about one-off scripts.
 """
 
+from typing import Any
+
 from django.contrib.auth import get_user_model
 from django.core.management.base import BaseCommand
 from django.db import transaction
@@ -19,7 +21,7 @@ class Command(BaseCommand):
     help = "Seed the async blog with idempotent demo data."
 
     @transaction.atomic
-    def handle(self, *args: object, **options: object) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         """Create the demo dataset inside a single transaction."""
         user, created = User.objects.get_or_create(
             username="demo",

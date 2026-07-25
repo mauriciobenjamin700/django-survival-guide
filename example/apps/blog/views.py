@@ -10,7 +10,9 @@ behind authentication without touching its core logic.
 from typing import Any
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.db.models import QuerySet
+from django.forms import BaseForm
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
@@ -113,21 +115,20 @@ class CommentCreateView(CreateView):
 class AuthorPostMixin(LoginRequiredMixin):
     """Shared configuration for views that create or edit posts.
 
-    Centralises the model, form class and success behaviour so the concrete
+    Centralises the model, form class and template so the concrete
     create/update views stay a couple of lines each.
+
+    Where the post-save redirect goes is not configured here: ``ModelFormMixin``
+    already falls back to the saved object's ``get_absolute_url()`` when no
+    ``success_url`` is set, and :class:`Post` defines one. The annotations widen
+    ``form_class`` and ``template_name`` to the types ``FormMixin`` and
+    ``TemplateResponseMixin`` declare, so combining this mixin with the generic
+    views stays type-compatible.
     """
 
     model = Post
-    form_class = PostForm
-    template_name = "blog/post_form.html"
-
-    def get_success_url(self) -> str:
-        """Return the URL to redirect to after a successful save.
-
-        Returns:
-            The saved post's detail page URL.
-        """
-        return self.object.get_absolute_url()
+    form_class: type[BaseForm] | None = PostForm
+    template_name: str | None = "blog/post_form.html"
 
 
 class PostCreateView(AuthorPostMixin, CreateView):
@@ -136,13 +137,25 @@ class PostCreateView(AuthorPostMixin, CreateView):
     def form_valid(self, form: PostForm) -> HttpResponse:
         """Set the post's author to the logged-in user before saving.
 
+        ``request.user`` is typed as ``User | AnonymousUser``, so the
+        ``is_authenticated`` check is what narrows it to a real user before
+        reaching ``author_profile``. :class:`LoginRequiredMixin` already
+        redirects anonymous visitors, which makes the raise unreachable in
+        practice — it exists so the type is proven rather than assumed.
+
         Args:
             form: The validated post form.
 
         Returns:
             The response produced by the parent ``form_valid``.
+
+        Raises:
+            PermissionDenied: If the request somehow reaches here unauthenticated.
         """
-        form.instance.author = self.request.user.author_profile
+        user = self.request.user
+        if not user.is_authenticated:
+            raise PermissionDenied
+        form.instance.author = user.author_profile
         return super().form_valid(form)
 
 

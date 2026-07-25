@@ -19,6 +19,7 @@ templates. You just use it.
 
 ```python
 from django.contrib import messages
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 
 
@@ -29,9 +30,12 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form: PostForm) -> HttpResponse:
         """Publish the post and flash a success message."""
-        form.instance.author = self.request.user.author_profile
+        user = self.request.user
+        if not user.is_authenticated:
+            raise PermissionDenied
+        form.instance.author = user.author_profile
         response = super().form_valid(form)
-        messages.success(self.request, f"Post “{self.object.title}” created!")
+        messages.success(self.request, f"Post “{form.instance.title}” created!")
         return response
 ```
 

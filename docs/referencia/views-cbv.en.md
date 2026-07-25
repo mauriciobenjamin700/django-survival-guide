@@ -128,6 +128,7 @@ flowchart TD
 
 ```python
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse
 from django.views.generic import CreateView
 
@@ -144,12 +145,11 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form: PostForm) -> HttpResponse:
         """Attach the current user as author before saving."""
-        form.instance.author = self.request.user.author_profile
+        user = self.request.user
+        if not user.is_authenticated:
+            raise PermissionDenied
+        form.instance.author = user.author_profile
         return super().form_valid(form)
-
-    def get_success_url(self) -> str:
-        """Redirect to the new post's page."""
-        return self.object.get_absolute_url()
 ```
 
 Useful data inside the methods:

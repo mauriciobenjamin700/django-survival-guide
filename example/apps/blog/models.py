@@ -13,6 +13,8 @@ Every field is explicit and every model exposes ``__str__`` and, where it maps
 to a page, ``get_absolute_url`` so templates and the admin stay clean.
 """
 
+from typing import Any
+
 from django.conf import settings
 from django.db import models
 from django.db.models import QuerySet
@@ -59,7 +61,7 @@ class Tag(models.Model):
         """Return the tag name."""
         return self.name
 
-    def save(self, *args: object, **kwargs: object) -> None:
+    def save(self, *args: Any, **kwargs: Any) -> None:
         """Populate ``slug`` from ``name`` on first save when left blank.
 
         Args:
@@ -122,7 +124,7 @@ class Post(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     published_at = models.DateTimeField(null=True, blank=True)
 
-    objects: PostQuerySet = PostQuerySet.as_manager()
+    objects = PostQuerySet.as_manager()
 
     class Meta:
         ordering = ["-published_at", "-created_at"]
@@ -140,7 +142,7 @@ class Post(models.Model):
         """
         return reverse("blog:post-detail", kwargs={"slug": self.slug})
 
-    def save(self, *args: object, **kwargs: object) -> None:
+    def save(self, *args: Any, **kwargs: Any) -> None:
         """Derive the slug and stamp ``published_at`` when appropriate.
 
         The slug is generated from the title on first save. ``published_at`` is

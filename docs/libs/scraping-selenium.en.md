@@ -222,6 +222,9 @@ route — it runs with all of Django loaded, so you already have the models at h
 
 ```python
 # apps/blog/management/commands/scrape_prices.py
+
+from typing import Any
+
 from django.core.management.base import BaseCommand
 
 from apps.blog.models import BookPrice
@@ -237,7 +240,7 @@ class Command(BaseCommand):
         """Register the required store URL argument."""
         parser.add_argument("url", type=str, help="Store listing URL to scrape.")
 
-    def handle(self, *args: object, **options: object) -> None:
+    def handle(self, *args: Any, **options: Any) -> None:
         """Run the scrape and persist each observation.
 
         Args:

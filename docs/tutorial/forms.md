@@ -68,13 +68,20 @@ Você só sobrescreve `form_valid()` para o que é específico:
 class PostCreateView(AuthorPostMixin, CreateView):
     def form_valid(self, form: PostForm) -> HttpResponse:
         """Set the post's author to the logged-in user before saving."""
-        form.instance.author = self.request.user.author_profile
+        user = self.request.user
+        if not user.is_authenticated:
+            raise PermissionDenied
+        form.instance.author = user.author_profile
         return super().form_valid(form)
 ```
 
 - `form.instance` é o objeto `Post` ainda não salvo. Preenchemos o `author` a
   partir do **usuário logado** — a fonte confiável.
-- `super().form_valid(form)` salva e redireciona para `get_success_url()`.
+- A checagem `is_authenticated` existe para o **tipo**: `request.user` é
+  `User | AnonymousUser`, e `AnonymousUser` não tem `author_profile`. Em runtime o
+  `LoginRequiredMixin` já barrou o anônimo.
+- `super().form_valid(form)` salva e redireciona (por padrão, para o
+  `get_absolute_url()` do objeto salvo).
 
 ## Renderizando no template
 
