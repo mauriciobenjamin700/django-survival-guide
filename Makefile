@@ -1,4 +1,4 @@
-.PHONY: help install docs-serve docs-build run migrate seed test lint format fix type check
+.PHONY: help install docs-serve docs-build docs-lint docs-fix run migrate seed test lint format fix type check
 
 PORT ?= 8000
 
@@ -14,6 +14,12 @@ docs-serve:  ## Sobe o servidor de docs MkDocs (use PORT=8001 para trocar a port
 
 docs-build:  ## Compila o site de docs em modo estrito
 	uv run mkdocs build --strict
+
+docs-lint:  ## Confere a ordem dos imports nos blocos de código da doc
+	uv run python scripts/check_doc_blocks.py
+
+docs-fix:  ## Ordena os imports nos blocos de código da doc
+	uv run python scripts/check_doc_blocks.py --fix
 
 run:  ## Sobe o servidor Django (use PORT=8001 para trocar a porta)
 	cd example && uv run python manage.py runserver $(PORT)
@@ -33,12 +39,13 @@ lint:  ## Verifica lint (ruff), sem alterar
 format:  ## Formata o código (ruff format)
 	uv run ruff format .
 
-fix:  ## Aplica todo autofix do ruff + formata
+fix:  ## Aplica todo autofix do ruff + formata (código e blocos da doc)
 	uv run ruff check --fix .
 	uv run ruff format .
+	uv run python scripts/check_doc_blocks.py --fix
 
 type:  ## Checagem de tipos (mypy + django-stubs)
 	uv run mypy example
 	uv run mypy example_async
 
-check: lint type test  ## Roda todos os portões (lint + tipos + testes)
+check: lint docs-lint type test  ## Roda todos os portões (lint + doc + tipos + testes)

@@ -19,6 +19,8 @@ uv sync --all-groups          # app + dev + docs + prod
 | Testes | `make test` (ou `uv run pytest`) |
 | Docs local | `make docs-serve` |
 | Build das docs (estrito) | `make docs-build` |
+| Todos os portões | `make check` (lint + doc + tipos + testes) |
+| Imports dos blocos da doc | `make docs-lint` (conserta com `make docs-fix`) |
 
 !!! danger "O build das docs precisa passar em `--strict`"
     Antes de abrir um PR, rode `make docs-build`. Ele roda
@@ -56,6 +58,8 @@ o idioma certo sozinho. Não escreva `.en` nos links.
 3. Adicione ao `nav:` no `mkdocs.yml`.
 4. Adicione a tradução do título em `nav_translations:` (bloco do idioma `en`).
 5. `make docs-build` — precisa sair **limpo**.
+6. `make docs-lint` — os blocos ```` ```python ```` da página precisam ter os
+   imports na ordem que o Ruff exige (o leitor copia e cola esse código).
 
 ## Padrões de código (`example/`)
 

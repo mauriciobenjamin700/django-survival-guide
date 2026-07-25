@@ -12,7 +12,7 @@ Resumo rápido:
 
 ```bash
 uv sync --all-groups
-make test          # testes precisam passar
+make check         # lint + doc + tipos + testes
 make docs-build    # mkdocs build --strict precisa sair limpo
 ```
 
@@ -33,7 +33,7 @@ Quick summary:
 
 ```bash
 uv sync --all-groups
-make test          # tests must pass
+make check         # lint + docs + types + tests
 make docs-build    # mkdocs build --strict must come out clean
 ```
 

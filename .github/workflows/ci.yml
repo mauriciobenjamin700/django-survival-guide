@@ -30,6 +30,9 @@ jobs:
           uv run mypy example
           uv run mypy example_async
 
+      - name: Doc code blocks (import order)
+        run: uv run python scripts/check_doc_blocks.py
+
       - name: Run migrations check
         working-directory: example
         run: uv run python manage.py makemigrations --check --dry-run
