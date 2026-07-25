@@ -108,6 +108,62 @@ Piece by piece:
 - **overridden `save()`** — we derive the `slug` from `name` the first time. We
   call `super().save(...)` so Django does the actual work.
 
+### What `class Meta` controls
+
+`Meta` is not a field and never becomes a column: it configures the **whole
+table**.
+
+!!! quote "Think like a child 🧒"
+    If the model is a **toy box** and the fields are its drawers, `Meta` is the
+    **label on the lid**: it holds no toy at all, it just says what the box is
+    called, in what order things come out, and which rules it obeys.
+
+The three we use here, plus the one that names the table:
+
+| Option | What it does | If you don't declare it |
+| --- | --- | --- |
+| `ordering` | Default order of **every** query on the model | rows come back in whatever order the database likes |
+| `verbose_name` | Singular name shown in the admin | Django derives it from the class name |
+| `verbose_name_plural` | Plural name shown in the admin | Django just appends `s` |
+| `db_table` | **The real table name in the database** | `<app label>_<model>` — here, `blog_tag` |
+
+Notice where that `blog_tag` comes from: the `label = "blog"` you set in
+`apps.py` back in **[Registering the app](project-setup.md#registering-the-app)**.
+Without it the app would be called `apps.blog` and the table would come out as
+`apps_blog_tag`.
+
+Want to name it yourself? Just declare it:
+
+```python
+    class Meta:
+        db_table = "tags"          # (1)!
+        ordering = ["name"]
+```
+
+1. The table is now called `tags`, with no app prefix. **We don't do this in our
+   blog** — the default `blog_tag` already says which app the table belongs to,
+   which helps once the database holds dozens of tables from different apps.
+
+!!! warning "`ordering` has a cost, and `db_table` has a consequence"
+    - `ordering` joins **every** query on the model as an `ORDER BY`. Order by an
+      indexed field (that's why `Post` has `indexes` on `published_at`), or you
+      pay for sorting on every listing.
+    - Changing `db_table` **after** the table exists produces a migration that
+      **renames** it. Easy in development, delicate in production with data.
+      Decide early.
+
+!!! info "Every `Meta` change asks for a migration"
+    `ordering` and `verbose_name` touch no column, but Django keeps that metadata
+    in the history — so they generate an `AlterModelOptions`. It's fast and never
+    touches data, but it **must** be generated, or CI's `makemigrations --check`
+    will call you out.
+
+`Meta` does far more than this: `constraints` (database-level rules, like "no two
+posts with the same title per author"), `indexes`, `abstract` (a base model with
+no table), `managed` (a legacy table Django doesn't control), `permissions`. It's
+all there, with examples, in
+**[Reference: the `Meta` class](../referencia/models-meta.md)**.
+
 !!! tip "The `Attributes:` docstring isn't decoration"
     A model field hides two things the code doesn't tell you: **which Python
     type** it hands back when you read the object, and **why it exists**.
@@ -417,7 +473,10 @@ forgotten `on_delete` or a misconfigured field shows up right here.
     views, templates and tests.
 
 !!! quote "📖 In the official docs"
-    - [Models](https://docs.djangoproject.com/en/stable/topics/db/models/)
+    - [Models](https://docs.djangoproject.com/en/stable/topics/db/models/) — the models guide
+    - [Model Meta options](https://docs.djangoproject.com/en/stable/ref/models/options/) — **every** `class Meta` option
+    - [Model field reference](https://docs.djangoproject.com/en/stable/ref/models/fields/) — every field type and its arguments
+    - [Model instance reference](https://docs.djangoproject.com/en/stable/ref/models/instances/) — `save()`, `full_clean()`, `get_absolute_url()`
 
 ## Recap
 
@@ -427,6 +486,10 @@ forgotten `on_delete` or a misconfigured field shows up right here.
 - A **model** is a class that becomes a table; attributes become columns.
 - Document every model with an `Attributes:` docstring in the
   `name (type): purpose` format, reverse accessors included.
+- `class Meta` configures the **table**, not a field: `ordering`,
+  `verbose_name`/`verbose_name_plural` and `db_table` (which defaults to
+  `<app label>_<model>`, i.e. `blog_tag`). Every change to it generates a
+  migration.
 - Relationships: `OneToOneField`, `ForeignKey`, `ManyToManyField` — always with
   `on_delete` on the FKs.
 - `related_name` creates the reverse accessor (`author.posts`).

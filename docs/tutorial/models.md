@@ -108,6 +108,59 @@ Vamos por partes:
 - **`save()` sobrescrito** — geramos o `slug` a partir do `name` na primeira vez.
   Chamamos `super().save(...)` para o Django fazer o trabalho de fato.
 
+### O que a `class Meta` controla
+
+A `Meta` não é um campo nem vira coluna: ela configura a **tabela inteira**.
+
+!!! quote "Pensa como criança 🧒"
+    Se o modelo é uma **caixa de brinquedos** e os campos são as gavetas, a `Meta`
+    é a **etiqueta na tampa**: não guarda brinquedo nenhum, só diz como a caixa se
+    chama, em que ordem as coisas aparecem e que regras ela obedece.
+
+As três que usamos aqui, mais a que nomeia a tabela:
+
+| Opção | O que faz | Se você não declarar |
+| --- | --- | --- |
+| `ordering` | Ordem padrão de **toda** consulta ao modelo | vem na ordem que o banco quiser |
+| `verbose_name` | Nome singular exibido no admin | Django deriva do nome da classe |
+| `verbose_name_plural` | Nome plural exibido no admin | Django só acrescenta `s` |
+| `db_table` | **Nome real da tabela no banco** | `<label do app>_<modelo>` — aqui, `blog_tag` |
+
+Repare de onde vem esse `blog_tag`: o `label = "blog"` que você colocou no
+`apps.py` em **[Registrando o app](project-setup.md#registrando-o-app)**. Sem ele
+o app se chamaria `apps.blog` e a tabela sairia `apps_blog_tag`.
+
+Quer mandar no nome você mesmo? É só declarar:
+
+```python
+    class Meta:
+        db_table = "tags"          # (1)!
+        ordering = ["name"]
+```
+
+1. Agora a tabela se chama `tags`, sem prefixo do app. **No nosso blog não
+   fazemos isso** — o padrão `blog_tag` já diz de qual app a tabela é, o que
+   ajuda quando o banco tem dezenas de tabelas de apps diferentes.
+
+!!! warning "`ordering` tem custo, e `db_table` tem consequência"
+    - `ordering` entra em **toda** consulta do modelo como um `ORDER BY`. Ordene
+      por campo indexado (é por isso que o `Post` tem `indexes` no
+      `published_at`), ou você paga ordenação em cada listagem.
+    - Mudar `db_table` **depois** que a tabela existe gera uma migração que
+      **renomeia** a tabela. Fácil em desenvolvimento, delicado em produção com
+      dados. Decida no começo.
+
+!!! info "Toda mudança na `Meta` pede migração"
+    `ordering` e `verbose_name` não mexem em coluna nenhuma, mas o Django guarda
+    esses metadados no histórico — então geram um `AlterModelOptions`. É rápido e
+    não toca nos dados, mas **precisa** ser gerado, senão o
+    `makemigrations --check` do CI acusa.
+
+A `Meta` faz bem mais do que isso: `constraints` (regras no banco, tipo "sem dois
+posts com o mesmo título por autor"), `indexes`, `abstract` (modelo base sem
+tabela), `managed` (tabela legada que o Django não controla), `permissions`. Está
+tudo, com exemplo, em **[Referência: a classe `Meta`](../referencia/models-meta.md)**.
+
 !!! tip "A docstring com `Attributes:` não é enfeite"
     Um campo de modelo esconde duas informações que o código não conta: **que
     tipo Python** ele devolve quando você lê o objeto, e **para que ele existe**.
@@ -417,7 +470,10 @@ Deve responder `System check identified no issues`. Erro de nome de classe,
     em views, templates e testes.
 
 !!! quote "📖 Na documentação oficial"
-    - [Models](https://docs.djangoproject.com/en/stable/topics/db/models/)
+    - [Models](https://docs.djangoproject.com/en/stable/topics/db/models/) — o guia de modelos
+    - [Model Meta options](https://docs.djangoproject.com/en/stable/ref/models/options/) — **todas** as opções da `class Meta`
+    - [Model field reference](https://docs.djangoproject.com/en/stable/ref/models/fields/) — todos os tipos de campo e seus argumentos
+    - [Model instance reference](https://docs.djangoproject.com/en/stable/ref/models/instances/) — `save()`, `full_clean()`, `get_absolute_url()`
 
 ## Recapitulando
 
@@ -427,6 +483,9 @@ Deve responder `System check identified no issues`. Erro de nome de classe,
 - Um **modelo** é uma classe que vira tabela; atributos viram colunas.
 - Documente cada modelo com uma docstring `Attributes:` no formato
   `nome (tipo): propósito`, incluindo os acessos reversos.
+- A `class Meta` configura a **tabela**, não um campo: `ordering`,
+  `verbose_name`/`verbose_name_plural` e `db_table` (que por padrão é
+  `<label do app>_<modelo>`, ou seja `blog_tag`). Toda mudança nela gera migração.
 - Relacionamentos: `OneToOneField`, `ForeignKey`, `ManyToManyField` — sempre com
   `on_delete` nas FKs.
 - `related_name` cria o acesso reverso (`author.posts`).

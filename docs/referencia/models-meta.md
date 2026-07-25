@@ -56,10 +56,11 @@ class Post(models.Model):
     `"-published_at"` = do mais novo para o mais velho. Sem o `-`, é crescente.
     Pensa como criança: o `-` é a setinha "de cima pra baixo".
 
-!!! warning "Sempre defina `verbose_name_plural` em português"
-    O Django pluraliza em inglês (adiciona "s"). "categoria" viraria
-    "categorias"? Não: viraria "categorias" só por sorte, mas "pessoa" viraria
-    "pessoas"? Não, "pessos". Sempre declare o plural você mesmo.
+!!! warning "Sempre declare o `verbose_name_plural` você mesmo"
+    O Django pluraliza **acrescentando um "s"** ao nome — e nada mais. Isso erra
+    no inglês irregular (`person` → "persons", quando o certo é "people") e erra
+    no português quase sempre: "animal" sai como "animals" (certo: "animais") e
+    "país" sai como "paíss" (certo: "países"). Declare o plural na mão.
 
 ### Restrições e índices
 
