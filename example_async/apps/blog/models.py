@@ -16,7 +16,15 @@ from django.utils.text import slugify
 
 
 class Author(models.Model):
-    """A public author profile attached one-to-one to an auth user."""
+    """A public author profile attached one-to-one to an auth user.
+
+    Attributes:
+        user (User): The auth user this profile belongs to, reachable back as
+            ``user.author_profile``.
+        display_name (str): The name shown to readers.
+        bio (str): Free-form presentation text. Empty string when unset.
+        posts (QuerySet[Post]): Reverse accessor for the author's posts.
+    """
 
     user = models.OneToOneField(
         settings.AUTH_USER_MODEL,
@@ -28,6 +36,8 @@ class Author(models.Model):
 
     class Meta:
         ordering = ["display_name"]
+        verbose_name = "Author"
+        verbose_name_plural = "Authors"
 
     def __str__(self) -> str:
         """Return the author's public display name."""
@@ -35,13 +45,21 @@ class Author(models.Model):
 
 
 class Tag(models.Model):
-    """A free-form label used to group related posts."""
+    """A free-form label used to group related posts.
+
+    Attributes:
+        name (str): The label as a human types it, unique across tags.
+        slug (str): URL-safe version of ``name``, derived on save when blank.
+        posts (QuerySet[Post]): Reverse accessor for the tagged posts.
+    """
 
     name = models.CharField(max_length=40, unique=True)
     slug = models.SlugField(max_length=50, unique=True, blank=True)
 
     class Meta:
         ordering = ["name"]
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
 
     def __str__(self) -> str:
         """Return the tag name."""
@@ -63,7 +81,21 @@ class PostQuerySet(models.QuerySet["Post"]):
 
 
 class Post(models.Model):
-    """A blog post authored by an Author and labelled with tags."""
+    """A blog post authored by an Author and labelled with tags.
+
+    Attributes:
+        title (str): The headline shown in listings and as the page title.
+        slug (str): URL-safe version of ``title``, derived on save when blank.
+        author (Author): The profile that wrote the post.
+        body (str): The post content.
+        tags (QuerySet[Tag]): Labels attached to the post; may be empty.
+        status (Status): Publication state — ``DRAFT`` or ``PUBLISHED``.
+        created_at (datetime): Stamped once, at creation.
+        updated_at (datetime): Refreshed on every save.
+        published_at (datetime | None): Stamped when the post is first published.
+        comments (QuerySet[Comment]): Reverse accessor for reader comments.
+        objects (PostQuerySet): Manager built from :class:`PostQuerySet`.
+    """
 
     class Status(models.TextChoices):
         """Publication state of a post."""
@@ -92,6 +124,8 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-published_at", "-created_at"]
+        verbose_name = "Post"
+        verbose_name_plural = "Posts"
 
     def __str__(self) -> str:
         """Return the post title."""
@@ -115,7 +149,16 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    """A reader comment attached to a single Post."""
+    """A reader comment attached to a single Post.
+
+    Attributes:
+        post (Post): The commented post.
+        author_name (str): Name the reader typed; comments need no login.
+        email (str): Reader's email, validated but never shown publicly.
+        body (str): The comment text.
+        is_approved (bool): Moderation flag; only approved comments render.
+        created_at (datetime): Stamped once, at creation.
+    """
 
     post = models.ForeignKey(
         Post,
@@ -130,6 +173,8 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        verbose_name = "Comment"
+        verbose_name_plural = "Comments"
 
     def __str__(self) -> str:
         """Return a short label identifying the comment and its post."""

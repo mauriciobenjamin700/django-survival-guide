@@ -29,6 +29,15 @@ class Author(models.Model):
     Keeping the profile separate from ``User`` follows Django's recommended
     pattern: authentication data stays on ``User`` while blog-specific fields
     (bio, website) live here.
+
+    Attributes:
+        user (User): The auth user this profile belongs to. Reachable back as
+            ``user.author_profile``; deleting the user deletes the profile.
+        display_name (str): The name shown to readers, e.g. in a post byline.
+        bio (str): Free-form presentation text. Empty string when unset.
+        website (str): Optional personal URL, validated as a URL.
+        posts (QuerySet[Post]): Reverse accessor for the author's posts, created
+            by ``Post.author``'s ``related_name``.
     """
 
     user = models.OneToOneField(
@@ -42,6 +51,8 @@ class Author(models.Model):
 
     class Meta:
         ordering = ["display_name"]
+        verbose_name = "Author"
+        verbose_name_plural = "Authors"
 
     def __str__(self) -> str:
         """Return the author's public display name."""
@@ -49,13 +60,23 @@ class Author(models.Model):
 
 
 class Tag(models.Model):
-    """A free-form label used to group related posts."""
+    """A free-form label used to group related posts.
+
+    Attributes:
+        name (str): The label as a human types it, unique across tags.
+        slug (str): URL-safe version of ``name``, derived on save when left
+            blank, so a tag reaches its page as ``/tags/django/``.
+        posts (QuerySet[Post]): Reverse accessor for the tagged posts, created
+            by ``Post.tags``'s ``related_name``.
+    """
 
     name = models.CharField(max_length=40, unique=True)
     slug = models.SlugField(max_length=50, unique=True, blank=True)
 
     class Meta:
         ordering = ["name"]
+        verbose_name = "Tag"
+        verbose_name_plural = "Tags"
 
     def __str__(self) -> str:
         """Return the tag name."""
@@ -98,7 +119,26 @@ class PostQuerySet(models.QuerySet["Post"]):
 
 
 class Post(models.Model):
-    """A blog post authored by an :class:`Author` and labelled with tags."""
+    """A blog post authored by an :class:`Author` and labelled with tags.
+
+    Attributes:
+        title (str): The headline, shown in listings and as the page title.
+        slug (str): URL-safe version of ``title``, derived on save when blank.
+            Unique, because it identifies the post in its URL.
+        author (Author): The profile that wrote the post. Deleting the author
+            deletes their posts.
+        body (str): The post content, unbounded text.
+        tags (QuerySet[Tag]): Labels attached to the post; may be empty.
+        status (Status): Publication state — ``DRAFT`` or ``PUBLISHED``.
+        created_at (datetime): Stamped once, at creation.
+        updated_at (datetime): Refreshed on every save.
+        published_at (datetime | None): Stamped the first time the post becomes
+            published; ``None`` while it is a draft.
+        comments (QuerySet[Comment]): Reverse accessor for reader comments,
+            created by ``Comment.post``'s ``related_name``.
+        objects (PostQuerySet): Manager built from :class:`PostQuerySet`, so
+            ``Post.objects.published()`` works.
+    """
 
     class Status(models.TextChoices):
         """Publication state of a post."""
@@ -129,6 +169,8 @@ class Post(models.Model):
     class Meta:
         ordering = ["-published_at", "-created_at"]
         indexes = [models.Index(fields=["-published_at"])]
+        verbose_name = "Post"
+        verbose_name_plural = "Posts"
 
     def __str__(self) -> str:
         """Return the post title."""
@@ -174,7 +216,17 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    """A reader comment attached to a single :class:`Post`."""
+    """A reader comment attached to a single :class:`Post`.
+
+    Attributes:
+        post (Post): The commented post. Deleting the post deletes its comments.
+        author_name (str): Name the reader typed; comments need no login.
+        email (str): Reader's email, validated but never shown publicly.
+        body (str): The comment text.
+        is_approved (bool): Moderation flag — ``False`` until a moderator
+            approves, and only approved comments are rendered.
+        created_at (datetime): Stamped once, at creation.
+    """
 
     post = models.ForeignKey(
         Post,
@@ -189,6 +241,8 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ["-created_at"]
+        verbose_name = "Comment"
+        verbose_name_plural = "Comments"
 
     def __str__(self) -> str:
         """Return a short label identifying the comment and its post."""
