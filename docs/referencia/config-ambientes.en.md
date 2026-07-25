@@ -421,9 +421,14 @@ from django.apps import AppConfig
 class BlogConfig(AppConfig):
     """Configuration for the blog app."""
 
-    default_auto_field = "django.db.models.BigAutoField"
-    name = "apps.blog"
+    default_auto_field = "django.db.models.BigAutoField"   # (1)!
+    name = "apps.blog"                                     # (2)!
 ```
+
+1. The automatic primary-key type for this app's models. Omitted, `DEFAULT_AUTO_FIELD`
+   from settings applies — and it **doesn't accept UUID**; see
+   [Registering the app](../tutorial/project-setup.md#what-default_auto_field-is-for).
+2. The app's real import path.
 
 ```python
 # config/settings/base.py

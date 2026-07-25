@@ -165,16 +165,112 @@ from django.apps import AppConfig
 
 
 class BlogConfig(AppConfig):
-    default_auto_field: str = "django.db.models.BigAutoField"
-    name: str = "apps.blog"   # import path
-    label: str = "blog"       # tables become blog_post, blog_tag...
+    default_auto_field: str = "django.db.models.BigAutoField"  # (1)!
+    name: str = "apps.blog"                                    # (2)!
+    label: str = "blog"                                        # (3)!
 ```
+
+1. The type of the **automatic primary key** — explained right below.
+2. The app's **import path**.
+3. The **internal alias**: tables become `blog_post`, `blog_tag`...
 
 !!! note "`name` vs `label`"
     - `name` is the **import path** (`apps.blog`) — it must match the
       real folder.
     - `label` is the **internal alias** used in table names and migrations. Without
       it, the tables would be `apps_blog_post` instead of `blog_post`.
+
+### What `default_auto_field` is for
+
+Every table needs a **primary key** (the column that identifies each row — the
+`id`). You almost never declare it: Django creates it for you. This line says
+**which type** it creates.
+
+!!! quote "Think like a child 🧒"
+    It's the **ticket dispenser at the deli counter**: everyone who walks in gets
+    the next number, and no number repeats. `default_auto_field` only picks **what
+    kind of ticket** the machine prints.
+
+With `BigAutoField` you get a 64-bit integer the database increments on every
+`INSERT` — `1, 2, 3, ...`. Details worth knowing:
+
+- It applies to the models of **this app** that don't declare `primary_key` — and
+  it's the default `startapp` already writes.
+- Delete the line and Django falls back to `DEFAULT_AUTO_FIELD` in `settings.py`
+  (which `startproject` already sets to `BigAutoField`). With neither, you get the
+  32-bit `AutoField` — which runs out at ~2.1 billion rows.
+- Changing the value **after** tables exist generates a migration (`ALTER
+  COLUMN`), and on a big table that's slow. Decide early.
+
+??? question "What if I want a UUID primary key?"
+    Natural temptation: swap this line for a UUID. It **doesn't work** — not even
+    with a field of your own:
+
+    ```python
+    class BlogConfig(AppConfig):
+        default_auto_field: str = "apps.blog.fields.UUIDAutoField"
+    ```
+
+    ```text
+    ValueError: Primary key 'apps.blog.fields.UUIDAutoField' referred by
+    apps.blog.apps.BlogConfig.default_auto_field must subclass AutoField.
+    ```
+
+    Django requires the field to be an `AutoField` subclass (the `AutoFieldMeta`
+    metaclass only accepts `BigAutoField`, `SmallAutoField` or real subclasses) —
+    and `UUIDField` isn't one. Django's own source comment says a **non-integer**
+    automatic field will only be possible once the value can come from a database
+    default.
+
+    The right path is declaring the PK **on the model**, usually on an abstract
+    model so you don't repeat yourself:
+
+    ```python
+    # apps/blog/models.py
+    import uuid
+
+    from django.db import models
+
+
+    class BaseModel(models.Model):
+        """Abstract base with a UUID primary key."""
+
+        id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+        class Meta:
+            abstract = True
+
+
+    class Post(BaseModel):
+        title = models.CharField(max_length=200)
+    ```
+
+    And `default_auto_field` **still matters**: the tables Django creates on its
+    own (a `ManyToManyField`'s join table, for instance) keep using it. With the
+    models above, `blog_post` has a UUID `id`, but `blog_post_tags` has an integer
+    one — the two coexist.
+
+    What changes elsewhere if you adopt UUIDs: routes switch to `<uuid:pk>`
+    instead of `<int:pk>`, `seed`/fixtures can no longer assume `id=1`, and every
+    FK grows from 8 to 16 bytes.
+
+    | | `BigAutoField` | `UUIDField` |
+    | --- | --- | --- |
+    | Size | 8 bytes | 16 bytes (32 chars on SQLite) |
+    | Who generates it | the database, on `INSERT` | the app, before the `INSERT` |
+    | Order | ascending by insertion | random (v4) → index fragments |
+    | In the URL | `/posts/42/` — enumerable | `/posts/1fb72e6d-…/` — opaque |
+    | Merging databases | collides | doesn't collide |
+
+    !!! tip "UUIDv7 fixes the fragmentation"
+        v4 is random, so every `INSERT` lands anywhere in the index. **v7** embeds
+        the timestamp up front, making it ascending again. On Python **3.14+** use
+        `uuid.uuid7`; before that, the [`uuid6`](https://pypi.org/project/uuid6/)
+        library.
+
+    **This guide sticks with `BigAutoField`** — it's Django's default, cheaper on
+    indexes and plenty for a blog. Go UUID when the id is publicly exposed or when
+    several databases will be merged.
 
 ## `manage.py`
 

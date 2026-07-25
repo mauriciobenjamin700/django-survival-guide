@@ -165,16 +165,112 @@ from django.apps import AppConfig
 
 
 class BlogConfig(AppConfig):
-    default_auto_field: str = "django.db.models.BigAutoField"
-    name: str = "apps.blog"   # caminho de importação
-    label: str = "blog"       # tabelas viram blog_post, blog_tag...
+    default_auto_field: str = "django.db.models.BigAutoField"  # (1)!
+    name: str = "apps.blog"                                    # (2)!
+    label: str = "blog"                                        # (3)!
 ```
+
+1. O tipo da **chave primária automática** — explicado logo abaixo.
+2. O **caminho de importação** do app.
+3. O **apelido interno**: as tabelas viram `blog_post`, `blog_tag`...
 
 !!! note "`name` vs `label`"
     - `name` é o **caminho de importação** (`apps.blog`) — precisa bater com a
       pasta real.
     - `label` é o **apelido interno** usado em nomes de tabela e migrações. Sem
       ele, as tabelas seriam `apps_blog_post` em vez de `blog_post`.
+
+### Para que serve o `default_auto_field`
+
+Toda tabela precisa de uma **chave primária** (a coluna que identifica cada
+linha, o `id`). Você quase nunca declara ela: o Django cria sozinho. Essa linha
+diz **de que tipo** ele cria.
+
+!!! quote "Pensa como criança 🧒"
+    É a **senha da fila do médico**: cada pessoa que chega ganha o próximo número,
+    e ninguém repete. O `default_auto_field` só escolhe **que tipo de papelzinho**
+    a máquina imprime.
+
+Com `BigAutoField` você ganha um inteiro de 64 bits que o banco incrementa a cada
+`INSERT` — `1, 2, 3, ...`. Detalhes que valem saber:
+
+- Vale para os models **deste app** que não declaram `primary_key` — e é o padrão
+  que o `startapp` já escreve.
+- Se você apagar a linha, o Django usa o `DEFAULT_AUTO_FIELD` do `settings.py`
+  (que o `startproject` já define como `BigAutoField`). Sem nenhum dos dois, cai
+  no `AutoField` de 32 bits — que estoura em ~2,1 bilhões de linhas.
+- Mudar o valor **depois** que existem tabelas gera migração (`ALTER COLUMN`), e
+  em tabela grande isso é lento. Decida cedo.
+
+??? question "E se eu quiser UUID como chave primária?"
+    Tentação natural: trocar essa linha por um UUID. **Não funciona** — nem com
+    um campo seu:
+
+    ```python
+    class BlogConfig(AppConfig):
+        default_auto_field: str = "apps.blog.fields.UUIDAutoField"
+    ```
+
+    ```text
+    ValueError: Primary key 'apps.blog.fields.UUIDAutoField' referred by
+    apps.blog.apps.BlogConfig.default_auto_field must subclass AutoField.
+    ```
+
+    O Django exige que o campo seja subclasse de `AutoField` (a metaclasse
+    `AutoFieldMeta` só aceita `BigAutoField`, `SmallAutoField` ou subclasses
+    reais) — e `UUIDField` não é. O próprio comentário no código do Django diz que
+    campo automático **não-inteiro** só será possível quando o valor puder vir de
+    um default do banco.
+
+    O caminho certo é declarar a PK **no model**, normalmente num model abstrato
+    para não repetir:
+
+    ```python
+    # apps/blog/models.py
+    import uuid
+
+    from django.db import models
+
+
+    class BaseModel(models.Model):
+        """Base abstrata com chave primária UUID."""
+
+        id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+        class Meta:
+            abstract = True
+
+
+    class Post(BaseModel):
+        title = models.CharField(max_length=200)
+    ```
+
+    E aí o `default_auto_field` **continua importando**: as tabelas que o Django
+    cria sozinho (a intermediária de um `ManyToManyField`, por exemplo) seguem
+    usando ele. Com os models acima, `blog_post` tem `id` UUID, mas
+    `blog_post_tags` tem `id` inteiro — as duas coisas convivem.
+
+    O que muda no resto do projeto se você adotar UUID: as rotas passam a usar
+    `<uuid:pk>` em vez de `<int:pk>`, os `seed`/fixtures não podem mais chutar
+    `id=1`, e cada FK cresce de 8 para 16 bytes.
+
+    | | `BigAutoField` | `UUIDField` |
+    | --- | --- | --- |
+    | Tamanho | 8 bytes | 16 bytes (32 chars no SQLite) |
+    | Quem gera | o banco, no `INSERT` | a aplicação, antes do `INSERT` |
+    | Ordem | crescente por inserção | aleatória (v4) → índice fragmenta |
+    | Na URL | `/posts/42/` — enumerável | `/posts/1fb72e6d-…/` — opaca |
+    | Merge de bases | colide | não colide |
+
+    !!! tip "UUIDv7 resolve a fragmentação"
+        O v4 é aleatório, então cada `INSERT` cai num ponto qualquer do índice.
+        O **v7** embute o timestamp no começo, voltando a ser crescente. No
+        Python **3.14+** use `uuid.uuid7`; antes disso, a lib
+        [`uuid6`](https://pypi.org/project/uuid6/).
+
+    **Neste guia seguimos com `BigAutoField`** — é o padrão do Django, mais
+    barato de índice e suficiente para o blog. Vá de UUID quando o id for
+    exposto publicamente ou quando várias bases forem se juntar.
 
 ## O `manage.py`
 
